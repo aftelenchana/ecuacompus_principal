@@ -37,22 +37,27 @@ session_start();
 
     }
 
-    $query_configuracioin = mysqli_query($conection, "SELECT * FROM configuraciones ");
-    $result_configuracion = mysqli_fetch_array($query_configuracioin);
-    $ambito_area          =  $result_configuracion['ambito'];
-    $envio_wsp            =  $result_configuracion['envio_wsp'];
-    $url                  =  $result_configuracion['url_wsp'];
+
 
 
   if ($_POST['action'] == 'informacion_session') {
 
     $key_wsp_numero_private = $_POST['key_wsp_numero_private'];
 
+    //SACAMOS LA INFORMACION DE NUMEROS QUE VIENE CON EL SEERVER
+
+    $query_consulta_numero = mysqli_query($conection, "SELECT servidores_wsp.url FROM numeros_extras
+      INNER JOIN servidores_wsp ON servidores_wsp.id = numeros_extras.servidor
+       WHERE numeros_extras.estatus = '1' AND numeros_extras.key_wsp = '$key_wsp_numero_private' ");
+   $data_numero = mysqli_fetch_array($query_consulta_numero);
+   $url_server = $data_numero['url'];
+
+
 
     //PRIMERA API VERIFICAR LA SESION
     $ch = curl_init();
 
-    $url_verificacion_session = ''.$url.'/check-session';
+    $url_verificacion_session = ''.$url_server.'/check-session';
 
     $postData = array(
         'sessionId' => $key_wsp_numero_private  // Asegúrate de enviar los datos requeridos por la API
@@ -89,7 +94,7 @@ session_start();
     }
 
     if (isset($data['status']) && $data['status'] == 'inactiva') {
-        $url_vie = ' '.$url.'/get-qr/'.$key_wsp_numero_private.'';
+        $url_vie = ' '.$url_server.'/get-qr/'.$key_wsp_numero_private.'';
         $arrayName = array('noticia' => 'Inactiva', 'accion' => 'vizualisar_qr', 'url_vie' => $url_vie);
         echo json_encode($arrayName, JSON_UNESCAPED_UNICODE);
         exit;
@@ -109,9 +114,15 @@ session_start();
 
     $key_wsp_numero_private = $_POST['key_wsp_numero_private'];
 
+    $query_consulta_numero = mysqli_query($conection, "SELECT servidores_wsp.url FROM numeros_extras
+      INNER JOIN servidores_wsp ON servidores_wsp.id = numeros_extras.servidor
+       WHERE numeros_extras.estatus = '1' AND numeros_extras.key_wsp = '$key_wsp_numero_private' ");
+   $data_numero = mysqli_fetch_array($query_consulta_numero);
+   $url_server = $data_numero['url'];
+
     //PRIMERA API VERIFICAR LA SESION
     $ch = curl_init();
-    $url_iniciar_session = ''.$url.'/start-session';
+    $url_iniciar_session = ''.$url_server.'/start-session';
 
     $postData = array(
         'sessionId' => $key_wsp_numero_private  // Asegúrate de enviar los datos requeridos por la API
@@ -159,9 +170,16 @@ session_start();
 
     $key_wsp_numero_private = $_POST['key_wsp_numero_private'];
 
+
+        $query_consulta_numero = mysqli_query($conection, "SELECT servidores_wsp.url FROM numeros_extras
+          INNER JOIN servidores_wsp ON servidores_wsp.id = numeros_extras.servidor
+           WHERE numeros_extras.estatus = '1' AND numeros_extras.key_wsp = '$key_wsp_numero_private' ");
+       $data_numero = mysqli_fetch_array($query_consulta_numero);
+       $url_server = $data_numero['url'];
+
     //PRIMERA API VERIFICAR LA SESION
     $ch = curl_init();
-    $url_check_session = ''.$url.'/check-session';
+    $url_check_session = ''.$url_server.'/check-session';
 
     $postData = array(
         'sessionId' => $key_wsp_numero_private  // Asegúrate de enviar los datos requeridos por la API
@@ -214,9 +232,16 @@ session_start();
 
     $key_wsp_numero_private = $_POST['key_wsp_numero_private'];
 
+
+    $query_consulta_numero = mysqli_query($conection, "SELECT servidores_wsp.url FROM numeros_extras
+      INNER JOIN servidores_wsp ON servidores_wsp.id = numeros_extras.servidor
+       WHERE numeros_extras.estatus = '1' AND numeros_extras.key_wsp = '$key_wsp_numero_private' ");
+   $data_numero = mysqli_fetch_array($query_consulta_numero);
+   $url_server = $data_numero['url'];
+
     //PRIMERA API VERIFICAR LA SESION
     $ch = curl_init();
-    $url_contactos = ''.$url.'/get-contacts';
+    $url_contactos = ''.$url_server.'/get-contacts';
 
     $postData = array(
         'sessionId' => $key_wsp_numero_private  // Asegúrate de enviar los datos requeridos por la API
