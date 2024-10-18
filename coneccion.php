@@ -2,11 +2,11 @@
 
 $host='localhost';
 
-$user='ecuacomp_wsp';
+$user='root';
 
-$password='N0yB0Dh3JILz';
+$password='';
 
-$db='ecuacomp_wsp';
+$db='ecuacompus';
 
 $conection = @mysqli_connect($host,$user,$password,$db);
 
