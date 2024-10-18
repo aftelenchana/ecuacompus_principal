@@ -433,7 +433,7 @@
             </a>
           </li>
           <li>
-            <a class="dropdown-item" href="pages-account-settings-account.html">
+            <a class="dropdown-item" href="settings">
               <i class="ri-settings-4-line ri-22px me-3"></i><span class="align-middle">configuraciones</span>
             </a>
           </li>
