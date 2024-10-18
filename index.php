@@ -512,7 +512,7 @@ if ($result_documentos) {
             <a
               href="login"
               class="btn btn-primary px-2 px-sm-4 px-lg-2 px-xl-4"
-              target="_blank"
+              
               ><span class="tf-icons ri-user-line me-md-1"></span
               ><span class="d-none d-md-block">Entrar/Registrarse</span></a
             >
