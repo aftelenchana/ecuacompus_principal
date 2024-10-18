@@ -98,7 +98,7 @@ if ($result_documentos) {
     <meta name="description" content="" />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/assets/img/favicon/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="/img/guibis.png" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -510,11 +510,11 @@ if ($result_documentos) {
           <!-- navbar button: Start -->
           <li>
             <a
-              href="../vertical-menu-template/auth-login-cover.html"
+              href="login"
               class="btn btn-primary px-2 px-sm-4 px-lg-2 px-xl-4"
               target="_blank"
               ><span class="tf-icons ri-user-line me-md-1"></span
-              ><span class="d-none d-md-block">Login/Register</span></a
+              ><span class="d-none d-md-block">Entrar/Registrarse</span></a
             >
           </li>
           <!-- navbar button: End -->
