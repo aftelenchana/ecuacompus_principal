@@ -22,15 +22,18 @@ function sendData_login_ecuacompus(){
         if (info.noticia == 'cuenta_existente') {
           $('.notificacion_login_ecuacompus').html('<div class="alert alert-danger" role="alert">Este correo ya se encuentra registrado, si olvidaste tu contraseña dale en recuperar contraseña!</div>')
         }
-        if (info.noticia == 'cuenta_creaqda') {
-          $('.notificacion_login_ecuacompus').html('<div class="alert alert-success" role="alert">Cuenta Creada Correctamente Revisa en tu correo(spam) un email de registro!</div>')
+        if (info.noticia == 'login_exitoso') {
+          $('.notificacion_login_ecuacompus').html('<div class="alert alert-success" role="alert">Ingreso Correcto Redirigiendo al sistema !</div>')
+
+          window.location.reload(true);
+              console.log('Contraseña correcta, acceso exitoso.');
         }
         if (info.noticia == 'errror_servidor') {
           $('.notificacion_login_ecuacompus').html('<div class="alert alert-danger" role="alert">Error en el servidor contacta con soporte!</div>')
         }
 
-        if (info.noticia == 'codigo_referido_no_encontrado') {
-          $('.notificacion_login_ecuacompus').html('<div class="alert alert-warning" role="alert">Código Referido no Encontrado, Verifíca o dejalo vacio!</div>')
+        if (info.noticia == 'no_existe_usuario') {
+          $('.notificacion_login_ecuacompus').html('<div class="alert alert-warning" role="alert">No estas en nuestro sistema, registrate!</div>')
         }
 
 

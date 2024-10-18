@@ -1,3 +1,54 @@
+<?php
+// Iniciar la salida en buffer
+ob_start();
+
+// Incluir la conexión a la base de datos
+require "coneccion.php";
+
+// Establecer el conjunto de caracteres a UTF-8 mb4
+mysqli_set_charset($conection, 'utf8mb4');
+
+// Iniciar la sesión
+session_start();
+
+// Redirigir si la sesión está activa
+if (!empty($_SESSION['active'])) {
+    header('location:home/');
+    exit(); // Siempre es recomendable usar exit después de un redireccionamiento
+}
+
+// Obtener el protocolo y el dominio
+$protocol = empty($_SERVER['HTTPS']) ? 'http://' : 'https://';
+$domain = $_SERVER['HTTP_HOST'];
+
+// Consultar la base de datos para obtener los documentos relacionados con el dominio
+$query_documentos = mysqli_query($conection, "SELECT * FROM usuarios WHERE url_admin = '$domain'");
+$result_documentos = mysqli_fetch_array($query_documentos);
+
+// Comprobar si se encontraron documentos y asignar las variables correspondientes
+if ($result_documentos) {
+    $url_img_upload = $result_documentos['url_img_upload'];
+    $img_facturacion = $result_documentos['img_facturacion'];
+    $nombre_empresa = $result_documentos['nombre_empresa'];
+    $celular = $result_documentos['celular'];
+    $email = $result_documentos['email'];
+    $facebook = $result_documentos['facebook'];
+    $instagram = $result_documentos['instagram'];
+    $whatsapp = $result_documentos['whatsapp'];
+
+    // Ruta de la imagen de facturación
+    $img_sistema = $url_img_upload . '/home/img/uploads/' . $img_facturacion;
+} else {
+    // Si no se encuentra un documento, se asigna una imagen por defecto
+    $img_sistema = '/img/guibis.png';
+}
+
+// Finalizar el buffer de salida
+ob_end_flush();
+?>
+
+
+
 <!doctype html>
 
 <html
@@ -93,13 +144,13 @@
             <h4 class="mb-1">Bienvendio a Ecuacompus! 👋</h4>
             <p class="mb-5">Ingresa a tu cuenta e inicia tu aventura</p>
 
-            <form id="" method="post" name="login_ecuacompus" id="login_ecuacompus" onsubmit="event.preventDefault(); sendData_login_ecuacompus();">
+            <form method="post" name="login_ecuacompus" id="login_ecuacompus" id="login_ecuacompus"  onsubmit="event.preventDefault(); sendData_login_ecuacompus();">
               <div class="form-floating form-floating-outline mb-5">
                 <input
                   type="email"
                   class="form-control"
                   id="email"
-                  name="email-username"
+                  name="email"
                   placeholder="Ingresa tu Email"
                   autofocus />
                 <label for="email">Email</label>
@@ -190,6 +241,6 @@
     <script src="/assets/vendor/libs/@form-validation/auto-focus.js"></script>
     <script src="/assets/js/main.js"></script>
     <script src="/assets/js/pages-auth.js"></script>
-    <script src="java/login_usuario.js?v=5"></script>
+    <script src="java/login_usuario.js?v=6"></script>
   </body>
 </html>
