@@ -19,7 +19,6 @@ session_start();
 
 
 
- require '../QR/phpqrcode/qrlib.php';
  include "../../coneccion.php";
   mysqli_set_charset($conection, 'utf8mb4'); //linea a colocar
 
@@ -41,6 +40,7 @@ session_start();
     $envio_wsp            =  $result_configuracion['envio_wsp'];
     $url_conect_wsp              =  $result_configuracion['url_wsp'];
 
+  
 
 
     if ($_POST['action'] == 'enviar_mensaje') {
@@ -89,7 +89,7 @@ session_start();
               if (substr($palabra, 0, 1) == '#' && substr($palabra, -1) == '#') {
                   // Extraer el número dentro de los ##
                   $codigo_encontrado = substr($palabra, 1, -1);
-                  
+
                   //echo "este es el codigo encontrado $codigo_encontrado";
 
                   // Realizar la consulta en la base de datos para ese número

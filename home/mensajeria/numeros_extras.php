@@ -7,6 +7,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 
 
+
 require("../mail/PHPMailer-master/src/PHPMailer.php");
 require("../mail/PHPMailer-master/src/Exception.php");
 require("../mail/PHPMailer-master/src/SMTP.php");
@@ -33,16 +34,15 @@ session_start();
 
     }
 
-    $query_configuracioin = mysqli_query($conection, "SELECT * FROM configuraciones ");
-    $result_configuracion = mysqli_fetch_array($query_configuracioin);
-    $ambito_area          =  $result_configuracion['ambito'];
-    $envio_wsp            =  $result_configuracion['envio_wsp'];
-    $url              =  $result_configuracion['url_wsp'];
+
 
 
     if ($_POST['action'] == 'consultar_datos') {
 
-      $query_consulta = mysqli_query($conection, "SELECT * FROM numeros_extras
+      $query_consulta = mysqli_query($conection, "SELECT numeros_extras.nombre,numeros_extras.numero,numeros_extras.key_wsp,
+        servidores_wsp.url as 'url_server',numeros_extras.id
+         FROM numeros_extras
+        INNER JOIN servidores_wsp ON servidores_wsp.id = numeros_extras.servidor
          WHERE   numeros_extras.estatus = '1' AND numeros_extras.iduser = '$iduser'
       ORDER BY `numeros_extras`.`fecha` DESC ");
 
@@ -50,9 +50,10 @@ session_start();
       while ($row = mysqli_fetch_assoc($query_consulta)) {
           // Código para sacar la información de cada número extra según el ID
           $key_wsp = $row['key_wsp'];
+          $url_server = $row['url_server'];
           $ch = curl_init();
 
-          $url_verificacion_session = ''.$url.'/check-session';
+          $url_verificacion_session = ''.$url_server.'/check-session';
 
           $postData = array(
               'sessionId' => $key_wsp  // Asegúrate de enviar los datos requeridos por la API
@@ -85,12 +86,15 @@ session_start();
               $row['sessionId'] = $data_api['sessionId'];
               $row['status'] = $data_api['status'];
               $row['message'] = $data_api['message'];
+              $row['url_qr'] = ''.$url_server.'/get-qr/'.$key_wsp.'';
           } elseif (isset($data_api['error'])) {
               // La sesión no fue encontrada
               $row['error'] = $data_api['error'];
               $row['status'] = 'Session No Creada';
               $row['message'] = 'Ingresa a consola para crearla';
+              $row['url_qr'] = '';
           }
+
 
           // Agregar el array modificado a $data
           $data[] = $row;
@@ -108,6 +112,7 @@ session_start();
 
            $nombre    = $_POST['nombre'];
            $numero    = $_POST['numero'];
+           $servidor    = $_POST['servidor'];
 
            // Obtén la fecha y hora actual
             $fecha_hora = date('Y-m-d H:i:s');
@@ -119,16 +124,25 @@ session_start();
             $key_wsp = md5($cadena);
 
 
-   $query_insert=mysqli_query($conection,"INSERT INTO numeros_extras(nombre,numero,iduser,key_wsp)
-                                 VALUES('$nombre','$numero','$iduser','$key_wsp') ");
+   $query_insert=mysqli_query($conection,"INSERT INTO numeros_extras(nombre,numero,iduser,key_wsp,servidor)
+                                 VALUES('$nombre','$numero','$iduser','$key_wsp','$servidor') ");
 
    if ($query_insert) {
+
+
+     //SACAMOS LA URL DEL SERVIDOR
+
+     $query_servidor = mysqli_query($conection, "SELECT * FROM servidores_wsp
+        WHERE servidores_wsp.estatus = '1' AND servidores_wsp.id = '$servidor' ");
+  $data_servidor = mysqli_fetch_array($query_servidor);
+
+  $url_servidor = $data_servidor['url'];
 
      //CREAR MEDIANTE API
 
      //PRIMERA API VERIFICAR LA SESION
      $ch = curl_init();
-     $url_iniciar_session = ''.$url.'/start-session';
+     $url_iniciar_session = ''.$url_servidor.'/start-session';
 
      $postData = array(
          'sessionId' => $key_wsp  // Asegúrate de enviar los datos requeridos por la API

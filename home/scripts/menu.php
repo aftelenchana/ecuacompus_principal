@@ -152,8 +152,8 @@ $url_conect_wsp       =  $result_configuracion['url_wsp'];
           </a>
         </li>
         <li class="menu-item">
-          <a href="layouts-content-navbar.html" class="menu-link">
-            <div data-i18n="Content navbar">Content navbar</div>
+          <a href="numeros_extra_wsp" class="menu-link">
+            <div >Números</div>
           </a>
         </li>
         <li class="menu-item">

@@ -15,7 +15,7 @@ $(document).ready(function() {
         },
         success: function(response) {
             console.log(response);
-              var info = JSON.parse(response);
+              var info = JSON.parse(response); 
 
               if (info.accion == 'init_session') {
                   var key_wsp_numero_private = document.getElementById('key_wsp_numero_private').value;
@@ -180,7 +180,7 @@ var key_wsp_numero_private = document.getElementById('key_wsp_numero_private').v
 
                 // PARA SACAR LOS NUMEROS DE LOS CONTACTOS
                 var key_wsp_numero_private = document.getElementById('key_wsp_numero_private').value;
-                
+
                 $.ajax({
                     url: 'mensajeria/whatsapp_numero_private.php',
                     type: 'POST',

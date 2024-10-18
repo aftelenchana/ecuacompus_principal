@@ -1,11 +1,4 @@
 <?php
-// Reportar todos los errores de PHP (ver el manual de PHP para más niveles de errores)
-error_reporting(E_ALL);
-
-// Habilitar la visualización de errores
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-
 require("../mail/PHPMailer-master/src/PHPMailer.php");
 require("../mail/PHPMailer-master/src/Exception.php");
 require("../mail/PHPMailer-master/src/SMTP.php");

@@ -48,6 +48,7 @@ session_start();
 
     $key_wsp_numero_private = $_POST['key_wsp_numero_private'];
 
+
     //PRIMERA API VERIFICAR LA SESION
     $ch = curl_init();
 

@@ -27,6 +27,21 @@ $(document).ready(function() {
           }},
           { "data": "status" },
           { "data": "message" },
+          {
+              "data": "url_qr",
+              "render": function(data, type, row) {
+                  // Verificamos el valor de status
+                  if (row.message === "La sesión no ha sido completada (no se ha escaneado el QR)." || row.message === "La sesión está completa.") {
+                      // Envolvemos la imagen dentro de un enlace (<a>)
+                      return `<a href="escanearqrnumero?codigo=${row.key_wsp}" >
+                                  <img src="${data}" alt="QR Image" width="100" height="100">
+                              </a>`;
+                  } else {
+                      // Si no coincide, simplemente retornamos un mensaje
+                      return "";
+                  }
+              }
+          }
         ],
 
         "dom": 'Bfrtip',

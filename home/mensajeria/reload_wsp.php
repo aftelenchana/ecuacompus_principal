@@ -1,12 +1,4 @@
 <?php
-
-// Reportar todos los errores de PHP (ver el manual de PHP para más niveles de errores)
-error_reporting(E_ALL);
-
-// Habilitar la visualización de errores
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-
 require("../mail/PHPMailer-master/src/PHPMailer.php");
 require("../mail/PHPMailer-master/src/Exception.php");
 require("../mail/PHPMailer-master/src/SMTP.php");
@@ -27,7 +19,13 @@ session_start();
 
     if ($_SESSION['rol'] == 'cuenta_empresa') {
     include "../sessiones/session_cuenta_empresa.php";
-      $empresa = 1;
+    $empresa = $_COOKIE['empresa_id'];
+    $query_empresas = mysqli_query($conection, "SELECT * FROM empresas_registradas
+      WHERE   empresas_registradas.estatus = 1
+      AND empresas_registradas.id = '$empresa' ");
+      $data_empresa = mysqli_fetch_array($query_empresas);
+
+      $numero_digitos = $data_empresa['numero_digitos'];
 
     }
 

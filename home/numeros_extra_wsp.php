@@ -47,12 +47,12 @@ if (empty($_SESSION['active'])) {
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Servidores</title>
+    <title>Números Extras</title>
 
     <meta name="description" content="" />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/img/guibis.png" />
+      <link rel="icon" type="image/x-icon" href="/img/guibis.png" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -104,26 +104,13 @@ if (empty($_SESSION['active'])) {
     <div class="layout-wrapper layout-content-navbar">
       <div class="layout-container">
 
-
         <?php
        require 'scripts/menu.php';
-
         ?>
-        <!-- Menu -->
-
-
-        <!-- Layout container -->
         <div class="layout-page">
-          <!-- Navbar -->
-
           <?php
          require 'scripts/barra_superior.php';
-
           ?>
-
-          <!-- / Navbar -->
-
-          <!-- Content wrapper -->
           <div class="content-wrapper">
             <!-- Content -->
 
@@ -132,7 +119,7 @@ if (empty($_SESSION['active'])) {
               <button class="btn btn-secondary create-new btn-primary waves-effect waves-light" type="button" id="open-offcanvas">
                 <span>
                   <i class="ri-add-line ri-16px me-sm-2"></i>
-                  <span class="d-none d-sm-inline-block">Add New Record</span>
+                  <span class="d-none d-sm-inline-block">Agregar nuevo número</span>
                 </span>
               </button>
 
@@ -144,13 +131,11 @@ if (empty($_SESSION['active'])) {
                       <tr>
 
                         <th>Acciones</th>
-                        <th>Código</th>
                         <th>Nombre</th>
-                        <th>Tipo</th>
-                        <th>URL</th>
-                        <th>Http</th>
-                        <th>Estado</th>
+                        <th>Número</th>
+                        <th>Status</th>
                         <th>Mensaje</th>
+                        <th>QR</th>
 
                       </tr>
                     </thead>
@@ -162,7 +147,7 @@ if (empty($_SESSION['active'])) {
   <!-- Offcanvas que se mostrará al hacer clic en el botón -->
   <div class="offcanvas offcanvas-end" id="add-new-record" tabindex="-1" aria-labelledby="exampleModalLabel">
     <div class="offcanvas-header border-bottom">
-      <h5 class="offcanvas-title" id="exampleModalLabel">Nuevo Servidor </h5>
+      <h5 class="offcanvas-title" id="exampleModalLabel">Nuevo Número </h5>
       <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body flex-grow-1">
@@ -172,8 +157,8 @@ if (empty($_SESSION['active'])) {
           <div class="input-group input-group-merge">
             <span id="basicFullname2" class="input-group-text"><i class="ri-user-line ri-18px"></i></span>
             <div class="form-floating form-floating-outline">
-              <input type="text" id="basicFullname" class="form-control dt-full-name" name="nombre_servidor" placeholder="Nombre Servidor" aria-label="John Doe" aria-describedby="basicFullname2" />
-              <label for="basicFullname">Nombre Servidor</label>
+              <input type="text" id="basicFullname" class="form-control dt-full-name" name="nombre" placeholder="Nombre" aria-label="John Doe" aria-describedby="basicFullname2" />
+              <label for="basicFullname">Nombre </label>
             </div>
           </div>
         </div>
@@ -182,8 +167,8 @@ if (empty($_SESSION['active'])) {
           <div class="input-group input-group-merge">
             <span id="basicFullname2" class="input-group-text"><i class="ri-user-line ri-18px"></i></span>
             <div class="form-floating form-floating-outline">
-              <input type="text" id="basicFullname" class="form-control dt-full-name" name="url_servidor" placeholder="URl servidor" aria-label="John Doe" aria-describedby="basicFullname2" />
-              <label for="basicFullname">URL servidor</label>
+              <input type="text" id="basicFullname" class="form-control dt-full-name" name="numero" placeholder="Número" aria-label="John Doe" aria-describedby="basicFullname2" />
+              <label for="basicFullname">Número</label>
             </div>
           </div>
         </div>
@@ -193,19 +178,77 @@ if (empty($_SESSION['active'])) {
             <span id="basicFullname2" class="input-group-text"><i class="ri-user-line ri-18px"></i></span>
             <div class="form-floating form-floating-outline">
               <!-- Reemplazamos el input por un select -->
-              <select id="basicServer" class="form-select" name="tipo_servidor" aria-label="Selecciona un servidor">
-                <option value="Gratis">Gratis</option>
-                <option value="Pago">Pago</option>
+              <select id="basicServer" class="form-select" name="servidor" aria-label="Selecciona servidor">
+                <?php
+                $query_servidor = mysqli_query($conection, "SELECT * FROM servidores_wsp WHERE  servidores_wsp.estatus = 1   ");
+                while ($data_servidor = mysqli_fetch_array($query_servidor)) {
+
+                  $url_servidor = $data_servidor['url'];
+
+                  $ch = curl_init();
+
+                  $url_verificacion_session = $url_servidor . '/check-session';
+                  $postData = array(
+                      'sessionId2' => 'hola mundo'  // Asegúrate de enviar los datos requeridos por la API
+                  );
+
+                  // Configurar cURL para hacer la solicitud POST
+                  curl_setopt($ch, CURLOPT_URL, $url_verificacion_session);
+                  curl_setopt($ch, CURLOPT_POST, true);
+                  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                  curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+                  curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));  // Convertir el array PHP a JSON
+
+                  // Ejecutar la solicitud y obtener la respuesta
+                  $response = curl_exec($ch);
+
+                  $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+                  if(curl_errno($ch)) {
+                      $estado_api = 'Error en cURL: ' . curl_error($ch);
+                      $row['mensaje'] = $estado_api;
+                      $row['estado'] = 'No Disponible';
+                      $row['http_code'] = '404';
+                  } else {
+                      $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                      $row['http_code'] = $http_code;
+                      // Verifica si json_decode devolvió null y si hubo un error en la conversión
+                      if (json_last_error() === JSON_ERROR_NONE) {
+                          $data_api = json_decode($response, true);
+                          // La respuesta es un JSON válido
+                          if (isset($data_api['error']) && $data_api['error'] === 'El sessionId es requerido.') {
+                              $estado = 'Disponible';
+                              $mensaje = 'Servidor Disponible';
+                              echo '<option  value="' . $data_servidor['id'] . '">' . $data_servidor['nombre'] . '/ ' . $data_servidor['tipo'] . '</option>';
+                              // Aquí puedes agregar más código si es necesario
+                          } else {
+                              $estado = 'No Disponible';
+                              $mensaje = 'Servidor no disponible Servidor Caido';
+                          }
+                      } else {
+                          // Maneja el caso donde la respuesta no es un JSON válido
+                          $mensaje  = 'Error: Respuesta no válida';
+                          $estado   = 'No Disponible';
+                          $mensaje  = 'Servidor no  creado.';
+                      }
+
+                  }
+
+                  // Cerrar cURL
+                  curl_close($ch);
+
+                }
+                ?>
               </select>
-              <label for="basicServer">Tipo Servidor</label>
+              <label for="basicServer">Servidor</label>
             </div>
           </div>
         </div>
 
         <!-- Más campos aquí -->
         <div class="col-sm-12">
-            <input type="hidden" name="action" value="agregar_servidor_wsp" required>
-          <button type="submit" class="btn btn-primary data-submit me-sm-4 me-1">Agregar Servidor</button>
+            <input type="hidden" name="action" value="agregar_numero_extra" required>
+          <button type="submit" class="btn btn-primary data-submit me-sm-4 me-1">Agregar Número</button>
           <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="offcanvas">Cancelar</button>
         </div>
         <div class="noticia_agregar_numeros">
@@ -266,7 +309,7 @@ if (empty($_SESSION['active'])) {
     <script src="/assets/vendor/libs/@form-validation/auto-focus.js"></script>
 
     <script src="/assets/js/main.js"></script>
-    <script type="text/javascript" src="mensajeria/servidores_wsp.js?v=6"></script>
+    <script type="text/javascript" src="mensajeria/numeros_extras.js?v=7"></script>
     <!-- Script para mostrar el offcanvas al hacer clic en el botón -->
     <script>
       document.getElementById('open-offcanvas').addEventListener('click', function () {

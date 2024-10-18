@@ -37,7 +37,7 @@ $(document).ready(function() {
 
               if (info.accion == 'vizualisar_qr') {
 
-                console.log('ESRAMOS MOSTRANDO EL LOGIN Y OCULTANDO LA INFORMACION DEL USUARIO');
+              //  console.log('ESRAMOS MOSTRANDO EL LOGIN Y OCULTANDO LA INFORMACION DEL USUARIO');
                 //$('#contendedor_antes_loguearse').css('display', 'blok');
                 //  $('#contendedor_despues_loguearse').css('display', 'none');
                 $('.integrador_qr_wsp').html('<img id="qrCode" src="' + info.url_vie + '" alt="QR Code">');
@@ -49,7 +49,7 @@ $(document).ready(function() {
               }
 
               if (info.accion == 'quitar_el_login_ver_contactos') {
-                  console.log('ESRAMOS MOSTRANDO LA INFIRMACION DEL USUARIO Y OCULTANDO EL LOGIN');
+              //    console.log('ESRAMOS MOSTRANDO LA INFIRMACION DEL USUARIO Y OCULTANDO EL LOGIN');
               //  $('#contendedor_antes_loguearse').css('display', 'none');
               //    $('#contendedor_despues_loguearse').css('display', 'block');
                   //AGREGAMOS DOS NUEVAS APIS UNA PARA VER EL ESTADO Y OTRA PARA VER LOS CONTACTOS
@@ -69,7 +69,7 @@ $(document).ready(function() {
                             if (info.noticia == 'estado_activa') {
                               $('.estado_session').html('Activa');
 
-                              console.log('ESRAMOS MOSTRANDO LA INFIRMACION DEL USUARIO Y OCULTANDO EL LOGIN');
+                            //  console.log('ESRAMOS MOSTRANDO LA INFIRMACION DEL USUARIO Y OCULTANDO EL LOGIN');
 
                               $('#contendedor_antes_loguearse').css('display', 'none');
                                 $('#contendedor_despues_loguearse').css('display', 'block');

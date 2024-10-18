@@ -1,14 +1,5 @@
 <?php
 
-// Reportar todos los errores de PHP (ver el manual de PHP para más niveles de errores)
-error_reporting(E_ALL);
-
-// Habilitar la visualización de errores
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-
-
-
 require("../mail/PHPMailer-master/src/PHPMailer.php");
 require("../mail/PHPMailer-master/src/Exception.php");
 require("../mail/PHPMailer-master/src/SMTP.php");
@@ -25,10 +16,10 @@ session_start();
   mysqli_set_charset($conection, 'utf8mb4'); //linea a colocar
 
 
-
+ 
     if ($_SESSION['rol'] == 'cuenta_empresa') {
     include "../sessiones/session_cuenta_empresa.php";
-    $empresa = 1;
+    $empresa = $_COOKIE['empresa_id'];
 
     }
 
@@ -41,7 +32,7 @@ session_start();
     $result_configuracion = mysqli_fetch_array($query_configuracioin);
     $ambito_area          =  $result_configuracion['ambito'];
     $envio_wsp            =  $result_configuracion['envio_wsp'];
-    $url                  =  $result_configuracion['url_wsp'];
+    $url              =  $result_configuracion['url_wsp'];
 
 
   if ($_POST['action'] == 'informacion_session') {
@@ -86,7 +77,7 @@ session_start();
     }
 
     if (isset($data['status']) && $data['status'] == 'inactiva') {
-        $url_vie = '/home/ecuacompu/qrcodes/'.$key_user.'.png';
+        $url_vie = $url.'/get-qr/'.$key_user;
         $arrayName = array('noticia' => 'Inactiva', 'accion' => 'vizualisar_qr', 'url_vie' => $url_vie);
         echo json_encode($arrayName, JSON_UNESCAPED_UNICODE);
         exit;
@@ -130,7 +121,7 @@ session_start();
     // Cerrar cURL
     curl_close($ch);
 
-    //var_dump($response);
+    var_dump($response);
 
     // Convertir la respuesta JSON en un array de PHP
     $data = json_decode($response, true);
@@ -178,24 +169,23 @@ session_start();
     // Cerrar cURL
     curl_close($ch);
 
-    //var_dump($response);
+  //  var_dump($response);
 
     // Convertir la respuesta JSON en un array de PHP
     $data = json_decode($response, true);
 
-    if (isset($data['status'])) {
-      if ($data['status'] == 'activa') {
-          $arrayName = array('noticia' => 'estado_activa', 'accion' => 'ninguna');
-          echo json_encode($arrayName, JSON_UNESCAPED_UNICODE);
-          exit;
-      }
-  
-      if ($data['status'] == 'inactiva') {
-          $arrayName = array('noticia' => 'estado_inactiva', 'accion' => 'ninguna');
-          echo json_encode($arrayName, JSON_UNESCAPED_UNICODE);
-          exit;
-      }
-  }
+    // Verificar si la respuesta contiene un error
+    if ($data['status'] == 'activa') {
+      $arrayName = array('noticia' =>'estado_activa','accion'=>'ninguna');
+      echo json_encode($arrayName,JSON_UNESCAPED_UNICODE);
+      exit;
+    }
+
+    if ($data['status'] == 'inactiva') {
+      $arrayName = array('noticia' =>'estado_activa','accion'=>'ninguna');
+      echo json_encode($arrayName,JSON_UNESCAPED_UNICODE);
+      exit;
+    }
 
 
 

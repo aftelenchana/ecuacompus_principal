@@ -14,13 +14,10 @@ use  PHPMailer \ PHPMailer \ PHPMailer ;
 use  PHPMailer \ PHPMailer \ Exception ;
 // La instanciación y el paso de `true` habilita excepciones
 
-require('../librerias/PHPExcel-1.8/Classes/PHPExcel.php');
 
 session_start();
 
 
-
- require '../QR/phpqrcode/qrlib.php';
  include "../../coneccion.php";
   mysqli_set_charset($conection, 'utf8mb4'); //linea a colocar
 
@@ -42,7 +39,6 @@ session_start();
     $ambito_area          =  $result_configuracion['ambito'];
     $envio_wsp            =  $result_configuracion['envio_wsp'];
     $url_conect_wsp              =  $result_configuracion['url_wsp'];
-
 
 
     if ($_POST['action'] == 'iniciar_campana') {
@@ -111,93 +107,37 @@ session_start();
             }
 
             //CODIGO PARA QUE SE PUEDA ANALIZAR EL FORMATO EXCEL
+            $datos_excel = 0;
 
-            $datos_excel = 0 ;
-            if (!empty($_FILES['usuarios_wsp']['name'])) {
+            if (isset($_POST['resultado_datos_excel']) && !empty($_POST['resultado_datos_excel'])) {
+                $resultado_datos_excel = $_POST['resultado_datos_excel'];
 
+                // Separar los elementos por coma
+                $elementos = explode(', ', $resultado_datos_excel);
 
-              $usuarios_wsp           =    $_FILES['usuarios_wsp'];
-              $nombre_usuarios_wsp    =    $usuarios_wsp['name'];
-              $type 				          =    $usuarios_wsp['type'];
-              $url_temp               =    $usuarios_wsp['tmp_name'];
+                // Iterar sobre los elementos
+                foreach ($elementos as $elemento) {
+                    // Separar por el guion
+                    $partes = explode('-', $elemento);
 
-              $extension = 'xlsx';
+                    // Obtener el número y el nombre
+                    $numero = trim($partes[0]); // Primer parte como número
+                    $nombre = isset($partes[1]) ? trim($partes[1]) : ''; // Segunda parte como nombre, si existe
 
-              $nombre_usuarios_wsp = 'excel_wsp'.md5(date('d-m-Y H:m:s').$iduser);
-              $nombre_usuarios_wsp = $nombre_usuarios_wsp.'.'.$extension;
+                    // Inserción en la base de datos
+                    $query_insert_datos_mensajes_masivos = mysqli_query($conection, "INSERT INTO datos_mensajes_masivos (iduser, empresa, id_mensajes_masivos, numero, nombre, tipo)
+                                                            VALUES('$iduser', '$empresa', '$id_mensajes_masivos', '$numero', '$nombre', 'grupos')");
 
-              $destino = '../librerias/';
-              $src = $destino.$nombre_usuarios_wsp;
-              move_uploaded_file($url_temp,$src);
-              $archivos = '../librerias/'.$nombre_usuarios_wsp;
-
-              $excel = PHPExcel_IOFactory::load($archivos);
-              $excel -> setActiveSheetIndex(0);
-              $numerofila = $excel ->setActiveSheetIndex(0)->getHighestRow();
-
-
-
-
-
-              // Función que procesa una fila específica en la hoja de Excel
-              function procesarFila($i) {
-                  global $excel, $conection, $iduser, $empresa, $mensaje, $id_mensajes_masivos, $datos_excel;
-
-                  // Obtener los valores de la fila
-                  $numero = $excel->getActiveSheet(0)->getCell('A' . $i)->getCalculatedValue();
-                  $nombres = $excel->getActiveSheet(0)->getCell('B' . $i)->getCalculatedValue();
-                  $correo = $excel->getActiveSheet(0)->getCell('C' . $i)->getCalculatedValue();
-
-
-                  // Insertar los datos en la base de datos
-                  $query_insert_datos_mensajes_masivos = mysqli_query($conection, "INSERT INTO datos_mensajes_masivos (iduser, empresa, id_mensajes_masivos, numero, nombre, tipo)
-                                              VALUES('$iduser', '$empresa',  '$id_mensajes_masivos', '$numero', '$nombres','Excel')");
-
-                  if ($query_insert_datos_mensajes_masivos) {
-                      // Incrementar el contador de filas procesadas
-                      $datos_excel++;
-                  }
-              }
-
-
-
-
-
-              $intervalos_excel = mysqli_real_escape_string($conection, $_POST['intervalos_excel']);
-
-                    // Separar los intervalos por el delimitador ';'
-                    $bloques = explode(';', $intervalos_excel);
-
-
-                    foreach ($bloques as $bloque) {
-                        // Eliminar espacios en blanco alrededor del bloque
-                        $bloque = trim($bloque);
-
-                        // Verificar si es un rango como '3-4'
-                        if (strpos($bloque, '-') !== false) {
-                            // Separar el inicio y fin del rango
-                            list($inicio, $fin) = explode('-', $bloque);
-
-                            // Asegurarse de que inicio y fin sean enteros y recorrer las filas dentro del rango
-                            for ($i = (int)$inicio; $i <= (int)$fin; $i++) {
-                                procesarFila($i); // Llamamos a la función para procesar la fila
-                            }
-                        } else {
-                            // Si no es un rango, procesar un solo número de fila
-                            $i = (int)$bloque;
-                            procesarFila($i); // Llamamos a la función para procesar la fila
-                        }
+                    if ($query_insert_datos_mensajes_masivos) {
+                        $datos_excel++; // Incrementar contador si la inserción fue exitosa
+                    } else {
+                        // Manejo de errores, puedes usar un log o mostrar un mensaje
+                        // echo "Error en la inserción: " . mysqli_error($conection);
                     }
-
-
-
-
-                  unlink($src);
-
-
-
-
+                }
             }
+
+            // Aquí puedes usar $datos_excel para saber cuántos registros se insertaron
 
             //AHORA HAGAMOS DEL GRUPOS DE whatsapp
 
@@ -284,27 +224,34 @@ session_start();
 
           $datos_selected = 0;
 
-          $selected_contacts = mysqli_real_escape_string($conection, $_POST['selected_contacts']);
+      $selected_contacts = mysqli_real_escape_string($conection, $_POST['selected_contacts']);
 
-          // Separar los contactos por coma
-          $contactsArray = explode(',', $selected_contacts);
+      // Separar los contactos por coma
+      $contactsArray = explode(',', $selected_contacts);
 
-          // Recorrer el array de contactos y hacer lo que necesites con cada uno
-          foreach ($contactsArray as $contact) {
-              // Eliminar espacios en blanco alrededor de cada contacto (si los hay)
-              $contact = trim($contact);
-              $contact = str_replace('@s.whatsapp.net', '', $contact);
+      // Recorrer el array de contactos y hacer lo que necesites con cada uno
+      foreach ($contactsArray as $contact) {
+          // Eliminar espacios en blanco alrededor de cada contacto (si los hay)
+          $contact = trim($contact);
 
-              // Aquí puedes hacer algo con el contacto, por ejemplo, mostrarlo o guardarlo en la base de datos
-            //  echo "Procesando contacto: " . htmlspecialchars($contact) . "<br>";
+          // Separar el número y el nombre usando el guion
+          list($numero, $nombre) = explode('-', $contact);
 
-              $query_insert_contact = mysqli_query($conection, "INSERT INTO datos_mensajes_masivos (iduser, empresa , id_mensajes_masivos, numero, tipo)
-                                          VALUES('$iduser', '$empresa' , '$id_mensajes_masivos', '$contact' , 'numeros')");
+          // Si el nombre es "Desconocido", asignar un valor vacío
+          $nombre = ($nombre === 'Desconocido') ? '' : trim($nombre);
 
-              if ($query_insert_contact) {
-                 $datos_selected++;
-              }
+          // Insertar el contacto en la base de datos
+          $query_insert_contact = mysqli_query($conection, "INSERT INTO datos_mensajes_masivos (iduser, empresa, id_mensajes_masivos, numero, nombre, tipo)
+                                              VALUES('$iduser', '$empresa', '$id_mensajes_masivos', '$numero', '$nombre', 'numeros')");
+
+          if ($query_insert_contact) {
+              $datos_selected++;
           }
+      }
+
+      // Aquí puedes usar $datos_selected para saber cuántos registros se insertaron
+
+
 
           $total_datos_subidos = $datos_selected + $datos_grupos + $datos_excel + $datos_categoria;
 
@@ -322,6 +269,7 @@ session_start();
 
             $arrayName = array('noticia' =>'procesar_datos','mensaje_masivo' =>$id_mensajes_masivos,'cantidad_datos' =>$cantidad_datos,'intervalo_tiempo' =>$intervalo_tiempo);
                         echo json_encode($arrayName,JSON_UNESCAPED_UNICODE);
+              
             // code...
           }else {
 
