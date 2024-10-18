@@ -1,3 +1,34 @@
+<?php
+ob_start();
+include "../coneccion.php";
+mysqli_set_charset($conection, 'utf8mb4'); //linea a colocar
+session_start();
+
+
+if (empty($_SESSION['active'])) {
+    header('location:/');
+} else {
+    // Asumimos que la sesión está activa y tenemos la información del dominio
+    $protocol = empty($_SERVER['HTTPS']) ? 'http://' : 'https://';
+    $domain = $_SERVER['HTTP_HOST'];
+
+    $query_doccumentos =  mysqli_query($conection, "SELECT * FROM  usuarios  WHERE  url_admin  = '$domain'");
+    $result_documentos = mysqli_fetch_array($query_doccumentos);
+
+    if ($result_documentos) {
+        $url_img_upload = $result_documentos['url_img_upload'];
+        $img_facturacion = $result_documentos['img_facturacion'];
+
+        // Asegúrate de que esta ruta sea correcta y corresponda con la estructura de tu sistema de archivos
+        $img_sistema = $url_img_upload.'/home/img/uploads/'.$img_facturacion;
+    } else {
+        // Si no hay resultados, tal vez quieras definir una imagen por defecto
+      $img_sistema = '/img/guibis.png';
+    }
+}
+
+?>
+
 <!doctype html>
 
 <html
