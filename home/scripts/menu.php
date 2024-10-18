@@ -1,3 +1,56 @@
+<?php
+$iduser= $_SESSION['id'];
+
+$id_generacion =  $iduser;
+
+$user_in= $_SESSION['user_in'];
+
+
+
+
+$query = mysqli_query($conection, "SELECT * FROM usuarios    WHERE usuarios.id =$iduser");
+$result=mysqli_fetch_array($query);
+$nombres           = $result['nombres'];
+
+$direccion         = $result['direccion'];
+$codigo_sri        = $result['codigo_sri'];
+
+
+
+
+$img_logo          = $result['img_facturacion'];
+$url_img_upload    = $result['url_img_upload'];
+
+$email_user           = $result['email'];
+$fecha                = $result['fecha_creacion'];
+$ciudad_user          = $result['ciudad'];
+$telefono_user        = $result['telefono'];
+$celular_user         = $result['celular'];
+$nombre_empresa       = $result['nombre_empresa'];
+$razon_social         = $result['razon_social'];
+$numero_identidad     = $result['numero_identidad'];
+
+$whatsapp             = $result['whatsapp'];
+$instagram            = $result['instagram'];
+$facebook             = $result['facebook'];
+$pagina_web           = $result['pagina_web'];
+$descripcion_usuerio  = $result['descripcion'];
+$latitud             = $result['latitud'];
+$longitud            = $result['longitud'];
+$id_desarrolador     = $result['id_e'];
+$password_user       = $result['password'];
+$key_user            = $result['codigo_registro'];
+
+
+$query_configuracioin = mysqli_query($conection, "SELECT * FROM configuraciones ");
+$result_configuracion = mysqli_fetch_array($query_configuracioin);
+$ambito_area          =  $result_configuracion['ambito'];
+$envio_wsp            =  $result_configuracion['envio_wsp'];
+$url_conect_wsp       =  $result_configuracion['url_wsp'];
+
+?>
+
+
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
   <div class="app-brand demo">
     <a href="index.html" class="app-brand-link">
@@ -49,7 +102,7 @@
           </svg>
         </span>
       </span>
-      <span class="app-brand-text demo menu-text fw-semibold ms-2">Materialize</span>
+      <span class="app-brand-text demo menu-text fw-semibold ms-2">Ecuacompus</span>
     </a>
 
     <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
