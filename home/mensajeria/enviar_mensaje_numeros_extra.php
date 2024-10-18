@@ -33,16 +33,6 @@ session_start();
 
     }
 
-
-    $query_configuracioin = mysqli_query($conection, "SELECT * FROM configuraciones ");
-    $result_configuracion = mysqli_fetch_array($query_configuracioin);
-    $ambito_area          =  $result_configuracion['ambito'];
-    $envio_wsp            =  $result_configuracion['envio_wsp'];
-    $url_conect_wsp              =  $result_configuracion['url_wsp'];
-
-  
-
-
     if ($_POST['action'] == 'enviar_mensaje') {
 
       $codigo_envio             = $_POST['codigo_envio'];
@@ -58,6 +48,12 @@ session_start();
       $mensaje          = $data_configuraciones['mensaje'];
       $incluir_nombre   = $data_configuraciones['incluir_nombre'];
       $key_wsp          = $data_configuraciones['key_wsp'];
+
+      $query_consulta_numero = mysqli_query($conection, "SELECT servidores_wsp.url FROM numeros_extras
+        INNER JOIN servidores_wsp ON servidores_wsp.id = numeros_extras.servidor
+         WHERE numeros_extras.estatus = '1' AND numeros_extras.key_wsp = '$key_wsp' ");
+      $data_numero_url = mysqli_fetch_array($query_consulta_numero);
+      $url_server = $data_numero_url['url'];
 
 
 
@@ -115,7 +111,7 @@ session_start();
 
     //PRIMERA API VERIFICAR LA SESION
     $ch = curl_init();
-    $url_sen_mensaje = ''.$url_conect_wsp.'/send-message';
+    $url_sen_mensaje = ''.$url_server.'/send-message';
 
     //echo "esta es la key $key_wsp";
 
