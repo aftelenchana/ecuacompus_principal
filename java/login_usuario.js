@@ -28,8 +28,8 @@ function sendData_login_ecuacompus(){
           window.location.reload(true);
               console.log('Contraseña correcta, acceso exitoso.');
         }
-        if (info.noticia == 'errror_servidor') {
-          $('.notificacion_login_ecuacompus').html('<div class="alert alert-danger" role="alert">Error en el servidor contacta con soporte!</div>')
+        if (info.noticia == 'password_incorrecto') {
+          $('.notificacion_login_ecuacompus').html('<div class="alert alert-danger" role="alert">Error en credenciales!</div>')
         }
 
         if (info.noticia == 'no_existe_usuario') {
