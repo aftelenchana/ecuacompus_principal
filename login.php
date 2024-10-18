@@ -43,20 +43,12 @@
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
     <link rel="stylesheet" href="/assets/vendor/libs/typeahead-js/typeahead.css" />
-    <!-- Vendor -->
     <link rel="stylesheet" href="/assets/vendor/libs/@form-validation/form-validation.css" />
-
-    <!-- Page CSS -->
-    <!-- Page -->
     <link rel="stylesheet" href="/assets/vendor/css/pages/page-auth.css" />
-
-    <!-- Helpers -->
     <script src="/assets/vendor/js/helpers.js"></script>
-    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-    <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js.  -->
     <script src="/assets/vendor/js/template-customizer.js"></script>
-    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="/assets/js/config.js"></script>
+    <link rel="stylesheet" href="https://guibis.com/home/estiloshome/load.css">
   </head>
 
   <body>
@@ -101,10 +93,10 @@
             <h4 class="mb-1">Bienvendio a Ecuacompus! 👋</h4>
             <p class="mb-5">Ingresa a tu cuenta e inicia tu aventura</p>
 
-            <form id="formAuthentication" class="mb-5" action="index.html" method="GET">
+            <form id="" method="post" name="login_ecuacompus" id="login_ecuacompus" onsubmit="event.preventDefault(); sendData_login_ecuacompus();">
               <div class="form-floating form-floating-outline mb-5">
                 <input
-                  type="text"
+                  type="email"
                   class="form-control"
                   id="email"
                   name="email-username"
@@ -138,8 +130,16 @@
                   <span>Olvidaste tu contraseña ?</span>
                 </a>
               </div>
-              <button class="btn btn-primary d-grid w-100">Entrar</button>
+              <button type="submit" class="btn btn-primary d-grid w-100">Entrar</button>
             </form>
+            <style media="screen">
+              .notificacion_login_ecuacompus{
+                text-align: center;
+              }
+            </style>
+            <div class="notificacion_login_ecuacompus">
+
+            </div>
 
             <p class="text-center">
               <span>Eres nuevo en la plataforma?</span>
@@ -175,10 +175,7 @@
       </div>
     </div>
 
-    <!-- / Content -->
 
-    <!-- Core JS -->
-    <!-- build:js assets/vendor/js/core.js -->
     <script src="/assets/vendor/libs/jquery/jquery.js"></script>
     <script src="/assets/vendor/libs/popper/popper.js"></script>
     <script src="/assets/vendor/js/bootstrap.js"></script>
@@ -188,18 +185,11 @@
     <script src="/assets/vendor/libs/i18n/i18n.js"></script>
     <script src="/assets/vendor/libs/typeahead-js/typeahead.js"></script>
     <script src="/assets/vendor/js/menu.js"></script>
-
-    <!-- endbuild -->
-
-    <!-- Vendors JS -->
     <script src="/assets/vendor/libs/@form-validation/popular.js"></script>
     <script src="/assets/vendor/libs/@form-validation/bootstrap5.js"></script>
     <script src="/assets/vendor/libs/@form-validation/auto-focus.js"></script>
-
-    <!-- Main JS -->
     <script src="/assets/js/main.js"></script>
-
-    <!-- Page JS -->
     <script src="/assets/js/pages-auth.js"></script>
+    <script src="java/login_usuario.js?v=5"></script>
   </body>
 </html>
