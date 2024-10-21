@@ -132,7 +132,7 @@ if (empty($_SESSION['active'])) {
               <button class="btn btn-secondary create-new btn-primary waves-effect waves-light" type="button" id="open-offcanvas">
                 <span>
                   <i class="ri-add-line ri-16px me-sm-2"></i>
-                  <span class="d-none d-sm-inline-block">Add New Record</span>
+                  <span class="d-none d-sm-inline-block">Agregar Nuevo Servidor</span>
                 </span>
               </button>
 

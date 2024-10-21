@@ -131,7 +131,7 @@ $url_conect_wsp       =  $result_configuracion['url_wsp'];
 
         <li class="menu-item active">
           <a href="/" class="menu-link">
-            <div data-i18n="Analytics">Analisis</div>
+            <div>Analisis</div>
           </a>
         </li>
 
@@ -157,13 +157,13 @@ $url_conect_wsp       =  $result_configuracion['url_wsp'];
           </a>
         </li>
         <li class="menu-item">
-          <a href="layouts-content-navbar-with-sidebar.html" class="menu-link">
-            <div data-i18n="Content nav + Sidebar">Content nav + Sidebar</div>
+          <a href="embudo_ventas_file" class="menu-link">
+            <div>Embudo de Ventas</div>
           </a>
         </li>
         <li class="menu-item">
-          <a href="../horizontal-menu-template" class="menu-link" target="_blank">
-            <div data-i18n="Horizontal">Horizontal</div>
+          <a href="consola_envios_embudo" class="menu-link">
+            <div>Campañas Embudo Ventas</div>
           </a>
         </li>
         <li class="menu-item">

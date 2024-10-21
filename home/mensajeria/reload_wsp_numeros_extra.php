@@ -44,9 +44,34 @@ session_start();
     if ($_POST['action'] == 'iniciar_campana') {
 
       //CODIGO PARA INGRESAR EN CAMAPAÑA PARA SACAR EL ID Y CON ESE ID JUGAR
-            $mensaje               = $_POST['descripcion'];
+
+             $mensaje   =  mysqli_real_escape_string($conection,$_POST['descripcion']);
             $intervalo_tiempo      = $_POST['intervalo_tiempo'];
             $numero_extra          = $_POST['numero_extra'];
+
+
+            $metodo_envio          = $_POST['metodo_envio'];
+
+
+
+            $modo_tiempo      = (isset($_REQUEST['modo_tiempo'])) ? $_REQUEST['modo_tiempo'] : '';
+            $fecha_envio      = (isset($_REQUEST['fecha_envio'])) ? $_REQUEST['fecha_envio'] : '';
+            $hora_envio       = (isset($_REQUEST['hora_envio'])) ? $_REQUEST['hora_envio'] : '';
+            $tipo_embudo      = (isset($_REQUEST['tipo_embudo'])) ? $_REQUEST['tipo_embudo'] : '';
+
+
+            if (!empty($fecha_envio) && !empty($hora_envio)) {
+                // Combinar fecha y hora con segundos
+                $fecha_hora_envio = $fecha_envio . ' ' . $hora_envio . ':00';
+
+            } else {
+
+              $fecha_hora_envio = '';
+            }
+
+
+
+
 
             $query_numero = mysqli_query($conection, "SELECT * FROM numeros_extras
             WHERE numeros_extras.estatus = '1' AND numeros_extras.id = '$numero_extra' ");
@@ -57,8 +82,10 @@ session_start();
 
             $incluir_nombre      = (isset($_REQUEST['incluir_nombre'])) ? $_REQUEST['incluir_nombre'] : '';
 
-            $query_insert_mensajes_masivos =mysqli_query($conection,"INSERT INTO mensajes_masivos_wsp (iduser,empresa,mensaje,intervalo_tiempo,estado,incluir_nombre,key_wsp)
-                                VALUES('$iduser','$empresa','$mensaje','$intervalo_tiempo','Iniciado','$incluir_nombre','$key_wsp') ");
+            $query_insert_mensajes_masivos =mysqli_query($conection,"INSERT INTO mensajes_masivos_wsp (iduser,empresa,mensaje,intervalo_tiempo,estado,incluir_nombre,key_wsp,
+            metodo_envio,modo_tiempo,fecha_hora_envio,tipo_embudo)
+                                VALUES('$iduser','$empresa','$mensaje','$intervalo_tiempo','Iniciado','$incluir_nombre','$key_wsp',
+            '$metodo_envio','$modo_tiempo','$fecha_hora_envio','$tipo_embudo') ");
 
           if ($query_insert_mensajes_masivos) {
 
@@ -73,8 +100,87 @@ session_start();
 
             //echo "este es el id $id_mensajes_masivos";
 
+            //CODIGO SI EL CASO DEL METODO DE ENVIO ES DE metodo_envio = embudo_ventas
+
+            $datos_embudo = 0;
+
+
+            if ($metodo_envio == 'embudo_ventas') {
+
+              $tipo_embudo      = (isset($_REQUEST['tipo_embudo'])) ? $_REQUEST['tipo_embudo'] : '';
+
+              if ($tipo_embudo == 'Todos') {
+
+                $query_embudo = mysqli_query($conection, "SELECT contactos_embudo_ventas.id,contactos_embudo_ventas.nombres,
+                 DATE_FORMAT(contactos_embudo_ventas.fecha, '%W  %d de %b %Y %h:%m:%s') as 'fecha',contactos_embudo_ventas.email,
+                 contactos_embudo_ventas.celular,
+                 contactos_embudo_ventas.direccion,
+                 contactos_embudo_ventas.descripcion,
+                 contactos_embudo_ventas.url,
+                 contactos_embudo_ventas.img,
+                 contactos_embudo_ventas.tipo
+                 FROM contactos_embudo_ventas
+                   WHERE contactos_embudo_ventas.iduser ='$iduser'  AND contactos_embudo_ventas.estatus = '1'
+                ORDER BY `contactos_embudo_ventas`.`fecha` DESC LIMIT 100");
+
+             while ($data_embudo = mysqli_fetch_assoc($query_embudo)) {
+
+               $numero = $data_embudo['celular'];
+               $nombres = $data_embudo['nombres'];
+
+
+               $query_insert_datos_mensajes_masivos =mysqli_query($conection,"INSERT INTO datos_mensajes_masivos (iduser,empresa,id_mensajes_masivos,numero,nombre,tipo)
+                                         VALUES('$iduser','$empresa','$id_mensajes_masivos','$numero','$nombres','embudo') ");
+
+                 if ($query_insert_datos_mensajes_masivos) {
+                     $datos_embudo = $datos_embudo+1;
+                 }
+
+
+
+             }
+                // code...
+            }else {
+
+
+              $query_embudo = mysqli_query($conection, "SELECT contactos_embudo_ventas.id,contactos_embudo_ventas.nombres,
+               DATE_FORMAT(contactos_embudo_ventas.fecha, '%W  %d de %b %Y %h:%m:%s') as 'fecha',contactos_embudo_ventas.email,
+               contactos_embudo_ventas.celular,
+               contactos_embudo_ventas.direccion,
+               contactos_embudo_ventas.descripcion,
+               contactos_embudo_ventas.url,
+               contactos_embudo_ventas.img,
+               contactos_embudo_ventas.tipo
+               FROM contactos_embudo_ventas
+                 WHERE contactos_embudo_ventas.iduser ='$iduser'
+                 AND contactos_embudo_ventas.estatus = '1'
+                 AND contactos_embudo_ventas.tipo = '$tipo_embudo'
+              ORDER BY `contactos_embudo_ventas`.`fecha` DESC LIMIT 100");
+
+           while ($data_embudo = mysqli_fetch_assoc($query_embudo)) {
+
+             $numero = $data_embudo['celular'];
+             $nombres = $data_embudo['nombres'];
+
+
+             $query_insert_datos_mensajes_masivos =mysqli_query($conection,"INSERT INTO datos_mensajes_masivos (iduser,empresa,id_mensajes_masivos,numero,nombre,tipo)
+                                       VALUES('$iduser','$empresa','$id_mensajes_masivos','$numero','$nombres','embudo_ventas') ");
+
+               if ($query_insert_datos_mensajes_masivos) {
+                   $datos_embudo = $datos_embudo+1;
+               }
+
+
+             }
+
+
+            }
+          }
+
             //CODIGO PARA CATEGORIAS
-            $categoria          =  mysqli_real_escape_string($conection,$_POST['categoria']);
+
+
+            $categoria      = (isset($_REQUEST['categoria'])) ? $_REQUEST['categoria'] : '';
             $datos_categoria    = 0;
 
             if ($categoria != 'Ninguna') {
@@ -224,17 +330,10 @@ session_start();
 
           $datos_selected = 0;
 
-      $selected_contacts = mysqli_real_escape_string($conection, $_POST['selected_contacts']);
 
-      // Inicializamos el contador de contactos seleccionados
-      $datos_selected = 0;
+      $selected_contacts      = (isset($_REQUEST['selected_contacts'])) ? $_REQUEST['selected_contacts'] : '';
 
-      // Verificamos que 'selected_contacts' esté definido y no esté vacío
-      if (isset($_POST['selected_contacts']) && !empty($_POST['selected_contacts'])) {
-
-          // Escapar el valor para evitar inyecciones SQL
-          $selected_contacts = mysqli_real_escape_string($conection, $_POST['selected_contacts']);
-
+      if (!empty($selected_contacts)) {
           // Separar los contactos por coma
           $contactsArray = explode(',', $selected_contacts);
 
@@ -243,29 +342,30 @@ session_start();
               // Eliminar espacios en blanco alrededor de cada contacto (si los hay)
               $contact = trim($contact);
 
-              // Separar el número y el nombre usando el guion
-              list($numero, $nombre) = explode('-', $contact);
+              // Verificar si el formato es válido antes de procesar
+              if (strpos($contact, '-') !== false) {
+                  // Separar el número y el nombre usando el guion
+                  list($numero, $nombre) = explode('-', $contact);
 
-              // Si el nombre es "Desconocido", asignar un valor vacío
-              $nombre = ($nombre === 'Desconocido') ? '' : trim($nombre);
+                  // Si el nombre es "Desconocido", asignar un valor vacío
+                  $nombre = ($nombre === 'Desconocido') ? '' : trim($nombre);
 
-              // Insertar el contacto en la base de datos
-              $query_insert_contact = mysqli_query($conection, "INSERT INTO datos_mensajes_masivos (iduser, empresa, id_mensajes_masivos, numero, nombre, tipo)
-                                                                VALUES('$iduser', '$empresa', '$id_mensajes_masivos', '$numero', '$nombre', 'numeros')");
+                  // Insertar el contacto en la base de datos
+                  $query_insert_contact = mysqli_query($conection, "INSERT INTO datos_mensajes_masivos (iduser, empresa, id_mensajes_masivos, numero, nombre, tipo)
+                                                      VALUES('$iduser', '$empresa', '$id_mensajes_masivos', '$numero', '$nombre', 'numeros')");
 
-              // Aumentamos el contador si la inserción fue exitosa
-              if ($query_insert_contact) {
-                  $datos_selected++;
+                  if ($query_insert_contact) {
+                      $datos_selected++;
+                  }
               }
           }
-
-
-
       }
 
+      // Aquí puedes usar $datos_selected para saber cuántos registros se insertaron
 
 
-          $total_datos_subidos = $datos_selected + $datos_grupos + $datos_excel + $datos_categoria;
+
+          $total_datos_subidos = $datos_selected + $datos_grupos + $datos_excel + $datos_categoria + $datos_embudo;
 
           if ($total_datos_subidos > 0) {
 
@@ -279,7 +379,11 @@ session_start();
             $cantidad_datos = $data_cantidad_datos['cantidad_datos'];
 
 
-            $arrayName = array('noticia' =>'procesar_datos','mensaje_masivo' =>$id_mensajes_masivos,'cantidad_datos' =>$cantidad_datos,'intervalo_tiempo' =>$intervalo_tiempo);
+
+
+
+            $arrayName = array('noticia' =>'procesar_datos','mensaje_masivo' =>$id_mensajes_masivos,'cantidad_datos' =>$cantidad_datos,'intervalo_tiempo' =>$intervalo_tiempo
+          ,'modo_tiempo' =>$modo_tiempo,'fecha_hora_envio' =>$fecha_hora_envio);
                         echo json_encode($arrayName,JSON_UNESCAPED_UNICODE);
 
             // code...

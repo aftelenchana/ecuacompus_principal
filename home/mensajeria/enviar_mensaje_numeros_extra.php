@@ -33,6 +33,10 @@ session_start();
 
     }
 
+
+
+
+
     if ($_POST['action'] == 'enviar_mensaje') {
 
       $codigo_envio             = $_POST['codigo_envio'];
@@ -135,9 +139,6 @@ session_start();
     // Ejecutar la solicitud y obtener la respuesta
     $response = curl_exec($ch);
 
-
-  //  var_dump($response);
-
     //var_dump($response);
 
     // Verificar si hubo un error en la solicitud
@@ -159,8 +160,6 @@ session_start();
 
     // Cerrar cURL
     curl_close($ch);
-
-
 
 
 
