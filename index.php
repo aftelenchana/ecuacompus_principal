@@ -80,7 +80,7 @@ if ($result_documentos) {
 <!doctype html>
 
 <html
-  lang="en"
+  lang="es"
   class="light-style layout-navbar-fixed layout-wide"
   dir="ltr"
   data-theme="theme-default"
@@ -512,7 +512,7 @@ if ($result_documentos) {
             <a
               href="login"
               class="btn btn-primary px-2 px-sm-4 px-lg-2 px-xl-4"
-              
+
               ><span class="tf-icons ri-user-line me-md-1"></span
               ><span class="d-none d-md-block">Entrar/Registrarse</span></a
             >

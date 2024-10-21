@@ -71,29 +71,40 @@ session_start();
 
           // Verificar si hubo un error en la solicitud
           if(curl_errno($ch)) {
-              echo 'Error en cURL: ' . curl_error($ch);
+              //echo 'Error en cURL: ' . curl_error($ch);
+
+              $row['error'] = curl_error($ch);
+              $row['status'] = 'Servidor Cerrado';
+              $row['message'] = 'Elimina este servicio';
+              $row['url_qr'] = '';
+          }else {
+
+            // Convertir la respuesta JSON en un array de PHP
+            $data_api = json_decode($response, true);
+
+            // Agregar la respuesta a la fila actual
+            if (isset($data_api['sessionId'])) {
+                // La sesión está activa
+                $row['sessionId'] = $data_api['sessionId'];
+                $row['status'] = $data_api['status'];
+                $row['message'] = $data_api['message'];
+                $row['url_qr'] = ''.$url_server.'/get-qr/'.$key_wsp.'';
+            } elseif (isset($data_api['error'])) {
+                // La sesión no fue encontrada
+                $row['error'] = $data_api['error'];
+                $row['status'] = 'Session No Creada';
+                $row['message'] = 'Ingresa a consola para crearla';
+                $row['url_qr'] = '';
+            }
+            // code...
           }
 
           // Cerrar cURL
-          curl_close($ch);
 
-          // Convertir la respuesta JSON en un array de PHP
-          $data_api = json_decode($response, true);
 
-          // Agregar la respuesta a la fila actual
-          if (isset($data_api['sessionId'])) {
-              // La sesión está activa
-              $row['sessionId'] = $data_api['sessionId'];
-              $row['status'] = $data_api['status'];
-              $row['message'] = $data_api['message'];
-              $row['url_qr'] = ''.$url_server.'/get-qr/'.$key_wsp.'';
-          } elseif (isset($data_api['error'])) {
-              // La sesión no fue encontrada
-              $row['error'] = $data_api['error'];
-              $row['status'] = 'Session No Creada';
-              $row['message'] = 'Ingresa a consola para crearla';
-              $row['url_qr'] = '';
-          }
+
+
+            curl_close($ch);
 
 
           // Agregar el array modificado a $data
@@ -217,6 +228,8 @@ session_start();
 
    $numero_extra             = $_POST['cliente'];
 
+
+
    //sacamos la informacion de la instancia
 
    $query_consulta = mysqli_query($conection, "SELECT * FROM numeros_extras
@@ -224,6 +237,12 @@ session_start();
       $data_producto = mysqli_fetch_array($query_consulta);
 
       $key_wsp = $data_producto['key_wsp'];
+
+      $query_servidor = mysqli_query($conection, "SELECT * FROM servidores_wsp
+         WHERE servidores_wsp.estatus = '1' AND servidores_wsp.id = '$key_wsp' ");
+   $data_servidor = mysqli_fetch_array($query_servidor);
+
+   $url_servidor = $data_servidor['url'];
 
 
 
@@ -236,7 +255,7 @@ session_start();
 
 
      $ch = curl_init();
-     $url_eliminar_full = ''.$url.'/close-session-full';
+     $url_eliminar_full = ''.$url_servidor.'/close-session-full';
 
      $postData = array(
          'sessionId' => $key_wsp  // Asegúrate de enviar los datos requeridos por la API

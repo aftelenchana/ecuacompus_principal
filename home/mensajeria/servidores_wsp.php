@@ -80,21 +80,43 @@ session_start();
             $row['http_code'] = $http_code;
             // Verifica si json_decode devolvió null y si hubo un error en la conversión
             if (json_last_error() === JSON_ERROR_NONE) {
+
+
                 $data_api = json_decode($response, true);
+
+
                 // La respuesta es un JSON válido
                 if (isset($data_api['error']) && $data_api['error'] === 'El sessionId es requerido.') {
                     $row['estado'] = 'Disponible';
                     $row['mensaje'] = 'Servidor Disponible';
                     // Aquí puedes agregar más código si es necesario
                 } else {
+
+                  if ($row['http_code'] == 400) {
+                    $row['estado'] = 'Disponible';
+                    $row['mensaje'] = 'Servidor Disponible';
+                    // code...
+                  }else {
                     $row['estado'] = 'No Disponible';
                     $row['mensaje'] = 'Servidor no disponible Servidor Caido';
+                    // code...
+                  }
+
                 }
             } else {
+
+              if ($row['http_code'] == 400) {
+                $row['estado'] = 'Disponible';
+                $row['mensaje'] = 'Servidor Disponible';
+                // code...
+              }else {
                 // Maneja el caso donde la respuesta no es un JSON válido
                 $row['mensaje'] = 'Error: Respuesta no válida';
                 $row['estado'] = 'No Disponible';
                 $row['mensaje'] = 'Servidor no  creado.';
+                // code...
+              }
+
             }
 
         }

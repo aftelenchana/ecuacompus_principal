@@ -317,25 +317,28 @@ $url_server = $data_numero_url['url'];
 
                                                  // Retornar los contactos como respuesta JSON
                                                  if (isset($data) && is_array($data)) {
+                                                   // Verificamos si existe la clave 'status' en el array
+                                                           if (isset($data['status'])) {
+                                                               switch ($data['status']) {
+                                                                   case 'error':
+                                                                       $modtrar_grupos = 'no_grupos';
+                                                                       break;
+                                                                   case 'status':
+                                                                       $modtrar_grupos = 'no_grupos';
+                                                                       break;
+                                                                   default:
+                                                                       $modtrar_grupos = 'si_grupos';
+                                                                       break;
+                                                               }
+                                                           } else {
+                                                               // Si 'status' no está definido en el array
+                                                               $modtrar_grupos = 'no_grupos';
+                                                           }
+                                                       } else {
+                                                           // Si $data no es un array o no está definido
+                                                           $modtrar_grupos = 'no_grupos';
+                                                       }
 
-                                                   switch ($data) {
-                                                     case 'error':
-                                                       $modtrar_grupos = 'no_grupos';
-                                                       // code...
-                                                       break;
-                                                       case 'status':
-                                                         $modtrar_grupos = 'no_grupos';
-                                                         // code...
-                                                         break;
-
-                                                     default:
-                                                       $modtrar_grupos = 'si_grupos';
-                                                       break;
-                                                   }
-
-                                                 } else {
-                                                   $modtrar_grupos = 'no_grupos';
-                                                 }
 
                                                   ?>
 

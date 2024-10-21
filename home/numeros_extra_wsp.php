@@ -224,12 +224,35 @@ if (empty($_SESSION['active'])) {
                           } else {
                               $estado = 'No Disponible';
                               $mensaje = 'Servidor no disponible Servidor Caido';
+
+                              if ($row['http_code'] == 400) {
+                                $estado = 'Disponible';
+                                $mensaje = 'Servidor Disponible';
+                                echo '<option  value="' . $data_servidor['id'] . '">' . $data_servidor['nombre'] . '/ ' . $data_servidor['tipo'] . '</option>';
+                                // code...
+                              }else {
+                                $estado = 'No Disponible';
+                                $mensaje = 'Servidor no disponible Servidor Caido';
+                                // code...
+                              }
+
+
                           }
                       } else {
+
+                        if ($row['http_code'] == 400) {
+                          $estado = 'Disponible';
+                          $mensaje = 'Servidor Disponible';
+                            echo '<option  value="' . $data_servidor['id'] . '">' . $data_servidor['nombre'] . '/ ' . $data_servidor['tipo'] . '</option>';
+                          // code...
+                        }else {
                           // Maneja el caso donde la respuesta no es un JSON válido
-                          $mensaje  = 'Error: Respuesta no válida';
-                          $estado   = 'No Disponible';
-                          $mensaje  = 'Servidor no  creado.';
+                          $mensaje = 'Error: Respuesta no válida';
+                          $estado= 'No Disponible';
+                          $mensaje = 'Servidor no  creado.';
+                          // code...
+                        }
+
                       }
 
                   }

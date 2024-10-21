@@ -226,30 +226,42 @@ session_start();
 
       $selected_contacts = mysqli_real_escape_string($conection, $_POST['selected_contacts']);
 
-      // Separar los contactos por coma
-      $contactsArray = explode(',', $selected_contacts);
+      // Inicializamos el contador de contactos seleccionados
+      $datos_selected = 0;
 
-      // Recorrer el array de contactos y hacer lo que necesites con cada uno
-      foreach ($contactsArray as $contact) {
-          // Eliminar espacios en blanco alrededor de cada contacto (si los hay)
-          $contact = trim($contact);
+      // Verificamos que 'selected_contacts' esté definido y no esté vacío
+      if (isset($_POST['selected_contacts']) && !empty($_POST['selected_contacts'])) {
 
-          // Separar el número y el nombre usando el guion
-          list($numero, $nombre) = explode('-', $contact);
+          // Escapar el valor para evitar inyecciones SQL
+          $selected_contacts = mysqli_real_escape_string($conection, $_POST['selected_contacts']);
 
-          // Si el nombre es "Desconocido", asignar un valor vacío
-          $nombre = ($nombre === 'Desconocido') ? '' : trim($nombre);
+          // Separar los contactos por coma
+          $contactsArray = explode(',', $selected_contacts);
 
-          // Insertar el contacto en la base de datos
-          $query_insert_contact = mysqli_query($conection, "INSERT INTO datos_mensajes_masivos (iduser, empresa, id_mensajes_masivos, numero, nombre, tipo)
-                                              VALUES('$iduser', '$empresa', '$id_mensajes_masivos', '$numero', '$nombre', 'numeros')");
+          // Recorrer el array de contactos y hacer lo que necesites con cada uno
+          foreach ($contactsArray as $contact) {
+              // Eliminar espacios en blanco alrededor de cada contacto (si los hay)
+              $contact = trim($contact);
 
-          if ($query_insert_contact) {
-              $datos_selected++;
+              // Separar el número y el nombre usando el guion
+              list($numero, $nombre) = explode('-', $contact);
+
+              // Si el nombre es "Desconocido", asignar un valor vacío
+              $nombre = ($nombre === 'Desconocido') ? '' : trim($nombre);
+
+              // Insertar el contacto en la base de datos
+              $query_insert_contact = mysqli_query($conection, "INSERT INTO datos_mensajes_masivos (iduser, empresa, id_mensajes_masivos, numero, nombre, tipo)
+                                                                VALUES('$iduser', '$empresa', '$id_mensajes_masivos', '$numero', '$nombre', 'numeros')");
+
+              // Aumentamos el contador si la inserción fue exitosa
+              if ($query_insert_contact) {
+                  $datos_selected++;
+              }
           }
-      }
 
-      // Aquí puedes usar $datos_selected para saber cuántos registros se insertaron
+
+
+      }
 
 
 
@@ -269,7 +281,7 @@ session_start();
 
             $arrayName = array('noticia' =>'procesar_datos','mensaje_masivo' =>$id_mensajes_masivos,'cantidad_datos' =>$cantidad_datos,'intervalo_tiempo' =>$intervalo_tiempo);
                         echo json_encode($arrayName,JSON_UNESCAPED_UNICODE);
-              
+
             // code...
           }else {
 

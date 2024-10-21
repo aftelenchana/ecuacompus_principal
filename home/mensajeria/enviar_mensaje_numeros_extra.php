@@ -135,6 +135,9 @@ session_start();
     // Ejecutar la solicitud y obtener la respuesta
     $response = curl_exec($ch);
 
+
+  //  var_dump($response);
+
     //var_dump($response);
 
     // Verificar si hubo un error en la solicitud
