@@ -183,7 +183,7 @@ session_start();
             $categoria      = (isset($_REQUEST['categoria'])) ? $_REQUEST['categoria'] : '';
             $datos_categoria    = 0;
 
-            if ($categoria != 'Ninguna') {
+            if (!empty($categoria) && $categoria != 'Ninguna') { 
               $query_consulta_categoria = mysqli_query($conection, "SELECT usuarios_wsp.numero,usuarios_wsp.nombres,usuarios_wsp.email,
                 categorias_wsp.nombre as 'categoria',categorias_wsp.descripcion as 'descripcion',usuarios_wsp.id FROM usuarios_wsp
                 INNER JOIN categorias_wsp ON categorias_wsp.id = usuarios_wsp.categoria

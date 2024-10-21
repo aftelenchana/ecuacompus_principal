@@ -477,11 +477,44 @@ $url_server = $data_numero_url['url'];
                                      <input type="checkbox" class="form-check-input input-guibis-sm" name="incluir_nombre" id="incluir_nombre">
                                  </div>
 
+                                 <div class="row">
+                                     <div class="col">
+                                         <div class="form-check">
+                                             <input type="radio" name="modo_tiempo" value="en_tiempo_real" class="form-check-input" id="en_tiempo_real" checked />
+                                             <label class="form-check-label" for="en_tiempo_real">En tiempo Real</label>
+                                         </div>
+
+                                         <div class="form-check">
+                                             <input type="radio" name="modo_tiempo" value="diferido" class="form-check-input" id="diferido" />
+                                             <label class="form-check-label" for="diferido">Diferido</label>
+                                         </div>
+                                     </div>
+
+                                     <!-- Input que aparece solo si se selecciona Diferido -->
+                                     <div class="col" id="input_diferido" style="display: none;">
+                                         <div class="form-group">
+                                             <label class="label-guibis-sm">Fecha de Envío</label>
+                                             <input type="date" name="fecha_envio" class="form-control input-guibis-sm" id="fecha_envio" placeholder="Fecha de Envío">
+                                         </div>
+                                         <div class="form-group">
+                                             <label class="label-guibis-sm">Hora de Envío</label>
+                                             <input type="time" name="hora_envio" class="form-control input-guibis-sm" id="hora_envio" placeholder="Hora de Envío">
+                                         </div>
+                                     </div>
+                                 </div>
+
+                                 <div id="alerta_diferido" class="alert alert-warning background-warning" style="display: none;">
+                                     Solo procesará inertamente las campañas publicitarias
+                                 </div>
+
                                  <input type="hidden" name="numero_extra" value="<?php echo $data_numero['id'] ?>">
 
                                  <div class="contenedior_general_boton_enviar">
-                                     <button type="submit" class="btn btn-success btn-guibis-medium" >  <i class="fab fa-whatsapp"></i> Enviar Mensaje </button>
+                                     <button type="submit" class="btn btn-success btn-guibis-medium" >  <i class="fab fa-whatsapp"></i> Procesar Campaña Mensaje </button>
                                  </div>
+                                 <input type="hidden" name="metodo_envio" value="numeros_extra">
+
+
                                   <input type="hidden" name="action" value="iniciar_campana">
                                   <div class="alerta_inicio_campana"></div>
                                 </form>
@@ -585,7 +618,7 @@ $url_server = $data_numero_url['url'];
     <script src="/assets/vendor/libs/@form-validation/auto-focus.js"></script>
     <script src="/assets/js/main.js"></script>
 
-    <script type="text/javascript" src="mensajeria/enviar_mensaje_numeros_extra.js?v=7"></script>
+    <script type="text/javascript" src="mensajeria/enviar_mensaje_numeros_extra.js?v=10"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
 
             <script type="text/javascript">

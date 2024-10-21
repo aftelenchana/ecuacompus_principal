@@ -5,7 +5,8 @@ include "../coneccion.php";
 mysqli_set_charset($conection, 'utf8mb4'); //linea a colocar
 session_start();
 
-
+echo md5('r^zyf5QbPDfG!vA)');
+exit;
 if (empty($_SESSION['active'])) {
     header('location:/');
 } else {

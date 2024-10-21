@@ -167,11 +167,6 @@ $url_conect_wsp       =  $result_configuracion['url_wsp'];
           </a>
         </li>
         <li class="menu-item">
-          <a href="layouts-without-menu.html" class="menu-link">
-            <div data-i18n="Without menu">Without menu</div>
-          </a>
-        </li>
-        <li class="menu-item">
           <a href="layouts-without-navbar.html" class="menu-link">
             <div data-i18n="Without navbar">Without navbar</div>
           </a>
