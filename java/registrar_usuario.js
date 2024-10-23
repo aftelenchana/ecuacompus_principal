@@ -23,7 +23,7 @@ function sendData_registrar_usuario_at(){
           $('.alerta_registro_usuario_ast').html('<div class="alert alert-danger" role="alert">Este correo ya se encuentra registrado, si olvidaste tu contraseña dale en recuperar contraseña!</div>')
         }
         if (info.noticia == 'cuenta_creaqda') {
-          $('.alerta_registro_usuario_ast').html('<div class="alert alert-success" role="alert">Cuenta Creada Correctamente Revisa en tu correo(spam) un email de registro!</div>')
+          $('.alerta_registro_usuario_ast').html('<div class="alert alert-success" role="alert">Cuenta Creada Correctamente!</div>')
         }
         if (info.noticia == 'errror_servidor') {
           $('.alerta_registro_usuario_ast').html('<div class="alert alert-danger" role="alert">Error en el servidor contacta con soporte!</div>')

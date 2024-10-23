@@ -9,45 +9,9 @@ $mail = new  PHPMailer ( true );
 require "../coneccion.php" ;
   mysqli_set_charset($conection, 'utf8'); //linea a colocar
 
-  $query_configuracioin = mysqli_query($conection, "SELECT * FROM configuraciones ");
-  $result_configuracion = mysqli_fetch_array($query_configuracioin);
-  $ambito_area          =  $result_configuracion['ambito'];
-    $protocol = empty($_SERVER['HTTPS']) ? 'http://' : 'https://';$domain = $_SERVER['HTTP_HOST'];$url = $protocol . $domain;
-
 
 
     $protocol = empty($_SERVER['HTTPS']) ? 'http://' : 'https://';$domain = $_SERVER['HTTP_HOST'];$url = $protocol . $domain;
-
-
-    $query_doccumentos =  mysqli_query($conection, "SELECT * FROM  usuarios  WHERE  url_admin  = '$domain'");
-    $result_documentos = mysqli_fetch_array($query_doccumentos);
-    $regimen = $result_documentos['regimen'];
-    $contabilidad             = $result_documentos['contabilidad'];
-    $email_empresa_emisor     = $result_documentos['email'];
-    $celular_empresa_emisor   = $result_documentos['celular'];
-    $telefono_empresa_emisor  = $result_documentos['telefono'];
-    $direccion_emisor          = $result_documentos['direccion'];
-    $whatsapp                 = $result_documentos['whatsapp'];
-    $nombres_user                  = $result_documentos['nombres'];
-    $apellidos                = $result_documentos['apellidos'];
-    $numero_identificacion_emisor  = $result_documentos['numero_identidad'];
-    $contribuyente_especial   = $result_documentos['contribuyente_especial'];
-    $estableciminento_f      = $result_documentos['estableciminento_f'];
-    $contabilidad            = $result_documentos['contabilidad'];
-    $punto_emision_f         = $result_documentos['punto_emision_f'];
-    $img_facturacion         = $result_documentos['img_facturacion'];
-    $contabilidad         = $result_documentos['contabilidad'];
-    $regimen         = $result_documentos['regimen'];
-    $url_img_upload                     = $result_documentos['url_img_upload'];
-
-    $nombre_empresa               = $result_documentos['nombre_empresa'];
-
-    $host_envio               = $result_documentos['host_envio'];
-    $puerto_email_envio       = $result_documentos['puerto_email_envio'];
-    $email_user_name_envio    = $result_documentos['email_user_name_envio'];
-    $password_envio_email     = $result_documentos['password_envio_email'];
-    $descripcion_envio_email  = $result_documentos['descripcion_envio_email'];
-    $user_in  = $result_documentos['id'];
 
 
 
@@ -85,10 +49,8 @@ require "../coneccion.php" ;
 
 
 
-         $nombres    =  mb_strtoupper($_POST['nombres']);
-         $identificacion    =  mb_strtoupper($_POST['identificacion']);
-
-         $email      =  mb_strtoupper($_POST['mail_user']);
+         $nombres           =  mb_strtoupper($_POST['nombres']);
+         $email             =  mb_strtoupper($_POST['mail_user']);
 
 
 
@@ -105,8 +67,9 @@ require "../coneccion.php" ;
 
 
      $codigo_registro = mb_strtoupper(md5($email.date('d-m-Y H:m:s')));
-      $query_insert=mysqli_query($conection,"INSERT INTO usuarios(nombres,email,password,codigo_registro,pais,ciudad,provincia,ip,user_in,url_img_upload,numero_identidad)
-                                                    VALUES('$nombres','$email','$password1','$codigo_registro','$pais','$ciudad','$provincia','$direccion_ip','$user_in','$url','$identificacion') ");
+     $id_e = mb_strtoupper(md5($email.date('d-m-Y H:m:s').$nombres));
+      $query_insert=mysqli_query($conection,"INSERT INTO usuarios(nombres,email,password,codigo_registro,pais,ciudad,provincia,ip,url_img_upload,id_e)
+                                                    VALUES('$nombres','$email','$password1','$codigo_registro','$pais','$ciudad','$provincia','$direccion_ip','$url','$id_e') ");
 
 
       if ($query_insert) {
@@ -120,6 +83,8 @@ require "../coneccion.php" ;
         $Password_registro    = $data_correo_registro['Password'];
         $Port_registro        = $data_correo_registro['Port'];
         $SMTPSecure_registro  = $data_correo_registro['SMTPSecure'];
+
+        $nombre_empresa = "Ecuacompus";
 
 
        try {
@@ -139,7 +104,7 @@ require "../coneccion.php" ;
         // Contenido
         $mail->isHTML(true);
         $mail->CharSet = 'UTF-8'; // Establecer el formato de correo electrónico en HTML
-        $mail->Subject = 'Bienvenido/a a '.$nombre_empresa.' - Plataforma de Envíos Masivos de WhatsApp';
+        $mail->Subject = 'Bienvenido/a a Ecuacompus - Plataforma de Envíos Masivos de WhatsApp';
         $mail->Body = '
         <body style="background: #f5f5f5;padding: 6px;margin: 25px;">
             <div class="contenedor" style="background: #fff;padding: 20px;margin: 10px;">

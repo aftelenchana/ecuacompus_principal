@@ -144,7 +144,7 @@ ob_end_flush();
             <h4 class="mb-1">Bienvendio a Ecuacompus! 👋</h4>
             <p class="mb-5">Ingresa a tu cuenta e inicia tu aventura</p>
 
-            <form method="post" name="login_ecuacompus" id="login_ecuacompus" id="login_ecuacompus"  onsubmit="event.preventDefault(); sendData_login_ecuacompus();">
+            <form method="post" name="login_ecuacompus" id="login_ecuacompus"   onsubmit="event.preventDefault(); sendData_login_ecuacompus();">
               <div class="form-floating form-floating-outline mb-5">
                 <input
                   type="email"
@@ -194,7 +194,7 @@ ob_end_flush();
 
             <p class="text-center">
               <span>Eres nuevo en la plataforma?</span>
-              <a href="auth-register-cover.html">
+              <a href="regist">
                 <span>Crear una cuenta </span>
               </a>
             </p>

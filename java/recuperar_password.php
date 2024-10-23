@@ -8,7 +8,7 @@ use  PHPMailer \ PHPMailer \ Exception ;
 $mail = new  PHPMailer ( true );
   include "../coneccion.php";
 
-  
+
 $email = strtolower($_POST['email']);
 $query=mysqli_query($conection,"SELECT *FROM  usuarios WHERE email='$email'");
 $result = mysqli_fetch_array($query);
