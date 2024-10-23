@@ -177,7 +177,7 @@ ob_end_flush();
                   <input class="form-check-input" type="checkbox" id="remember-me" />
                   <label class="form-check-label" for="remember-me">Recordar </label>
                 </div>
-                <a href="auth-forgot-password-cover.html" class="float-end mb-1 mt-2">
+                <a href="recuperar_pasword" class="float-end mb-1 mt-2">
                   <span>Olvidaste tu contraseña ?</span>
                 </a>
               </div>
