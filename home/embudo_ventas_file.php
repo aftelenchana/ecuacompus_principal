@@ -171,62 +171,142 @@ if (empty($_SESSION['active'])) {
                   }
               </style>
 
-              <style media="screen">
-                .botones_acciones_embudo{
-                  text-align: right;
-                  padding: 5px;
-                  margin: 5px;
-                }
-                .botones_acciones_embudo button{
-                  margin: 3px;
-                }
-              </style>
-
-              <div class="botones_acciones_embudo">
-                <button type="button" class="btn btn-primary btn-guibis-medium " id="boton_agregar_contacto" name="button">Agregar Contacto <i class="fas fa-plus"></i></button>
-
-                <button type="button" class="btn btn-success btn-guibis-medium " id="boton_agregar_contactos_masivamente_wsp" name="button">Agregar Contactos Masivamente Whatsapp <i class="fas fa-plus"></i></button>
-
-              </div>
-
-              <div class="container-fluid  contenedor_clases_crm">
-                  <div class="row">
-                      <div class="col crm-guibis-wsp-column">
-                          <div class="crm-guibis-wsp-header">Primer Contacto</div>
-                          <div class="resultado_primer_contacto"></div>
-
-                      </div>
-
-                      <div class="col crm-guibis-wsp-column">
-
-                          <div class="crm-guibis-wsp-header">NO CONTESTA</div>
-                          <div class="resultado_no_contesta"> </div>
-
-                      </div>
-
-                      <div class="col crm-guibis-wsp-column">
-                          <div class="crm-guibis-wsp-header">CONOCIMIENTO</div>
-                          <div class="resultado_conocimiento"> </div>
-
-                      </div>
-
-                      <div class="col crm-guibis-wsp-column">
-                          <div class="crm-guibis-wsp-header">POTENCIALES</div>
-                          <div class="resultado_potenciales"></div>
-
-                      </div>
-
-                      <div class="col crm-guibis-wsp-column">
 
 
-                          <div class="crm-guibis-wsp-header">CONSIDERACIÓN</div>
-                          <div class="resultado_consideracion"></div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-header table-card-header">
+                                <h5>Embudo de Ventas</h5>
+                            </div>
+                            <div class="card-block contenedor_crm_wsp">
+
+                              <style media="screen">
+                                .tarjeta_bloque_hr{
+                                  border: 2px;
+                                  margin: 10px;
+                                }
+                                .card-header-guibis{
+                                  padding: 3px;
+                                  background: #259bd6 ;
+                                  color: #fff;
+                                  font-weight: bold;
+                                }
+                                .card-header-guibis h5{
+                                  padding: 1px;
+                                  margin: 1px;
+                                }
+
+                                .boton_agregar_datos{
+                                  float: right;
+                                }
+                                .dt-buttons{
+                                  display: none;
+                                }
+
+                              </style>
+
+                              <div class="card tarjeta_bloque_hr">
+                                <div class="card-header-guibis">
+                                    <h5>Búsqueda Global
+                                     </h5>
+                                </div>
+
+                                <div class="card-block">
+                                  <form action=""  id="procesar_datos" >
+                                    <div class="row">
+
+                                        <div class="col-12 col-md mb-3">
+                                            <div class="form-group d-flex align-items-center">
+                                                <label class="label-guibis-sm mr-2">Filtro</label>
+                                                <input type="text" name="filtro" class="form-control input-guibis-sm" required id="filtro" placeholder="Filtro" oninput="buscarContactos()">
+                                            </div>
+                                        </div>
 
 
-                      </div>
+                                    </div>
 
-                  </div>
-              </div>
+
+                                  </form>
+
+                                </div>
+
+                              </div>
+
+
+
+
+
+
+
+
+
+                              <style media="screen">
+                                .botones_acciones_embudo{
+                                  text-align: right;
+                                  padding: 5px;
+                                  margin: 5px;
+                                }
+                                .botones_acciones_embudo button{
+                                  margin: 3px;
+                                }
+                              </style>
+                              <div class="botones_acciones_embudo">
+                                <button type="button" class="btn btn-primary btn-guibis-medium " id="boton_agregar_contacto" name="button">Agregar Contacto <i class="fas fa-plus"></i></button>
+
+                                <button type="button" class="btn btn-success btn-guibis-medium " id="boton_agregar_contactos_masivamente_wsp" name="button">Agregar Contactos Masivamente Whatsapp <i class="fas fa-plus"></i></button>
+
+                              </div>
+
+                              <div class="card-block">
+                                <div class="container-fluid  contenedor_clases_crm">
+                                    <div class="row">
+                                        <div class="col crm-guibis-wsp-column">
+                                            <div class="crm-guibis-wsp-header"> <a href="contacts_embudo_venta?tipo=Primer Contacto">Primer Contacto</a> </div>
+                                            <div class="resultado_primer_contacto"></div>
+
+                                        </div>
+
+                                        <div class="col crm-guibis-wsp-column">
+
+                                            <div class="crm-guibis-wsp-header"> <a href="#">NO CONTESTA</a> </div>
+                                            <div class="resultado_no_contesta"> </div>
+
+                                        </div>
+
+                                        <div class="col crm-guibis-wsp-column">
+                                            <div class="crm-guibis-wsp-header"> <a href="#">CONOCIMIENTO</a> </div>
+                                            <div class="resultado_conocimiento"> </div>
+
+                                        </div>
+
+                                        <div class="col crm-guibis-wsp-column">
+                                            <div class="crm-guibis-wsp-header"> <a href="#">POTENCIALES</a> </div>
+                                            <div class="resultado_potenciales"></div>
+
+                                        </div>
+
+                                        <div class="col crm-guibis-wsp-column">
+
+
+                                            <div class="crm-guibis-wsp-header"> <a href="#">CONSIDERACIÓN</a> </div>
+                                            <div class="resultado_consideracion"></div>
+
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                              </div>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
 
@@ -236,363 +316,501 @@ if (empty($_SESSION['active'])) {
               <!-- Modal to add new record -->
 
 
+                           <div class="modal fade" id="modal_agregar_cliente" tabindex="-1" aria-labelledby="proveedorModalLabel" aria-hidden="true">
+                             <div class="modal-dialog ">
+                               <div class="modal-content">
+                                 <div class="modal-header header_guibis" style="background-color: #263238;">
+                                   <h5 class="modal-title" id="proveedorModalLabel">Agregar Contacto</h5>
+                                   <button type="button" class="btn-danger" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i>  </button>
+                                 </div>
+                                 <div class="modal-body">
 
-  <div class="modal fade" id="modal_agregar_cliente" tabindex="-1" aria-labelledby="proveedorModalLabel" aria-hidden="true">
-    <div class="modal-dialog ">
-      <div class="modal-content">
-        <div class="modal-header header_guibis" style="background-color: #263238;">
-          <h5 class="modal-title" id="proveedorModalLabel">Agregar Contacto</h5>
-          <button type="button" class="btn-danger" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i>  </button>
-        </div>
-        <div class="modal-body">
+                                     <form method="post" name="agregar_contacto" id="agregar_contacto" onsubmit="event.preventDefault(); sendData_agregar_contacto()" >
 
-            <form method="post" name="agregar_contacto" id="agregar_contacto" onsubmit="event.preventDefault(); sendData_agregar_contacto()" >
+                                     <div class="form-group">
+                                       <label class="label-guibis-sm">Nombres</label>
+                                       <input type="text"  class="form-control resultado_nombres_consumo_api input-guibis-sm" id="nombres"  name="nombres" aria-describedby="emailHelp" placeholder="Nombres">
+                                     </div>
+                                     <div class="form-group">
+                                       <label class="label-guibis-sm">Email</label>
+                                       <input type="email" name="email" class="form-control input-guibis-sm"  id="email" placeholder="Email">
+                                     </div>
 
-            <div class="form-group">
-              <label class="label-guibis-sm">Nombres</label>
-              <input type="text"  class="form-control resultado_nombres_consumo_api input-guibis-sm" id="nombres"  name="nombres" aria-describedby="emailHelp" placeholder="Nombres">
-            </div>
-            <div class="form-group">
-              <label class="label-guibis-sm">Email</label>
-              <input type="email" name="email" class="form-control input-guibis-sm"  id="email" placeholder="Email">
-            </div>
+                                     <div class="row">
+                                       <div class="col">
+                                         <div class="form-group">
+                                           <label class="label-guibis-sm">Identificación</label>
+                                           <input type="text" name="identificacion" class="form-control ocupar_api_sacar_informacion input-guibis-sm"  id="identificacion" placeholder="Identificación">
+                                         </div>
+                                       </div>
+                                       <div class="col">
+                                         <div class="form-group">
+                                           <label class="label-guibis-sm">Tipo de Identificación</label>
+                                           <select class="form-control input-guibis-sm" name="tipo_identificacion"  id="tipo_identificacion">
+                                             <option value="">Ninguna</option>
+                                             <option value="04">RUC</option>
+                                             <option value="05">CEDULA</option>
+                                             <option value="06">PASAPORTE</option>
+                                             <option value="07">VENTA A CONSUMIDOR FINAL</option>
+                                             <option value="08">IDENTIFICACION DEL EXTERIOR</option>
+                                           </select>
+                                         </div>
+                                       </div>
+                                     </div>
 
-            <div class="row">
-              <div class="col">
-                <div class="form-group">
-                  <label class="label-guibis-sm">Identificación</label>
-                  <input type="text" name="identificacion" class="form-control ocupar_api_sacar_informacion input-guibis-sm"  id="identificacion" placeholder="Identificación">
-                </div>
-              </div>
-              <div class="col">
-                <div class="form-group">
-                  <label class="label-guibis-sm">Tipo de Identificación</label>
-                  <select class="form-control input-guibis-sm" name="tipo_identificacion"  id="tipo_identificacion">
-                    <option value="">Ninguna</option>
-                    <option value="04">RUC</option>
-                    <option value="05">CEDULA</option>
-                    <option value="06">PASAPORTE</option>
-                    <option value="07">VENTA A CONSUMIDOR FINAL</option>
-                    <option value="08">IDENTIFICACION DEL EXTERIOR</option>
-                  </select>
-                </div>
-              </div>
-            </div>
+                                     <div class="form-group">
+                                       <label class="label-guibis-sm">Tipo</label>
+                                       <select class="form-control input-guibis-sm" name="tipo" required id="tipo">
+                                         <option value="Primer Contacto">Primer Contacto</option>
+                                         <option value="NO CONTESTA">NO CONTESTA</option>
+                                         <option value="CONOCIMIENTO">CONOCIMIENTO</option>
+                                         <option value="POTENCIALES">POTENCIALES</option>
+                                         <option value="CONSIDERACIÓN">CONSIDERACIÓN</option>
+                                       </select>
+                                     </div>
 
-            <div class="form-group">
-              <label class="label-guibis-sm">Tipo</label>
-              <select class="form-control input-guibis-sm" name="tipo" required id="tipo">
-                <option value="Primer Contacto">Primer Contacto</option>
-                <option value="NO CONTESTA">NO CONTESTA</option>
-                <option value="CONOCIMIENTO">CONOCIMIENTO</option>
-                <option value="POTENCIALES">POTENCIALES</option>
-                <option value="CONSIDERACIÓN">CONSIDERACIÓN</option>
-              </select>
-            </div>
-
-            <div class="row">
-              <div class="col">
-                <div class="form-group">
-                  <label class="label-guibis-sm">Celular</label>
-                  <input type="number" name="celular" class="form-control input-guibis-sm"  id="celular" placeholder="Celular">
-                </div>
-              </div>
-              <div class="col">
-                <div class="form-group">
-                  <label class="label-guibis-sm">Teléfono</label>
-                  <input type="number" name="telefono" class="form-control input-guibis-sm"  id="celular" placeholder="Teléfono">
-                </div>
-              </div>
-            </div>
-
-
-            <div class="form-group">
-              <label class="label-guibis-sm">Dirección</label>
-              <input type="text" name="direccion" class="form-control input-guibis-sm"  id="direccion" placeholder="Dirección">
-            </div>
+                                     <div class="row">
+                                       <div class="col">
+                                         <div class="form-group">
+                                           <label class="label-guibis-sm">Celular</label>
+                                           <input type="number" name="celular" class="form-control input-guibis-sm"  id="celular" placeholder="Celular">
+                                         </div>
+                                       </div>
+                                       <div class="col">
+                                         <div class="form-group">
+                                           <label class="label-guibis-sm">Teléfono</label>
+                                           <input type="number" name="telefono" class="form-control input-guibis-sm"  id="celular" placeholder="Teléfono">
+                                         </div>
+                                       </div>
+                                     </div>
 
 
-            <div class="form-group">
-                <label class="label-guibis-sm">Ingresa una Imagen</label>
-                <input type="file" name="foto" class="form-control input-guibis-sm" accept="image/png, .jpeg, .jpg"   id="exampleFormControlFile1">
-            </div>
-            <div class="form-group">
-              <label class="label-guibis-sm">Descripción </label>
-              <textarea class="form-control input-guibis-sm" name="descripcion"  id="descripcion" rows="3"></textarea>
-            </div>
-
-              <div class="modal-footer">
-                <input type="hidden" name="action" value="agregar_contacto" required>
-                <button type="button" class="btn btn-danger btn-guibis-medium" data-bs-dismiss="modal">Cerrar <i class="fas fa-times-circle"></i></button>
-                <button type="submit" class="btn btn-primary btn-guibis-medium">Agregar Contacto</button>
-              </div>
-              <div class="noticia_agregar_contactos">
-
-              </div>
-            </form>
-        </div>
-      </div>
-    </div>
-  </div>
+                                     <div class="form-group">
+                                       <label class="label-guibis-sm">Dirección</label>
+                                       <input type="text" name="direccion" class="form-control input-guibis-sm"  id="direccion" placeholder="Dirección">
+                                     </div>
 
 
+                                     <div class="form-group">
+                                         <label class="label-guibis-sm">Ingresa una Imagen</label>
+                                         <input type="file" name="foto" class="form-control input-guibis-sm" accept="image/png, .jpeg, .jpg"   id="exampleFormControlFile1">
+                                     </div>
+                                     <div class="form-group">
+                                       <label class="label-guibis-sm">Descripción </label>
+                                       <textarea class="form-control input-guibis-sm" name="descripcion"  id="descripcion" rows="3"></textarea>
+                                     </div>
 
+                                       <div class="modal-footer">
+                                         <input type="hidden" name="action" value="agregar_contacto" required>
+                                         <button type="button" class="btn btn-danger btn-guibis-medium" data-bs-dismiss="modal">Cerrar <i class="fas fa-times-circle"></i></button>
+                                         <button type="submit" class="btn btn-primary btn-guibis-medium">Agregar Contacto</button>
+                                       </div>
+                                       <div class="noticia_agregar_contactos">
 
-  <style media="screen">
-    .resultado_opciones_contactos_embudo {
-      font-size: 13px;
-    }
-  </style>
-
-
-
-               <div class="modal fade" id="modal_editar_contacto" tabindex="-1" aria-labelledby="proveedorModalLabel" aria-hidden="true">
-                 <div class="modal-dialog ">
-                   <div class="modal-content">
-                     <div class="modal-header header_guibis" style="background-color: #263238;">
-                       <h5 class="modal-title" id="proveedorModalLabel">Editar Contacto</h5>
-                       <button type="button" class="btn-danger" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i>  </button>
-                     </div>
-                     <div class="modal-body">
-
-                         <form method="post" name="editar_contacto" id="editar_contacto" onsubmit="event.preventDefault(); sendData_editar_contacto()" >
-
-                           <div class="img_editar_contacto text-center">
-
-                           </div>
-                           <div class="form-group">
-                               <label class="label-guibis-sm">Ingresa una Imagen</label>
-                               <input type="file" name="foto" class="form-control input-guibis-sm" accept="image/png, .jpeg, .jpg"   id="exampleFormControlFile1">
-                           </div>
-                         <div class="form-group">
-                           <label class="label-guibis-sm">Nombres</label>
-                           <input type="text"  class="form-control resultado_nombres_consumo_api input-guibis-sm" id="nombres_update"  name="nombres" aria-describedby="emailHelp" placeholder="Nombres">
-                         </div>
-                         <div class="form-group">
-                           <label class="label-guibis-sm">Email</label>
-                           <input type="email" name="email" class="form-control input-guibis-sm"  id="email_update" placeholder="Email">
-                         </div>
-
-                         <div class="row">
-                           <div class="col">
-                             <div class="form-group">
-                               <label class="label-guibis-sm">Identificación</label>
-                               <input type="text" name="identificacion" class="form-control ocupar_api_sacar_informacion input-guibis-sm"  id="identificacion_update" placeholder="Identificación">
+                                       </div>
+                                     </form>
+                                 </div>
+                               </div>
                              </div>
                            </div>
-                           <div class="col">
-                             <div class="form-group">
-                               <label class="label-guibis-sm">Tipo de Identificación</label>
-                               <select class="form-control input-guibis-sm" name="tipo_identificacion"  id="tipo_identificacion_update">
-                                 <option value="">Ninguna</option>
-                                 <option value="04">RUC</option>
-                                 <option value="05">CEDULA</option>
-                                 <option value="06">PASAPORTE</option>
-                                 <option value="07">VENTA A CONSUMIDOR FINAL</option>
-                                 <option value="08">IDENTIFICACION DEL EXTERIOR</option>
-                               </select>
+
+                           <style media="screen">
+                             .resultado_opciones_contactos_embudo {
+                               font-size: 13px;
+                             }
+                           </style>
+
+
+
+                           <div class="modal fade" id="modal_editar_contacto" tabindex="-1" aria-labelledby="proveedorModalLabel" aria-hidden="true">
+                             <div class="modal-dialog ">
+                               <div class="modal-content">
+                                 <div class="modal-header header_guibis" style="background-color: #263238;">
+                                   <h5 class="modal-title" id="proveedorModalLabel">Editar Contacto</h5>
+                                   <button type="button" class="btn-danger" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i>  </button>
+                                 </div>
+                                 <div class="modal-body">
+
+                                     <form method="post" name="editar_contacto" id="editar_contacto" onsubmit="event.preventDefault(); sendData_editar_contacto()" >
+
+                                       <div class="img_editar_contacto text-center">
+
+                                       </div>
+                                       <div class="form-group">
+                                           <label class="label-guibis-sm">Ingresa una Imagen</label>
+                                           <input type="file" name="foto" class="form-control input-guibis-sm" accept="image/png, .jpeg, .jpg"   id="exampleFormControlFile1">
+                                       </div>
+                                     <div class="form-group">
+                                       <label class="label-guibis-sm">Nombres</label>
+                                       <input type="text"  class="form-control resultado_nombres_consumo_api input-guibis-sm" id="nombres_update"  name="nombres" aria-describedby="emailHelp" placeholder="Nombres">
+                                     </div>
+                                     <div class="form-group">
+                                       <label class="label-guibis-sm">Email</label>
+                                       <input type="email" name="email" class="form-control input-guibis-sm"  id="email_update" placeholder="Email">
+                                     </div>
+
+                                     <div class="row">
+                                       <div class="col">
+                                         <div class="form-group">
+                                           <label class="label-guibis-sm">Identificación</label>
+                                           <input type="text" name="identificacion" class="form-control ocupar_api_sacar_informacion input-guibis-sm"  id="identificacion_update" placeholder="Identificación">
+                                         </div>
+                                       </div>
+                                       <div class="col">
+                                         <div class="form-group">
+                                           <label class="label-guibis-sm">Tipo de Identificación</label>
+                                           <select class="form-control input-guibis-sm" name="tipo_identificacion"  id="tipo_identificacion_update">
+                                             <option value="">Ninguna</option>
+                                             <option value="04">RUC</option>
+                                             <option value="05">CEDULA</option>
+                                             <option value="06">PASAPORTE</option>
+                                             <option value="07">VENTA A CONSUMIDOR FINAL</option>
+                                             <option value="08">IDENTIFICACION DEL EXTERIOR</option>
+                                           </select>
+                                         </div>
+                                       </div>
+                                     </div>
+
+                                     <div class="form-group">
+                                       <label class="label-guibis-sm">Tipo</label>
+                                       <select class="form-control input-guibis-sm" name="tipo" required id="tipo_update">
+                                         <option value="Primer Contacto">Primer Contacto</option>
+                                         <option value="NO CONTESTA">NO CONTESTA</option>
+                                         <option value="CONOCIMIENTO">CONOCIMIENTO</option>
+                                         <option value="POTENCIALES">POTENCIALES</option>
+                                         <option value="CONSIDERACIÓN">CONSIDERACIÓN</option>
+                                       </select>
+                                     </div>
+
+                                     <div class="row">
+                                       <div class="col">
+                                         <div class="form-group">
+                                           <label class="label-guibis-sm">Celular</label>
+                                           <input type="number" name="celular" class="form-control input-guibis-sm"  id="celular_update" placeholder="Celular">
+                                         </div>
+                                       </div>
+                                       <div class="col">
+                                         <div class="form-group">
+                                           <label class="label-guibis-sm">Teléfono</label>
+                                           <input type="number" name="telefono" class="form-control input-guibis-sm"  id="telefono_update" placeholder="Teléfono">
+                                         </div>
+                                       </div>
+                                     </div>
+
+
+                                     <div class="form-group">
+                                       <label class="label-guibis-sm">Dirección</label>
+                                       <input type="text" name="direccion" class="form-control input-guibis-sm"  id="direccion_update" placeholder="Dirección">
+                                     </div>
+
+
+
+                                     <div class="form-group">
+                                       <label class="label-guibis-sm">Descripción </label>
+                                       <textarea class="form-control input-guibis-sm" name="descripcion"  id="descripcion_update" rows="3"></textarea>
+                                     </div>
+
+                                       <div class="modal-footer">
+                                         <input type="hidden" name="action" value="editar_contacto" required>
+                                         <input type="hidden" name="id_contacto" id="id_contacto"  value="">
+                                         <button type="button" class="btn btn-danger btn-guibis-medium" data-bs-dismiss="modal">Cerrar <i class="fas fa-times-circle"></i></button>
+                                         <button type="submit" class="btn btn-primary btn-guibis-medium">Editar Contacto</button>
+                                       </div>
+                                       <div class="noticia_editar_contactos">
+
+                                       </div>
+                                     </form>
+                                 </div>
+                               </div>
                              </div>
                            </div>
-                         </div>
 
-                         <div class="form-group">
-                           <label class="label-guibis-sm">Tipo</label>
-                           <select class="form-control input-guibis-sm" name="tipo" required id="tipo_update">
-                             <option value="Primer Contacto">Primer Contacto</option>
-                             <option value="NO CONTESTA">NO CONTESTA</option>
-                             <option value="CONOCIMIENTO">CONOCIMIENTO</option>
-                             <option value="POTENCIALES">POTENCIALES</option>
-                             <option value="CONSIDERACIÓN">CONSIDERACIÓN</option>
-                           </select>
-                         </div>
 
-                         <div class="row">
-                           <div class="col">
-                             <div class="form-group">
-                               <label class="label-guibis-sm">Celular</label>
-                               <input type="number" name="celular" class="form-control input-guibis-sm"  id="celular_update" placeholder="Celular">
+
+
+
+                           <div class="modal fade" id="modal_agregar_contactos_wsp" tabindex="-1" aria-labelledby="proveedorModalLabel" aria-hidden="true">
+                             <div class="modal-dialog ">
+                               <div class="modal-content">
+                                 <div class="modal-header header_guibis" style="background-color: #263238;">
+                                   <h5 class="modal-title" id="proveedorModalLabel">Agregar Contacto Masivamente de tu Whatsapp</h5>
+                                   <button type="button" class="btn-danger" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i>  </button>
+                                 </div>
+                                 <div class="modal-body">
+
+                                     <form method="post" name="agregar_contacto_masivamente_wsp" id="agregar_contacto_masivamente_wsp" onsubmit="event.preventDefault(); sendData_agregar_contacto_msivamente_wsp()" >
+
+                                     <div class="row">
+
+                                       <div class="col">
+                                         <div class="form-group">
+                                           <label class="label-guibis-sm">Elige Tu número</label>
+                                           <select class="form-control input-guibis-sm" name="numero_guibis" required id="numero_guibis">
+
+                                           </select>
+                                         </div>
+                                       </div>
+                                     </div>
+
+                                     <div class="form-group">
+                                       <label class="label-guibis-sm">Tipo</label>
+                                       <select class="form-control input-guibis-sm" name="tipo" required id="tipo_update">
+                                         <option value="Primer Contacto">Primer Contacto</option>
+                                         <option value="NO CONTESTA">NO CONTESTA</option>
+                                         <option value="CONOCIMIENTO">CONOCIMIENTO</option>
+                                         <option value="POTENCIALES">POTENCIALES</option>
+                                         <option value="CONSIDERACIÓN">CONSIDERACIÓN</option>
+                                       </select>
+                                     </div>
+
+
+
+
+
+                                       <div class="modal-footer">
+                                         <input type="hidden" name="action" value="agregar_contacto_masivamente_wsp" required>
+                                         <button type="button" class="btn btn-danger btn-guibis-medium" data-bs-dismiss="modal">Cerrar <i class="fas fa-times-circle"></i></button>
+                                         <button type="submit" class="btn btn-primary btn-guibis-medium">Agregar Contactos Masivamente de Whatsapp</button>
+                                       </div>
+                                       <div class="noticia_agregar_contactos_masivamente_wsp">
+
+                                       </div>
+                                     </form>
+                                 </div>
+                               </div>
                              </div>
                            </div>
-                           <div class="col">
-                             <div class="form-group">
-                               <label class="label-guibis-sm">Teléfono</label>
-                               <input type="number" name="telefono" class="form-control input-guibis-sm"  id="telefono_update" placeholder="Teléfono">
+
+
+                           <div class="modal fade" id="modal_eliminar_contacto" tabindex="-1" aria-labelledby="proveedorModalLabel" aria-hidden="true">
+                             <div class="modal-dialog ">
+                               <div class="modal-content">
+                                 <div class="modal-header header_guibis" style="background-color: #263238;">
+                                   <h5 class="modal-title" id="proveedorModalLabel">Estas segura que deseas eliminar este contacto ? </h5>
+                                   <button type="button" class="btn-danger" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i>  </button>
+                                 </div>
+                                 <div class="modal-body">
+
+                                     <form method="post" name="eliminar_contacto" id="eliminar_contacto" onsubmit="event.preventDefault(); sendData_eliminar_contacto()" >
+
+                                       <div class="img_eliminar_contacto text-center">
+
+                                       </div>
+
+                                     <div class="form-group">
+                                       <label class="label-guibis-sm">Nombres</label>
+                                       <input type="text" readonly  class="form-control resultado_nombres_consumo_api input-guibis-sm" id="nombres_delete"  name="nombres" aria-describedby="emailHelp" placeholder="Nombres">
+                                     </div>
+                                     <div class="form-group">
+                                       <label class="label-guibis-sm">Email</label>
+                                       <input type="email" readonly name="email" class="form-control input-guibis-sm"  id="email_delete" placeholder="Email">
+                                     </div>
+
+                                     <div class="row">
+                                       <div class="col">
+                                         <div class="form-group">
+                                           <label class="label-guibis-sm">Identificación</label>
+                                           <input type="text" readonly name="identificacion" class="form-control ocupar_api_sacar_informacion input-guibis-sm"  id="identificacion_delete" placeholder="Identificación">
+                                         </div>
+                                       </div>
+                                       <div class="col">
+                                         <div class="form-group">
+                                           <label class="label-guibis-sm">Tipo de Identificación</label>
+                                           <select disabled class="form-control input-guibis-sm" name="tipo_identificacion"  id="tipo_identificacion_delete">
+                                             <option value="">Ninguna</option>
+                                             <option value="04">RUC</option>
+                                             <option value="05">CEDULA</option>
+                                             <option value="06">PASAPORTE</option>
+                                             <option value="07">VENTA A CONSUMIDOR FINAL</option>
+                                             <option value="08">IDENTIFICACION DEL EXTERIOR</option>
+                                           </select>
+                                         </div>
+                                       </div>
+                                     </div>
+
+                                     <div class="form-group">
+                                       <label class="label-guibis-sm">Tipo</label>
+                                       <select disabled class="form-control input-guibis-sm" name="tipo" required id="tipo_delete">
+                                         <option value="Primer Contacto">Primer Contacto</option>
+                                         <option value="NO CONTESTA">NO CONTESTA</option>
+                                         <option value="CONOCIMIENTO">CONOCIMIENTO</option>
+                                         <option value="POTENCIALES">POTENCIALES</option>
+                                         <option value="CONSIDERACIÓN">CONSIDERACIÓN</option>
+                                       </select>
+                                     </div>
+
+                                     <div class="row">
+                                       <div class="col">
+                                         <div class="form-group">
+                                           <label class="label-guibis-sm">Celular</label>
+                                           <input readonly type="number" name="celular" class="form-control input-guibis-sm"  id="celular_delete" placeholder="Celular">
+                                         </div>
+                                       </div>
+                                       <div class="col">
+                                         <div class="form-group">
+                                           <label class="label-guibis-sm">Teléfono</label>
+                                           <input readonly type="number" name="telefono" class="form-control input-guibis-sm"  id="telefono_delete" placeholder="Teléfono">
+                                         </div>
+                                       </div>
+                                     </div>
+
+
+                                     <div class="form-group">
+                                       <label class="label-guibis-sm">Dirección</label>
+                                       <input readonly type="text" name="direccion" class="form-control input-guibis-sm"  id="direccion_delete" placeholder="Dirección">
+                                     </div>
+
+
+
+                                     <div class="form-group">
+                                       <label class="label-guibis-sm">Descripción </label>
+                                       <textarea readonly class="form-control input-guibis-sm" name="descripcion"  id="descripcion_delete" rows="3"></textarea>
+                                     </div>
+
+                                       <div class="modal-footer">
+                                         <input type="hidden" name="action" value="eliminar_contacto" required>
+                                         <input type="hidden" name="id_contacto" id="id_contacto_delete"  value="">
+                                         <button type="button" class="btn btn-danger btn-guibis-medium" data-bs-dismiss="modal">Cerrar <i class="fas fa-times-circle"></i></button>
+                                         <button type="submit" class="btn btn-primary btn-guibis-medium">Eliminar Contacto</button>
+                                       </div>
+                                       <div class="noticia_eliminar_contactos">
+
+                                       </div>
+                                     </form>
+                                 </div>
+                               </div>
                              </div>
                            </div>
-                         </div>
-
-
-                         <div class="form-group">
-                           <label class="label-guibis-sm">Dirección</label>
-                           <input type="text" name="direccion" class="form-control input-guibis-sm"  id="direccion_update" placeholder="Dirección">
-                         </div>
-
-
-
-                         <div class="form-group">
-                           <label class="label-guibis-sm">Descripción </label>
-                           <textarea class="form-control input-guibis-sm" name="descripcion"  id="descripcion_update" rows="3"></textarea>
-                         </div>
-
-                           <div class="modal-footer">
-                             <input type="hidden" name="action" value="editar_contacto" required>
-                             <input type="hidden" name="id_contacto" id="id_contacto"  value="">
-                             <button type="button" class="btn btn-danger btn-guibis-medium" data-bs-dismiss="modal">Cerrar <i class="fas fa-times-circle"></i></button>
-                             <button type="submit" class="btn btn-primary btn-guibis-medium">Editar Contacto</button>
-                           </div>
-                           <div class="noticia_editar_contactos">
-
-                           </div>
-                         </form>
-                     </div>
-                   </div>
-                 </div>
-               </div>
 
 
 
 
 
+                                        <div class="modal fade" id="modal_envirar_mensaje_rapido" tabindex="-1" aria-labelledby="proveedorModalLabel" aria-hidden="true">
+                                          <div class="modal-dialog ">
+                                            <div class="modal-content">
+                                              <div class="modal-header header_guibis" style="background-color: #263238;">
+                                                <h5 class="modal-title" id="proveedorModalLabel">Enviar Mensaje Rápido</h5>
+                                                <button type="button" class="btn-danger" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i>  </button>
+                                              </div>
+                                              <div class="modal-body">
 
-   <div class="modal fade" id="modal_agregar_contactos_wsp" tabindex="-1" aria-labelledby="proveedorModalLabel" aria-hidden="true">
-     <div class="modal-dialog">
-       <div class="modal-content">
-         <div class="modal-header header_guibis" style="background-color: #263238;">
-           <h5 class="modal-title" id="proveedorModalLabel">Agregar Contacto Masivamente de tu Whatsapp</h5>
-           <button type="button" class="btn-danger" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i></button>
-         </div>
-         <div class="modal-body">
-           <form method="post" name="agregar_contacto_masivamente_wsp" id="agregar_contacto_masivamente_wsp" onsubmit="event.preventDefault(); sendData_agregar_contacto_msivamente_wsp()">
-             <div class="row">
-               <div class="col">
-                 <div class="form-group">
-                   <label class="label-guibis-sm">Elige Tu número</label>
-                   <select class="form-control input-guibis-sm" name="numero_guibis" required id="numero_guibis"></select>
-                 </div>
-               </div>
-             </div>
-             <div class="form-group">
-               <label class="label-guibis-sm">Tipo</label>
-               <select class="form-control input-guibis-sm" name="tipo" required id="tipo_update">
-                 <option value="Primer Contacto">Primer Contacto</option>
-                 <option value="NO CONTESTA">NO CONTESTA</option>
-                 <option value="CONOCIMIENTO">CONOCIMIENTO</option>
-                 <option value="POTENCIALES">POTENCIALES</option>
-                 <option value="CONSIDERACIÓN">CONSIDERACIÓN</option>
-               </select>
-             </div>
-             <div class="modal-footer">
-               <input type="hidden" name="action" value="agregar_contacto_masivamente_wsp" required>
-               <button type="button" class="btn btn-danger btn-guibis-medium" data-bs-dismiss="modal">Cerrar <i class="fas fa-times-circle"></i></button>
-               <button type="submit" class="btn btn-primary btn-guibis-medium">Agregar Contactos  Whatsapp</button>
-             </div>
-             <div class="noticia_agregar_contactos_masivamente_wsp"></div>
-           </form>
-         </div>
-       </div>
-     </div>
-   </div>
+                                                  <form method="post" name="enviar_mensaje_rapido" id="enviar_mensaje_rapido" onsubmit="event.preventDefault(); sendData_enviar_mensaje_rapido()" >
 
+                                                    <div class="img_enviar_mensaje_rapido text-center">
 
-               <div class="modal fade" id="modal_eliminar_contacto" tabindex="-1" aria-labelledby="proveedorModalLabel" aria-hidden="true">
-                 <div class="modal-dialog ">
-                   <div class="modal-content">
-                     <div class="modal-header header_guibis" style="background-color: #263238;">
-                       <h5 class="modal-title" id="proveedorModalLabel">Estas segura que deseas eliminar este contacto ? </h5>
-                       <button type="button" class="btn-danger" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i>  </button>
-                     </div>
-                     <div class="modal-body">
+                                                    </div>
+                                                  <div class="row">
+                                                    <div class="col">
+                                                      <div class="form-group">
+                                                        <label class="label-guibis-sm">Elige Tu número</label>
+                                                        <select class="form-control input-guibis-sm" name="numero_guibis" required id="numero_guibis_enviar_mensaje_rapido">
 
-                         <form method="post" name="eliminar_contacto" id="eliminar_contacto" onsubmit="event.preventDefault(); sendData_eliminar_contacto()" >
+                                                        </select>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                  <div class="row">
+                                                    <div class="col">
+                                                      <div class="mb-3">
+                                                        <label class="label-guibis-sm">Mensaje </i></label>
+                                                        <textarea class="form-control input-guibis-sm"   name="mensaje" id="mensaje" rows="3"></textarea>
+                                                      </div>
+                                                    </div>
+                                                  </div>
 
-                           <div class="img_eliminar_contacto text-center">
+                                                  <div class="row">
+                                                    <div class="col">
 
-                           </div>
+                                                      <div class="mb-3">
+                                                        <label class="label-guibis-sm">Quieres elegir una plantilla ? </label>
+                                                        <select class="form-control input-guibis-sm"  name="plantilla_wsp" id="plantilla_wsp">
+                                                          <option value="">Ninguna</option>
+                                                          <?php
+                                                          $query_plantilla = mysqli_query($conection, "SELECT * FROM plantillas_wsp WHERE  plantillas_wsp.iduser= '$iduser'   AND plantillas_wsp.estatus = 1 ");
+                                                          while ($data_plantilla = mysqli_fetch_array($query_plantilla)) {
+                                                            echo '<option  value="' . $data_plantilla['id'] . '">' . $data_plantilla['nombre'] . '</option>';
+                                                          }
+                                                          ?>
+                                                        </select>
+                                                      </div>
 
-                         <div class="form-group">
-                           <label class="label-guibis-sm">Nombres</label>
-                           <input type="text" readonly  class="form-control resultado_nombres_consumo_api input-guibis-sm" id="nombres_delete"  name="nombres" aria-describedby="emailHelp" placeholder="Nombres">
-                         </div>
-                         <div class="form-group">
-                           <label class="label-guibis-sm">Email</label>
-                           <input type="email" readonly name="email" class="form-control input-guibis-sm"  id="email_delete" placeholder="Email">
-                         </div>
+                                                    </div>
 
-                         <div class="row">
-                           <div class="col">
-                             <div class="form-group">
-                               <label class="label-guibis-sm">Identificación</label>
-                               <input type="text" readonly name="identificacion" class="form-control ocupar_api_sacar_informacion input-guibis-sm"  id="identificacion_delete" placeholder="Identificación">
-                             </div>
-                           </div>
-                           <div class="col">
-                             <div class="form-group">
-                               <label class="label-guibis-sm">Tipo de Identificación</label>
-                               <select disabled class="form-control input-guibis-sm" name="tipo_identificacion"  id="tipo_identificacion_delete">
-                                 <option value="">Ninguna</option>
-                                 <option value="04">RUC</option>
-                                 <option value="05">CEDULA</option>
-                                 <option value="06">PASAPORTE</option>
-                                 <option value="07">VENTA A CONSUMIDOR FINAL</option>
-                                 <option value="08">IDENTIFICACION DEL EXTERIOR</option>
-                               </select>
-                             </div>
-                           </div>
-                         </div>
-
-                         <div class="form-group">
-                           <label class="label-guibis-sm">Tipo</label>
-                           <select disabled class="form-control input-guibis-sm" name="tipo" required id="tipo_delete">
-                             <option value="Primer Contacto">Primer Contacto</option>
-                             <option value="NO CONTESTA">NO CONTESTA</option>
-                             <option value="CONOCIMIENTO">CONOCIMIENTO</option>
-                             <option value="POTENCIALES">POTENCIALES</option>
-                             <option value="CONSIDERACIÓN">CONSIDERACIÓN</option>
-                           </select>
-                         </div>
-
-                         <div class="row">
-                           <div class="col">
-                             <div class="form-group">
-                               <label class="label-guibis-sm">Celular</label>
-                               <input readonly type="number" name="celular" class="form-control input-guibis-sm"  id="celular_delete" placeholder="Celular">
-                             </div>
-                           </div>
-                           <div class="col">
-                             <div class="form-group">
-                               <label class="label-guibis-sm">Teléfono</label>
-                               <input readonly type="number" name="telefono" class="form-control input-guibis-sm"  id="telefono_delete" placeholder="Teléfono">
-                             </div>
-                           </div>
-                         </div>
-
-
-                         <div class="form-group">
-                           <label class="label-guibis-sm">Dirección</label>
-                           <input readonly type="text" name="direccion" class="form-control input-guibis-sm"  id="direccion_delete" placeholder="Dirección">
-                         </div>
+                                                  </div>
 
 
 
-                         <div class="form-group">
-                           <label class="label-guibis-sm">Descripción </label>
-                           <textarea readonly class="form-control input-guibis-sm" name="descripcion"  id="descripcion_delete" rows="3"></textarea>
-                         </div>
+                                                  <div class="row">
+                                                    <div class="col">
+                                                      <div class="mb-3">
+                                                            <label class="label-guibis-sm">Archivo</label>
+                                                            <input type="file" name="archivo" class="form-control input-guibis-sm" id="archivo" placeholder="Agregue Archivo">
+                                                        </div>
+                                                    </div>
+                                                  </div>
 
-                           <div class="modal-footer">
-                             <input type="hidden" name="action" value="eliminar_contacto" required>
-                             <input type="hidden" name="id_contacto" id="id_contacto_delete"  value="">
-                             <button type="button" class="btn btn-danger btn-guibis-medium" data-bs-dismiss="modal">Cerrar <i class="fas fa-times-circle"></i></button>
-                             <button type="submit" class="btn btn-primary btn-guibis-medium">Eliminar Contacto</button>
-                           </div>
-                           <div class="noticia_eliminar_contactos">
 
-                           </div>
-                         </form>
-                     </div>
-                   </div>
-                 </div>
-               </div>
+                                                  <div class="row">
+
+                                                    <style media="screen">
+                                                    .sugerencias-list {
+                                                          border: 1px solid #ccc;
+                                                          max-height: 200px;
+                                                          overflow-y: auto;
+                                                          position: absolute; /* Puedes ajustar según tus necesidades */
+                                                          z-index: 1000; /* Asegúrate de que se muestre sobre otros elementos */
+                                                          background-color: white;
+                                                        }
+                                                        .sugerencia-item {
+                                                          padding: 8px;
+                                                          cursor: pointer;
+                                                        }
+                                                        .sugerencia-item:hover {
+                                                          background-color: #f0f0f0;
+                                                        }
+
+                                                        .archivos-agregados {
+                                                            margin-top: 10px;
+                                                        }
+                                                        .archivo-item {
+                                                            display: inline-block;
+                                                            background-color: #f0f0f0;
+                                                            padding: 5px;
+                                                            margin-right: 5px;
+                                                            margin-bottom: 5px;
+                                                            border-radius: 4px;
+                                                        }
+                                                        .archivo-item .remove {
+                                                            color: red;
+                                                            margin-left: 5px;
+                                                            cursor: pointer;
+                                                        }
+                                                    </style>
+                                                    <div class="col">
+                                                      <div class="mb-3">
+                                                            <label class="label-guibis-sm">Búscador Archivos Nube</label>
+                                                            <input type="text" name="buscador_archivos_nube" class="form-control input-guibis-sm" id="buscador_archivos_nube" placeholder="Búscador de Archivos Nube">
+                                                            <div id="sugerencias" class="sugerencias-list" style="display: none;"></div>
+                                                            <input type="hidden" name="archivos_seleccionados" id="archivos_seleccionados">
+                                                        </div>
+                                                        <div id="archivos-agregados" class="archivos-agregados"></div>
+                                                    </div>
+                                                  </div>
+                                                    <div class="modal-footer">
+                                                      <input type="hidden" name="action" value="enviar_mensaje_rapido" required>
+                                                      <input type="hidden" name="contacto" id="contacto_mensaje_envio" value="">
+                                                      <button type="button" class="btn btn-danger btn-guibis-medium" data-bs-dismiss="modal">Cerrar <i class="fas fa-times-circle"></i></button>
+                                                      <button type="submit" class="btn btn-primary btn-guibis-medium">Enviar Mensaje Rápido</button>
+                                                    </div>
+                                                    <div class="noticia_enviar_mensaje_rapido">
+
+                                                    </div>
+                                                  </form>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
 
 
 
@@ -646,15 +864,41 @@ if (empty($_SESSION['active'])) {
     <script src="/assets/vendor/libs/@form-validation/auto-focus.js"></script>
 
     <script src="/assets/js/main.js"></script>
-    <script type="text/javascript" src="mensajeria/servidores_wsp.js?v=6"></script>
-    <script src="embudo_ventas/agregar_contacto.js?v=5"></script>
-    <script src="embudo_ventas/contactos.js?v=3"></script>
-    <script>
-      document.getElementById('open-offcanvas').addEventListener('click', function () {
-        var offcanvasElement = new bootstrap.Offcanvas(document.getElementById('add-new-record'));
-        offcanvasElement.show(); // Muestra el offcanvas
+
+    <script src="embudo_ventas/contactos.js?v=10"></script>
+    <script type="text/javascript">
+
+    $(document).ready(function(){
+      // Evento cuando cambia el valor del select
+      $(document).on('change', '#plantilla_wsp', function(){
+        var cliente = $(this).val(); // Obtener el valor seleccionado
+        console.log(cliente);
+
+        var action = 'info_cliente';
+        $.ajax({
+          url:'mensajeria/plantillas.php',
+          type:'POST',
+          async: true,
+          data: {action:action,cliente:cliente},
+           success: function(response){
+             console.log(response);
+             if (response != 'error') {
+               var info = JSON.parse(response);
+
+               $('#mensaje').val(info.texto);
+
+             }
+           },
+           error:function(error){
+             console.log(error);
+             }
+           });
+
+
       });
+    });
     </script>
+
 
 
   </body>

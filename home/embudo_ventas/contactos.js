@@ -45,7 +45,7 @@ function buscarContactos() {
                                 </div>
                                 <!-- Menú de tres puntos -->
                                 <div class="dropdown position-absolute" style="top: 3px; right: 3px;">
-                                    <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fas fa-ellipsis-v"></i>
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-right resultado_opciones_contactos_embudo " aria-labelledby="dropdownMenuButton">
@@ -70,7 +70,7 @@ function buscarContactos() {
                             </div>
                             <!-- Menú de tres puntos -->
                             <div class="dropdown position-absolute" style="top: 3px; right: 3px;">
-                                <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fas fa-ellipsis-v"></i>
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right resultado_opciones_contactos_embudo " aria-labelledby="dropdownMenuButton">
@@ -95,7 +95,7 @@ function buscarContactos() {
                             </div>
                             <!-- Menú de tres puntos -->
                             <div class="dropdown position-absolute" style="top: 3px; right: 3px;">
-                                <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fas fa-ellipsis-v"></i>
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right resultado_opciones_contactos_embudo " aria-labelledby="dropdownMenuButton">
@@ -120,7 +120,7 @@ function buscarContactos() {
                             </div>
                             <!-- Menú de tres puntos -->
                             <div class="dropdown position-absolute" style="top: 3px; right: 3px;">
-                                <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fas fa-ellipsis-v"></i>
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right resultado_opciones_contactos_embudo " aria-labelledby="dropdownMenuButton">
@@ -145,7 +145,7 @@ function buscarContactos() {
                             </div>
                             <!-- Menú de tres puntos -->
                             <div class="dropdown position-absolute" style="top: 3px; right: 3px;">
-                                <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fas fa-ellipsis-v"></i>
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right resultado_opciones_contactos_embudo " aria-labelledby="dropdownMenuButton">
@@ -178,7 +178,7 @@ $(document).on('click', '.editar_contacto', function() {
     var contacto = $(this).attr('contacto');
     console.log(contacto);
     // Aquí puedes abrir el modal o realizar cualquier acción adicional
-     $('#modal_editar_contacto').modal();
+     $('#modal_editar_contacto').modal('show');
      $(".noticia_editar_contactos").html('');
 
 
@@ -266,7 +266,7 @@ $(document).on('click', '.mensaje_rapido', function() {
     var contacto = $(this).attr('contacto');
     console.log(contacto);
     // Aquí puedes abrir el modal o realizar cualquier acción adicional
-     $('#modal_envirar_mensaje_rapido').modal();
+     $('#modal_envirar_mensaje_rapido').modal('show');
      $(".noticia_enviar_mensaje_rapido").html('');
 
      var action = 'info_contactos';
@@ -450,7 +450,7 @@ $(document).on('click', '.eliminar_contacto', function() {
     var contacto = $(this).attr('contacto');
     console.log(contacto);
     // Aquí puedes abrir el modal o realizar cualquier acción adicional
-     $('#modal_eliminar_contacto').modal();
+     $('#modal_eliminar_contacto').modal('show');
      $(".noticia_eliminar_contactos").html('');
 
      var action = 'info_contactos';
@@ -532,7 +532,7 @@ function sendData_eliminar_contacto(){
 
 $(function() {
   $('#boton_agregar_contacto').on('click', function() {
-    $('#modal_agregar_cliente').modal();
+    $('#modal_agregar_cliente').modal('show');
     $("#nombre_almacen").val('');
     $("#responsable").val('');
     $("#direccion_almacen").val('');
@@ -587,7 +587,7 @@ function sendData_agregar_contacto(){
 
 $(function() {
   $('#boton_agregar_contactos_masivamente_wsp').on('click', function() {
-    $('#modal_agregar_contactos_wsp').modal();
+    $('#modal_agregar_contactos_wsp').modal('show');
     $("#nombre_almacen").val('');
     $("#responsable").val('');
     $("#direccion_almacen").val('');

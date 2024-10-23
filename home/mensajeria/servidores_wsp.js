@@ -24,6 +24,7 @@ $(document).ready(function() {
           { "data": "http_code" },
           { "data": "estado" },
           { "data": "mensaje" },
+          { "data": "rol" },
         ],
 
         "dom": 'Bfrtip',
@@ -184,7 +185,7 @@ $(document).ready(function() {
 
   $(function() {
     $('#boton_agregar_cliente').on('click', function() {
-      $('#modal_agregar_cliente').modal();
+      $('#modal_agregar_cliente').modal('show');
       $("#nombre").val('');
       $("#numero").val('');
       $(".noticia_agregar_numeros").html('');

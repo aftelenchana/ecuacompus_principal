@@ -9,14 +9,7 @@ session_start();
 
   if ($_SESSION['rol'] == 'cuenta_empresa') {
   include "../sessiones/session_cuenta_empresa.php";
-  $empresa = $_COOKIE['empresa_id'];
-  $query_empresas = mysqli_query($conection, "SELECT * FROM empresas_registradas
-    WHERE   empresas_registradas.estatus = 1
-    AND empresas_registradas.id = '$empresa' ");
-    $data_empresa = mysqli_fetch_array($query_empresas);
 
-    $numero_digitos     = $data_empresa['numero_digitos'];
-    $email_empresarial  = $data_empresa['email'];
 
   }
 

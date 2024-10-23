@@ -47,7 +47,7 @@ if (empty($_SESSION['active'])) {
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Servidores</title>
+    <title>Variables Globales</title>
 
     <meta name="description" content="" />
 
@@ -129,10 +129,10 @@ if (empty($_SESSION['active'])) {
 
             <div class="container-xxl flex-grow-1 container-p-y">
 
-              <button class="btn btn-secondary create-new btn-primary waves-effect waves-light" type="button" id="open-offcanvas">
+              <button class="btn btn-secondary create-new btn-primary waves-effect waves-light" type="button" id="boton_agregar_cliente">
                 <span>
                   <i class="ri-add-line ri-16px me-sm-2"></i>
-                  <span class="d-none d-sm-inline-block">Agregar Nuevo Servidor</span>
+                  <span class="d-none d-sm-inline-block">Agregar Nueva Variable</span>
                 </span>
               </button>
 
@@ -142,17 +142,9 @@ if (empty($_SESSION['active'])) {
                   <table id="tabla_clientes" class="table table-bordered">
                     <thead>
                       <tr>
-
                         <th>Acciones</th>
-                        <th>Código</th>
-                        <th>Nombre</th>
-                        <th>Tipo</th>
-                        <th>URL</th>
-                        <th>Http</th>
-                        <th>Estado</th>
-                        <th>Mensaje</th>
-                        <th>Rol</th>
-
+                        <th>ID</th>
+                        <th>Texto</th>
                       </tr>
                     </thead>
                   </table>
@@ -160,78 +152,63 @@ if (empty($_SESSION['active'])) {
               </div>
               <!-- Modal to add new record -->
 
-  <!-- Offcanvas que se mostrará al hacer clic en el botón -->
-  <div class="offcanvas offcanvas-end" id="add-new-record" tabindex="-1" aria-labelledby="exampleModalLabel">
-    <div class="offcanvas-header border-bottom">
-      <h5 class="offcanvas-title" id="exampleModalLabel">Nuevo Servidor </h5>
-      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body flex-grow-1">
-      <!-- Formulario dentro del offcanvas -->
-      <form class="add-new-record pt-0 row g-3" id="add_cliente" onsubmit="return false">
-        <div class="col-sm-12">
-          <div class="input-group input-group-merge">
-            <span id="basicFullname2" class="input-group-text"><i class="ri-user-line ri-18px"></i></span>
-            <div class="form-floating form-floating-outline">
-              <input type="text" id="basicFullname" class="form-control dt-full-name" name="nombre_servidor" placeholder="Nombre Servidor" aria-label="John Doe" aria-describedby="basicFullname2" />
-              <label for="basicFullname">Nombre Servidor</label>
-            </div>
-          </div>
-        </div>
 
-        <div class="col-sm-12">
-          <div class="input-group input-group-merge">
-            <span id="basicFullname2" class="input-group-text"><i class="ri-user-line ri-18px"></i></span>
-            <div class="form-floating form-floating-outline">
-              <input type="text" id="basicFullname" class="form-control dt-full-name" name="url_servidor" placeholder="URl servidor" aria-label="John Doe" aria-describedby="basicFullname2" />
-              <label for="basicFullname">URL servidor</label>
-            </div>
-          </div>
-        </div>
+                             <div class="modal fade" id="modal_agregar_cliente" tabindex="-1" aria-labelledby="proveedorModalLabel" aria-hidden="true">
+                               <div class="modal-dialog">
+                                 <div class="modal-content">
+                                   <div class="modal-header header_guibis" style="background-color: #263238;">
+                                     <h5 class="modal-title" id="proveedorModalLabel">Agregar Variables Globales</h5>
+                                     <button type="button" class="btn-danger" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i>  </button>
+                                   </div>
+                                   <div class="modal-body">
 
-        <div class="col-sm-12">
-          <div class="input-group input-group-merge">
-            <span id="basicFullname2" class="input-group-text"><i class="ri-user-line ri-18px"></i></span>
-            <div class="form-floating form-floating-outline">
-              <!-- Reemplazamos el input por un select -->
-              <select id="basicServer" class="form-select" name="tipo_servidor" aria-label="Selecciona un servidor">
-                <option value="Gratis">Gratis</option>
-                <option value="Pago">Pago</option>
-              </select>
-              <label for="basicServer">Tipo Servidor</label>
-            </div>
-          </div>
-        </div>
+                                     <form action=""  id="add_cliente" >
+                                       <div class="mb-3">
+                                         <label class="label-guibis-sm">Agregue la variables separados por coma (,) </i></label>
+                                         <textarea class="form-control input-guibis-sm"   name="variables" id="texto" rows="3"></textarea>
+                                       </div>
 
-        <div class="col-sm-12">
-            <div class="input-group input-group-merge">
-              <span id="basicRolSistem2" class="input-group-text"><i class="ri-user-line ri-18px"></i></span>
-              <div class="form-floating form-floating-outline">
-                <select id="rol_sistem" class="form-control dt-full-name" name="rol_sistem" aria-label="Seleccionar Rol" aria-describedby="basicRolSistem2">
-                  <option value="Todos">Todos</option>
-                  <option value="Admin">Admin</option>
-                  <option value="Usuario">Usuario</option>
-                </select>
-                <label for="rol_sistem">Rol en el Sistema</label>
-              </div>
-            </div>
-          </div>
+                                         <div class="modal-footer">
+                                           <input type="hidden" name="action" value="agregar_variables_entorno">
+                                           <button type="button" class="btn btn-danger mobtn" data-bs-dismiss="modal">Cerrar <i class="fas fa-times-circle"></i></button>
+                                           <button type="submit" class="btn btn-primary">Agregar Variables Globales <i class="fas fa-plus"></i></button>
+                                         </div>
+                                         <div class="noticia_agregar_variables_entorno"></div>
+                                       </form>
+                                   </div>
+                                 </div>
+                               </div>
+                             </div>
 
 
-        <!-- Más campos aquí -->
-        <div class="col-sm-12">
-            <input type="hidden" name="action" value="agregar_servidor_wsp" required>
-          <button type="submit" class="btn btn-primary data-submit me-sm-4 me-1">Agregar Servidor</button>
-          <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="offcanvas">Cancelar</button>
-        </div>
-        <div class="noticia_agregar_numeros">
 
-        </div>
-      </form>
-    </div>
-  </div>
+                             <div class="modal fade" id="modal_editar_cliente" tabindex="-1" aria-labelledby="proveedorModalLabel" aria-hidden="true">
+                               <div class="modal-dialog">
+                                 <div class="modal-content">
+                                   <div class="modal-header header_guibis" style="background-color: #263238;">
+                                     <h5 class="modal-title" id="proveedorModalLabel">Editar Variable Entorno  </h5>
+                                     <button type="button" class="btn-danger" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i>  </button>
+                                   </div>
+                                   <div class="modal-body">
 
+                                     <form action=""  id="update_cliente" >
 
+                                       <div class="mb-3">
+                                         <label class="label-guibis-sm">Agregue la variables separados por coma (,) </i></label>
+                                         <textarea class="form-control input-guibis-sm"   name="variables" id="variables_edit" rows="3"></textarea>
+                                       </div>
+                                         <div class="modal-footer">
+                                           <input type="hidden" name="action" value="editar_clientes">
+                                           <input type="hidden" name="id_cliente" id="id_cliente" value="">
+                                           <button type="button" class="btn btn-danger mobtn" data-bs-dismiss="modal">Cerrar <i class="fas fa-times-circle"></i></button>
+                                           <button type="submit" class="btn btn-primary">Editar Variable Entorno</button>
+                                         </div>
+                                         <div class="alerta_editar_categoria"></div>
+                                       </form>
+                                   </div>
+                                 </div>
+                               </div>
+                             </div>
 
               <!--/ Multilingual -->
             </div>
@@ -282,14 +259,8 @@ if (empty($_SESSION['active'])) {
     <script src="/assets/vendor/libs/@form-validation/auto-focus.js"></script>
 
     <script src="/assets/js/main.js"></script>
-    <script type="text/javascript" src="mensajeria/servidores_wsp.js?v=7"></script>
+    <script type="text/javascript" src="mensajeria/variables_gloables.js?v=2"></script>
     <!-- Script para mostrar el offcanvas al hacer clic en el botón -->
-    <script>
-      document.getElementById('open-offcanvas').addEventListener('click', function () {
-        var offcanvasElement = new bootstrap.Offcanvas(document.getElementById('add-new-record'));
-        offcanvasElement.show(); // Muestra el offcanvas
-      });
-    </script>
 
 
   </body>

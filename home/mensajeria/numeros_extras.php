@@ -295,27 +295,15 @@ session_start();
 
  if ($_POST['action'] == 'buscar_servidores') {
 
-   if ($iduser == '279') {
-     $query_consulta = mysqli_query($conection, "SELECT servidores_wsp.id,
-       servidores_wsp.url,servidores_wsp.nombre,servidores_wsp.tipo
-        FROM servidores_wsp
-       INNER JOIN numeros_extras ON numeros_extras.servidor = servidores_wsp.id
-        WHERE  servidores_wsp.estatus = '1'
-        AND numeros_extras.iduser = '$iduser'
-     ORDER BY `servidores_wsp`.`fecha` DESC ");
-     // code...
-   }else {
-     $query_consulta = mysqli_query($conection, "SELECT servidores_wsp.id,
-       servidores_wsp.url,servidores_wsp.nombre,servidores_wsp.tipo
-        FROM servidores_wsp
-       INNER JOIN numeros_extras ON numeros_extras.servidor = servidores_wsp.id
-        WHERE  servidores_wsp.estatus = '1'
-        AND servidores_wsp.rol = 'Usuario'
-        AND numeros_extras.iduser = '$iduser'
-     ORDER BY `servidores_wsp`.`fecha` DESC ");
-   }
 
-
+   $query_consulta = mysqli_query($conection, "SELECT servidores_wsp.id,
+     servidores_wsp.url,servidores_wsp.nombre,servidores_wsp.tipo
+      FROM servidores_wsp
+     INNER JOIN numeros_extras ON numeros_extras.servidor = servidores_wsp.id
+      WHERE  servidores_wsp.estatus = '1'
+      AND servidores_wsp.rol = 'Usuario'
+      AND numeros_extras.iduser = '$iduser'
+   ORDER BY `servidores_wsp`.`fecha` DESC ");
 
      // code...
 

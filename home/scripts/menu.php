@@ -145,12 +145,19 @@ $url_conect_wsp       =  $result_configuracion['url_wsp'];
         <div >whatsapp</div>
       </a>
 
+
+
       <ul class="menu-sub">
-        <li class="menu-item">
-          <a href="servidores_wsp_admin" class="menu-link">
-            <div>Servidores</div>
-          </a>
-        </li>
+
+        <?php if ($iduser == '7'): ?>
+          <li class="menu-item">
+            <a href="servidores_wsp_admin" class="menu-link">
+              <div>Servidores</div>
+            </a>
+          </li>
+
+        <?php endif; ?>
+
         <li class="menu-item">
           <a href="numeros_extra_wsp" class="menu-link">
             <div >Números</div>
@@ -166,26 +173,6 @@ $url_conect_wsp       =  $result_configuracion['url_wsp'];
             <div>Campañas Embudo Ventas</div>
           </a>
         </li>
-        <li class="menu-item">
-          <a href="layouts-without-navbar.html" class="menu-link">
-            <div data-i18n="Without navbar">Without navbar</div>
-          </a>
-        </li>
-        <li class="menu-item">
-          <a href="layouts-fluid.html" class="menu-link">
-            <div data-i18n="Fluid">Fluid</div>
-          </a>
-        </li>
-        <li class="menu-item">
-          <a href="layouts-container.html" class="menu-link">
-            <div data-i18n="Container">Container</div>
-          </a>
-        </li>
-        <li class="menu-item">
-          <a href="layouts-blank.html" class="menu-link">
-            <div data-i18n="Blank">Blank</div>
-          </a>
-        </li>
       </ul>
     </li>
 
@@ -193,63 +180,39 @@ $url_conect_wsp       =  $result_configuracion['url_wsp'];
     <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons ri-file-copy-line"></i>
-        <div data-i18n="Front Pages">Front Pages</div>
+        <div>Nube</div>
       </a>
       <ul class="menu-sub">
         <li class="menu-item">
-          <a href="../front-pages/landing-page.html" class="menu-link" target="_blank">
-            <div data-i18n="Landing">Landing</div>
+          <a href="nube_wsp" class="menu-link" target="_blank">
+            <div>Archivos</div>
           </a>
         </li>
-        <li class="menu-item">
-          <a href="../front-pages/pricing-page.html" class="menu-link" target="_blank">
-            <div data-i18n="Pricing">Pricing</div>
-          </a>
-        </li>
-        <li class="menu-item">
-          <a href="../front-pages/payment-page.html" class="menu-link" target="_blank">
-            <div data-i18n="Payment">Payment</div>
-          </a>
-        </li>
-        <li class="menu-item">
-          <a href="../front-pages/checkout-page.html" class="menu-link" target="_blank">
-            <div data-i18n="Checkout">Checkout</div>
-          </a>
-        </li>
-        <li class="menu-item">
-          <a href="../front-pages/help-center-landing.html" class="menu-link" target="_blank">
-            <div data-i18n="Help Center">Help Center</div>
-          </a>
-        </li>
+
       </ul>
     </li>
 
     <!-- Apps & Pages -->
     <li class="menu-header mt-5">
-      <span class="menu-header-text" data-i18n="Apps & Pages">Apps &amp; Pages</span>
+      <span class="menu-header-text" >Configuraciones</span>
     </li>
     <li class="menu-item">
-      <a href="app-email.html" class="menu-link">
+      <a href="variables_globales" class="menu-link">
         <i class="menu-icon tf-icons ri-mail-open-line"></i>
-        <div data-i18n="Email">Email</div>
+        <div>Variables Globales</div>
       </a>
     </li>
     <li class="menu-item">
-      <a href="app-chat.html" class="menu-link">
+      <a href="plantillas_wsp" class="menu-link">
         <i class="menu-icon tf-icons ri-wechat-line"></i>
-        <div data-i18n="Chat">Chat</div>
+        <div >Plantillas</div>
       </a>
     </li>
+
     <li class="menu-item">
-      <a href="app-calendar.html" class="menu-link">
-        <i class="menu-icon tf-icons ri-calendar-line"></i>
-        <div data-i18n="Calendar">Calendar</div>
-      </a>
-    </li>
-    <li class="menu-item">
-      <a href="app-kanban.html" class="menu-link">
+      <a href="historial_campanas" class="menu-link">
         <i class="menu-icon tf-icons ri-drag-drop-line"></i>
-        <div data-i18n="Kanban">Kanban</div>
+        <div>Historial de Campañas</div>
       </a>
     </li>
     <!-- e-commerce-app menu start -->

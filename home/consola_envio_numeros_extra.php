@@ -129,6 +129,8 @@ $url_server = $data_numero_url['url'];
               <div class="card">
 
 
+
+
                 <div class="row container">
                     <div class="col-md-6 col-12">
                         <div class="card">
@@ -137,26 +139,29 @@ $url_server = $data_numero_url['url'];
                             </div>
                             <div class="card-block">
                                <form  class="" method="post" name="iniciar" id="iniciar" onsubmit="event.preventDefault(); sendData_iniciar();">
+
+                                 <div class="mb-3">
+                                   <label class="label-guibis-sm">Nombre de la campaña</label>
+                                   <input  type="text" name="nombre_campana" required class="form-control input-guibis-sm"  id="nombre_campana" placeholder="Nombre de la Campaña">
+                                 </div>
                                 <div class="mb-3">
                                   <label for="descripcion" class="form-label">Ingrese el Mensaje</label>
                                   <textarea class="form-control" required name="descripcion" id="descripcion" rows="7">
-                                    <?php echo '🌟 ¡Bienvenidos a '.$nombre_empresa.'! 🌟
 
-     Hola @name@, esperamos que estés teniendo un excelente día. En '.$nombre_empresa.', nos dedicamos a ofrecerte soluciones rápidas y eficientes para todos tus requerimientos . 🚚💨
-
-
-     Nuestros Servicios:
-
-     Envíos locales y nacionales 🇪🇨
-     Entregas rápidas y seguras 🏃💼
-     Rastreo en tiempo real de tus envíos 📍
-     Si tienes alguna consulta o necesitas una cotización, no dudes en contactarnos:
-
-     Celular: '.$celular_user.' 📞
-     Correo:  '.$email_user.'📧
-     ¡En '.$nombre_empresa.', tu satisfacción es nuestra prioridad! Estamos a tu disposición para cualquier necesidad de envío que tengas. 🌟
-     '; ?>
                                   </textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                  <label class="label-guibis-sm">Quieres elegir una plantilla ? </label>
+                                  <select class="form-control input-guibis-sm"  name="plantilla_wsp" id="plantilla_wsp">
+                                    <option value="">Ninguna</option>
+                                    <?php
+                                    $query_plantilla = mysqli_query($conection, "SELECT * FROM plantillas_wsp WHERE  plantillas_wsp.iduser= '$iduser'   AND plantillas_wsp.estatus = 1 ");
+                                    while ($data_plantilla = mysqli_fetch_array($query_plantilla)) {
+                                      echo '<option  value="' . $data_plantilla['id'] . '">' . $data_plantilla['nombre'] . '</option>';
+                                    }
+                                    ?>
+                                  </select>
                                 </div>
 
 
@@ -339,7 +344,6 @@ $url_server = $data_numero_url['url'];
                                                            $modtrar_grupos = 'no_grupos';
                                                        }
 
-
                                                   ?>
 
                                                   <?php if ($modtrar_grupos == 'si_grupos'): ?>
@@ -477,6 +481,8 @@ $url_server = $data_numero_url['url'];
                                      <input type="checkbox" class="form-check-input input-guibis-sm" name="incluir_nombre" id="incluir_nombre">
                                  </div>
 
+                                 <input type="hidden" name="numero_extra" value="<?php echo $data_numero['id'] ?>">
+
                                  <div class="row">
                                      <div class="col">
                                          <div class="form-check">
@@ -507,15 +513,13 @@ $url_server = $data_numero_url['url'];
                                      Solo procesará inertamente las campañas publicitarias
                                  </div>
 
-                                 <input type="hidden" name="numero_extra" value="<?php echo $data_numero['id'] ?>">
+
 
                                  <div class="contenedior_general_boton_enviar">
                                      <button type="submit" class="btn btn-success btn-guibis-medium" >  <i class="fab fa-whatsapp"></i> Procesar Campaña Mensaje </button>
                                  </div>
-                                 <input type="hidden" name="metodo_envio" value="numeros_extra">
-
-
                                   <input type="hidden" name="action" value="iniciar_campana">
+                                  <input type="hidden" name="metodo_envio" value="numeros_extras">
                                   <div class="alerta_inicio_campana"></div>
                                 </form>
                             </div>
@@ -558,10 +562,6 @@ $url_server = $data_numero_url['url'];
 
 
                 </div>
-
-
-
-
 
 
 
@@ -620,6 +620,38 @@ $url_server = $data_numero_url['url'];
 
     <script type="text/javascript" src="mensajeria/enviar_mensaje_numeros_extra.js?v=10"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script type="text/javascript">
+
+    $(document).ready(function(){
+      // Evento cuando cambia el valor del select
+      $(document).on('change', '#plantilla_wsp', function(){
+        var cliente = $(this).val(); // Obtener el valor seleccionado
+        console.log(cliente);
+
+        var action = 'info_cliente';
+        $.ajax({
+          url:'mensajeria/plantillas.php',
+          type:'POST',
+          async: true,
+          data: {action:action,cliente:cliente},
+           success: function(response){
+             console.log(response);
+             if (response != 'error') {
+               var info = JSON.parse(response);
+
+               $('#descripcion').val(info.texto);
+
+             }
+           },
+           error:function(error){
+             console.log(error);
+             }
+           });
+
+
+      });
+    });
+    </script>
 
             <script type="text/javascript">
           function handleFileSelect(evt) {
@@ -913,6 +945,8 @@ function updateResult(intervals) {
 });
 
 </script>
+
+
 
 
 

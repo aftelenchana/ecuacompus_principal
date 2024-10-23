@@ -5,8 +5,7 @@ include "../coneccion.php";
 mysqli_set_charset($conection, 'utf8mb4'); //linea a colocar
 session_start();
 
-echo md5('r^zyf5QbPDfG!vA)');
-exit;
+
 if (empty($_SESSION['active'])) {
     header('location:/');
 } else {
@@ -128,26 +127,31 @@ if (empty($_SESSION['active'])) {
                             </div>
                             <div class="card-block">
                                <form  class="" method="post" name="iniciar" id="iniciar" onsubmit="event.preventDefault(); sendData_iniciar();">
+
+                                 <div class="mb-3">
+                                   <label class="label-guibis-sm">Nombre de la campaña</label>
+                                   <input  type="text" name="nombre_campana" required class="form-control input-guibis-sm"  id="nombre_campana" placeholder="Nombre de la Campaña">
+                                 </div>
+
+
                                 <div class="mb-3">
                                   <label for="descripcion" class="form-label">Ingrese el Mensaje</label>
                                   <textarea class="form-control" required name="descripcion" id="descripcion" rows="7">
-                                    <?php echo '🌟 ¡Bienvenidos a '.$nombre_empresa.'! 🌟
 
-     Hola @name@, esperamos que estés teniendo un excelente día. En '.$nombre_empresa.', nos dedicamos a ofrecerte soluciones rápidas y eficientes para todos tus requerimientos . 🚚💨
-
-
-     Nuestros Servicios:
-
-     Envíos locales y nacionales 🇪🇨
-     Entregas rápidas y seguras 🏃💼
-     Rastreo en tiempo real de tus envíos 📍
-     Si tienes alguna consulta o necesitas una cotización, no dudes en contactarnos:
-
-     Celular: '.$celular_user.' 📞
-     Correo:  '.$email_user.'📧
-     ¡En '.$nombre_empresa.', tu satisfacción es nuestra prioridad! Estamos a tu disposición para cualquier necesidad de envío que tengas. 🌟
-     '; ?>
                                   </textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                  <label class="label-guibis-sm">Quieres elegir una plantilla ? </label>
+                                  <select class="form-control input-guibis-sm"  name="plantilla_wsp" id="plantilla_wsp">
+                                    <option value="">Ninguna</option>
+                                    <?php
+                                    $query_plantilla = mysqli_query($conection, "SELECT * FROM plantillas_wsp WHERE  plantillas_wsp.iduser= '$iduser'   AND plantillas_wsp.estatus = 1 ");
+                                    while ($data_plantilla = mysqli_fetch_array($query_plantilla)) {
+                                      echo '<option  value="' . $data_plantilla['id'] . '">' . $data_plantilla['nombre'] . '</option>';
+                                    }
+                                    ?>
+                                  </select>
                                 </div>
 
 
@@ -185,9 +189,11 @@ if (empty($_SESSION['active'])) {
 
                                  <!-- Pestañas (Tabs) -->
                                  <ul class="nav nav-tabs" id="myTab" role="tablist">
+
                                      <li class="nav-item">
                                          <a class="nav-link" id="autorizaciones-sri-tab" data-bs-toggle="tab" href="#autorizaciones-sri" role="tab" aria-controls="autorizaciones-sri" aria-selected="false">Archivo Excel</a>
                                      </li>
+
 
                                  </ul>
 
@@ -228,6 +234,66 @@ if (empty($_SESSION['active'])) {
                                      </div>
 
 
+
+                                     <!-- Contenido de la pestaña RRHH -->
+                                     <div class="tab-pane fade" id="numeros" role="tabpanel" aria-labelledby="numeros-tab">
+                                         <div class="card mt-3">
+                                             <div class="card-header bg-primary text-white">
+                                               Números
+                                             </div>
+                                             <div class="card-body">
+
+
+
+                                                                           <style>
+                                                                             .tag {
+                                                                                 display: inline-block;
+                                                                                 background-color: #f1f1f1;
+                                                                                 border-radius: 20px;
+                                                                                 padding: 5px 10px;
+                                                                                 margin-right: 5px;
+                                                                                 margin-bottom: 5px;
+                                                                                 font-size: 14px;
+                                                                             }
+                                                                             .tag i {
+                                                                                 margin-left: 10px;
+                                                                                 cursor: pointer;
+                                                                             }
+                                                                             .tag-container {
+                                                                                 margin-top: 10px;
+                                                                             }
+                                                                             .contact-list {
+                                                                                 max-height: 150px;
+                                                                                 overflow-y: auto;
+                                                                                 background-color: white;
+                                                                                 border: 1px solid #ced4da;
+                                                                                 border-radius: 0.25rem;
+                                                                                 z-index: 1000;
+                                                                                 position: absolute;
+                                                                                 width: 100%;
+                                                                             }
+                                                                             .contact-list div {
+                                                                                 padding: 10px;
+                                                                                 cursor: pointer;
+                                                                             }
+                                                                             .contact-list div:hover {
+                                                                                 background-color: #f1f1f1;
+                                                                             }
+                                                                         </style>
+
+                                                                         <div class=" mt-4">
+                                                           <label for="contactInput">Escribe @ para buscar contactos:</label>
+                                                           <input type="text" id="contactInput" class="form-control" placeholder="Escribe @ y selecciona un contacto">
+                                                           <div id="contactList" class="list-group mt-2 d-none"></div>
+
+                                                           <div id="tagContainer" class="mt-3"></div>
+                                                           <input type="hidden" id="hiddenContacts" name="selected_contacts">
+
+                                                       </div>
+
+                                             </div>
+                                         </div>
+                                     </div>
                                  </div>
 
                                  <div class="mb-3">
@@ -288,6 +354,7 @@ if (empty($_SESSION['active'])) {
                                  <div id="alerta_diferido" class="alert alert-warning background-warning" style="display: none;">
                                      Solo procesará inertamente las campañas publicitarias
                                  </div>
+
 
 
                                  <div class="contenedior_general_boton_enviar">
@@ -405,6 +472,39 @@ if (empty($_SESSION['active'])) {
     <script type="text/javascript" src="mensajeria/enviar_mensaje_numeros_extra.js?v=10"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
 
+    <script type="text/javascript">
+
+    $(document).ready(function(){
+      // Evento cuando cambia el valor del select
+      $(document).on('change', '#plantilla_wsp', function(){
+        var cliente = $(this).val(); // Obtener el valor seleccionado
+        console.log(cliente);
+
+        var action = 'info_cliente';
+        $.ajax({
+          url:'mensajeria/plantillas.php',
+          type:'POST',
+          async: true,
+          data: {action:action,cliente:cliente},
+           success: function(response){
+             console.log(response);
+             if (response != 'error') {
+               var info = JSON.parse(response);
+
+               $('#descripcion').val(info.texto);
+
+             }
+           },
+           error:function(error){
+             console.log(error);
+             }
+           });
+
+
+      });
+    });
+    </script>
+
             <script type="text/javascript">
           function handleFileSelect(evt) {
               var files = evt.target.files;
@@ -467,7 +567,7 @@ if (empty($_SESSION['active'])) {
 
           <script>
               // Lista de contactos JSON devuelta por la API
-              const contacts = <?php echo json_encode($data); ?>;
+              const contacts = "";
               console.log('Contacts:', contacts);
 
               const contactInput = document.getElementById('contactInput');

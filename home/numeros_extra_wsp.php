@@ -133,6 +133,8 @@ if (empty($_SESSION['active'])) {
                         <th>Acciones</th>
                         <th>Nombre</th>
                         <th>Número</th>
+                        <th>Servidor</th>
+                        <th>Tipo</th>
                         <th>Status</th>
                         <th>Mensaje</th>
                         <th>QR</th>
@@ -172,6 +174,33 @@ if (empty($_SESSION['active'])) {
             </div>
           </div>
         </div>
+
+
+        <div class="col-sm-12">
+            <div class="input-group input-group-merge">
+              <span id="basicContectoSystem2" class="input-group-text"><i class="ri-user-line ri-18px"></i></span>
+              <div class="form-floating form-floating-outline">
+                <textarea id="contecto_system" class="form-control dt-full-name" name="contecto_system" placeholder="Contenido del sistema" aria-label="Contenido del sistema" aria-describedby="basicContectoSystem2"></textarea>
+                <label for="contecto_system">Entrenamiento</label>
+              </div>
+            </div>
+          </div>
+
+
+
+
+
+
+        <div class="col-sm-12">
+          <div class="input-group input-group-merge">
+            <span id="basicEstadoIA2" class="input-group-text"><i class="ri-user-line ri-18px"></i></span>
+            <div class="form-floating form-floating-outline">
+              <input type="text" id="estado_inteligencia_artificial" class="form-control dt-full-name" name="estado_inteligencia_artificial" placeholder="Estado IA" aria-label="Estado IA" aria-describedby="basicEstadoIA2" />
+              <label for="estado_inteligencia_artificial">Estado IA</label>
+            </div>
+          </div>
+        </div>
+
 
         <div class="col-sm-12">
           <div class="input-group input-group-merge">
@@ -332,7 +361,7 @@ if (empty($_SESSION['active'])) {
     <script src="/assets/vendor/libs/@form-validation/auto-focus.js"></script>
 
     <script src="/assets/js/main.js"></script>
-    <script type="text/javascript" src="mensajeria/numeros_extras.js?v=7"></script>
+    <script type="text/javascript" src="mensajeria/numeros_extras.js?v=8"></script>
     <!-- Script para mostrar el offcanvas al hacer clic en el botón -->
     <script>
       document.getElementById('open-offcanvas').addEventListener('click', function () {

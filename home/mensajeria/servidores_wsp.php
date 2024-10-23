@@ -143,9 +143,11 @@ session_start();
            $url_servidor       = $_POST['url_servidor'];
            $tipo_servidor      = $_POST['tipo_servidor'];
 
+           $rol_sistem      = $_POST['rol_sistem'];
 
-   $query_insert=mysqli_query($conection,"INSERT INTO servidores_wsp (nombre,url,tipo)
-                                 VALUES('$nombre_servidor','$url_servidor','$tipo_servidor') ");
+
+   $query_insert=mysqli_query($conection,"INSERT INTO servidores_wsp (nombre,url,tipo,rol)
+                                 VALUES('$nombre_servidor','$url_servidor','$tipo_servidor','$rol_sistem') ");
 
    if ($query_insert) {
 

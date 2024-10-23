@@ -108,7 +108,7 @@ $(document).ready(function() {
         });
     });
     $('#tabla_clientes').on('click', '.editar_cliente', function(){
-        $('#modal_editar_cliente').modal();
+        $('#modal_editar_cliente').modal('show');
         $(".alerta_editar_archivo").html('');
         var cliente = $(this).attr('cliente');
         var action = 'info_cliente';
@@ -185,7 +185,7 @@ $(document).ready(function() {
 
   $(function() {
     $('#boton_agregar_cliente').on('click', function() {
-      $('#modal_agregar_cliente').modal();
+      $('#modal_agregar_cliente').modal('show');
       $("#foto_subida").val('');
       $("#descripcion").val('');
       $(".noticia_agregar_variables_entorno").html('');
