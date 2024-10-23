@@ -2,7 +2,7 @@ $(document).ready(function() {
     // Inicialización de DataTable
     var tabla_clientes = $('#tabla_clientes').DataTable({
         "ajax": {
-            "url": "mensajeria/variables_gloables.php",
+            "url": "mensajeria/plantillas.php",
             "type": "POST",
             "data": {
                 "action": 'consultar_datos'
@@ -18,12 +18,8 @@ $(document).ready(function() {
               return '<button type="button" cliente="'+data+'" class="btn btn-danger sucursal_'+data+' eliminar_cliente"><i class="fas fa-trash-alt"></i></button>' +
                      '<button type="button" cliente="'+data+'" class="btn btn-warning sucursal_'+data+' editar_cliente"><i class="fas fa-edit"></i></button>';
           }},
-          {
-               "data": "id",
-               "render": function (data, type, row) {
-                   return '#' + data + '#';
-               }
-           },
+          { "data": "id" },
+          { "data": "nombre" },
           { "data": "texto" },
 
 
@@ -50,7 +46,7 @@ $(document).ready(function() {
         var parametros = new FormData($('#add_cliente')[0]);
         $.ajax({
             data: parametros,
-            url: 'mensajeria/variables_gloables.php',
+            url: 'mensajeria/plantillas.php',
             type: 'POST',
             contentType: false,
             processData: false,
@@ -65,7 +61,7 @@ $(document).ready(function() {
 
                     if (info.noticia == 'insert_correct') {
                                     $('.noticia_agregar_variables_entorno').html('<div class="alert alert-success background-success">'+
-                                        '<strong>Número Extra !</strong> Registrado correctamente'+
+                                        '<strong>Plantilla  !</strong> agregada correctamente'+
                                     '</div>');
                                     tabla_clientes.ajax.reload(); // Recargar los datos en la tabla
                                 }
@@ -86,7 +82,7 @@ $(document).ready(function() {
         var cliente = $(this).attr('cliente');
         var action = 'eliminar_cliente';
         $.ajax({
-            url: 'mensajeria/variables_gloables.php',
+            url: 'mensajeria/plantillas.php',
             type: 'POST',
             async: true,
             data: {action: action,cliente:cliente},
@@ -114,7 +110,7 @@ $(document).ready(function() {
         var cliente = $(this).attr('cliente');
         var action = 'info_cliente';
         $.ajax({
-            url: 'mensajeria/variables_gloables.php',
+            url: 'mensajeria/plantillas.php',
             type: 'POST',
             async: true,
             data: {action: action, cliente: cliente},
@@ -122,7 +118,8 @@ $(document).ready(function() {
                 console.log(response);
                 if (response != 'error') {
                     var info = JSON.parse(response);
-                    $("#variables_edit").val(info.texto);
+                    $("#nombre_update").val(info.nombre);
+                    $("#texto_update").val(info.texto);
                     $("#id_cliente").val(info.id);
                 }
             },
@@ -140,7 +137,7 @@ $(document).ready(function() {
         var parametros = new FormData($('#update_cliente')[0]);
         $.ajax({
             data: parametros,
-            url: 'mensajeria/variables_gloables.php',
+            url: 'mensajeria/plantillas.php',
             type: 'POST',
             contentType: false,
             processData: false,
@@ -187,9 +184,50 @@ $(document).ready(function() {
   $(function() {
     $('#boton_agregar_cliente').on('click', function() {
       $('#modal_agregar_cliente').modal();
-      $("#nombre").val('');
-      $("#numero").val('');
-      $(".noticia_agregar_numeros").html('');
+      $("#texto").val('');
+      $(".noticia_agregar_plantilla").html('');
 
     });
   });
+
+
+
+  document.addEventListener('DOMContentLoaded', function() {
+      const textarea = document.getElementById('texto');
+      const vistaPrevia = document.getElementById('vistaPrevia');
+
+      // Escuchar el evento 'input' en el textarea
+      textarea.addEventListener('input', function() {
+          // Reemplazar saltos de línea con <br>, conservar espacios y convertir asteriscos en negrita
+          const textoConFormatos = textarea.value
+              .replace(/\n/g, '<br>') // Reemplazar saltos de línea con <br>
+              .replace(/ /g, '&nbsp;') // Reemplazar espacios con &nbsp;
+
+
+          // Actualizar el contenido del div de vista previa
+          vistaPrevia.innerHTML = textoConFormatos;
+      });
+  });
+
+
+
+  function handleFileSelect(evt) {
+      var files = evt.target.files;
+      for (var i = 0, f; f = files[i]; i++) {
+        if (!f.type.match('image.*')) {
+          continue;
+        }
+
+        var reader = new FileReader();
+        reader.onload = (function(theFile) {
+          return function(e) {
+            var span = document.createElement('span');
+            span.innerHTML = ['<img class="img_galeria" src="', e.target.result, '" title="', escape(theFile.name), '"/>'].join('');
+            document.getElementById('miniaturas_productos').insertBefore(span, null);
+            document.getElementById('miniaturas_vista_previa_salida_imagenes').insertBefore(span, null);
+          };
+        })(f);
+        reader.readAsDataURL(f);
+      }
+    }
+      document.getElementById('lista').addEventListener('change', handleFileSelect, false);

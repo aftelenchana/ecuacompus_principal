@@ -18,6 +18,8 @@ session_start();
 
     if ($_SESSION['rol'] == 'cuenta_empresa') {
     include "../sessiones/session_cuenta_empresa.php";
+    $empresa = $_COOKIE['empresa_id'];
+
 
 
     }

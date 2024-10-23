@@ -28,9 +28,9 @@ session_start();
 
  if ($_POST['action'] == 'consultar_datos') {
 
-   $query_consulta = mysqli_query($conection, "SELECT * FROM variables_globales
-      WHERE   variables_globales.estatus = '1' AND variables_globales.iduser = '$iduser'
-   ORDER BY `variables_globales`.`fecha` DESC ");
+   $query_consulta = mysqli_query($conection, "SELECT * FROM mensajes_masivos_wsp
+      WHERE   mensajes_masivos_wsp.estatus = '1' AND mensajes_masivos_wsp.iduser = '$iduser'
+   ORDER BY `mensajes_masivos_wsp`.`fecha` DESC ");
 
    $data = array();
 while ($row = mysqli_fetch_assoc($query_consulta)) {

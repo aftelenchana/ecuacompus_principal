@@ -80,37 +80,60 @@ session_start();
 
       }
 
-      // Separar el mensaje en palabras
-          $palabras = explode(" ", $mensaje);
+      // Array para almacenar las variables encontradas
+        $variables_encontradas = [];
 
-          // Recorrer cada palabra
-          foreach ($palabras as &$palabra) {
-              // Verificar si la palabra empieza y termina con #
-              if (substr($palabra, 0, 1) == '#' && substr($palabra, -1) == '#') {
-                  // Extraer el número dentro de los ##
-                  $codigo_encontrado = substr($palabra, 1, -1);
+        // Usamos una expresión regular para encontrar todas las ocurrencias entre #
+        // Usamos una expresión regular para encontrar todas las variables entre #
+        preg_match_all('/#(.*?)#/', $mensaje, $coincidencias);
 
-                  //echo "este es el codigo encontrado $codigo_encontrado";
+        // Si hay coincidencias, las agregamos al array
+        $variables_encontradas = $coincidencias[1];
 
-                  // Realizar la consulta en la base de datos para ese número
-                  $query_consulta = mysqli_query($conection, "SELECT texto FROM variables_globales WHERE estatus = '1' AND id = '$codigo_encontrado'");
+        // Recorrer las variables encontradas y hacer el reemplazo en el mensaje
+        foreach ($variables_encontradas as $variable) {
 
-                  if ($row = mysqli_fetch_assoc($query_consulta)) {
-                      // Obtener el campo 'texto', separarlo por comas y elegir un elemento aleatorio
-                      $opciones = explode(",", $row['texto']);
-                      $texto_reemplazo = trim($opciones[array_rand($opciones)]); // Elegir un valor aleatorio
+            // Realizar la consulta en la base de datos para esa variable
+            $query_consulta = mysqli_query($conection, "SELECT texto FROM variables_globales WHERE estatus = '1' AND id = '$variable'");
 
-                      // Reemplazar el valor original entre ## con el texto aleatorio
-                      $palabra = $texto_reemplazo;
-                  }
-              }
-          }
+            if ($row = mysqli_fetch_assoc($query_consulta)) {
+                // Obtener el campo 'texto', separarlo por comas y elegir un elemento aleatorio
+                $opciones = explode(",", $row['texto']);
+                $texto_reemplazo = trim($opciones[array_rand($opciones)]); // Elegir un valor aleatorio
 
-        $mensaje = implode(" ", $palabras);
+                // Reemplazar en el mensaje la variable original #variable# por el texto aleatorio
+                $mensaje = str_replace("#$variable#", $texto_reemplazo, $mensaje);
+            }
+        }
 
 
-        //echo "$mensaje";
-        //exit;
+        // Separar el mensaje en palabras
+            $palabras = explode(" ", $mensaje);
+
+            // Recorrer cada palabra
+            foreach ($palabras as &$palabra) {
+                // Verificar si la palabra empieza y termina con #
+                if (substr($palabra, 0, 1) == '#' && substr($palabra, -1) == '#') {
+                    // Extraer el número dentro de los ##
+                    $codigo_encontrado = substr($palabra, 1, -1);
+
+                    //echo "este es el codigo encontrado $codigo_encontrado";
+
+                    // Realizar la consulta en la base de datos para ese número
+                    $query_consulta = mysqli_query($conection, "SELECT texto FROM variables_globales WHERE estatus = '1' AND id = '$codigo_encontrado'");
+
+                    if ($row = mysqli_fetch_assoc($query_consulta)) {
+                        // Obtener el campo 'texto', separarlo por comas y elegir un elemento aleatorio
+                        $opciones = explode(",", $row['texto']);
+                        $texto_reemplazo = trim($opciones[array_rand($opciones)]); // Elegir un valor aleatorio
+
+                        // Reemplazar el valor original entre ## con el texto aleatorio
+                        $palabra = $texto_reemplazo;
+                    }
+                }
+            }
+
+          $mensaje = implode(" ", $palabras);
 
 
     //PRIMERA API VERIFICAR LA SESION

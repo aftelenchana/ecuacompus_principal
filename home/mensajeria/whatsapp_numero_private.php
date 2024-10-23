@@ -39,12 +39,9 @@ session_start();
 
 
 
-
   if ($_POST['action'] == 'informacion_session') {
 
     $key_wsp_numero_private = $_POST['key_wsp_numero_private'];
-
-    //SACAMOS LA INFORMACION DE NUMEROS QUE VIENE CON EL SEERVER
 
     $query_consulta_numero = mysqli_query($conection, "SELECT servidores_wsp.url FROM numeros_extras
       INNER JOIN servidores_wsp ON servidores_wsp.id = numeros_extras.servidor
@@ -58,6 +55,8 @@ session_start();
     $ch = curl_init();
 
     $url_verificacion_session = ''.$url_server.'/check-session';
+
+  //  echo "$url_verificacion_session";
 
     $postData = array(
         'sessionId' => $key_wsp_numero_private  // Asegúrate de enviar los datos requeridos por la API
@@ -93,6 +92,12 @@ session_start();
         exit;
     }
 
+    if (isset($data['error']) && $data['error'] == 'Sesión no encontrada en la memoria.') {
+        $arrayName = array('noticia' => 'Sesión no encontrada.', 'accion' => 'init_session');
+        echo json_encode($arrayName, JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
     if (isset($data['status']) && $data['status'] == 'inactiva') {
         $url_vie = ' '.$url_server.'/get-qr/'.$key_wsp_numero_private.'';
         $arrayName = array('noticia' => 'Inactiva', 'accion' => 'vizualisar_qr', 'url_vie' => $url_vie);
@@ -119,6 +124,7 @@ session_start();
        WHERE numeros_extras.estatus = '1' AND numeros_extras.key_wsp = '$key_wsp_numero_private' ");
    $data_numero = mysqli_fetch_array($query_consulta_numero);
    $url_server = $data_numero['url'];
+
 
     //PRIMERA API VERIFICAR LA SESION
     $ch = curl_init();
@@ -170,12 +176,12 @@ session_start();
 
     $key_wsp_numero_private = $_POST['key_wsp_numero_private'];
 
+    $query_consulta_numero = mysqli_query($conection, "SELECT servidores_wsp.url FROM numeros_extras
+      INNER JOIN servidores_wsp ON servidores_wsp.id = numeros_extras.servidor
+       WHERE numeros_extras.estatus = '1' AND numeros_extras.key_wsp = '$key_wsp_numero_private' ");
+   $data_numero = mysqli_fetch_array($query_consulta_numero);
+   $url_server = $data_numero['url'];
 
-        $query_consulta_numero = mysqli_query($conection, "SELECT servidores_wsp.url FROM numeros_extras
-          INNER JOIN servidores_wsp ON servidores_wsp.id = numeros_extras.servidor
-           WHERE numeros_extras.estatus = '1' AND numeros_extras.key_wsp = '$key_wsp_numero_private' ");
-       $data_numero = mysqli_fetch_array($query_consulta_numero);
-       $url_server = $data_numero['url'];
 
     //PRIMERA API VERIFICAR LA SESION
     $ch = curl_init();
@@ -232,12 +238,12 @@ session_start();
 
     $key_wsp_numero_private = $_POST['key_wsp_numero_private'];
 
-
     $query_consulta_numero = mysqli_query($conection, "SELECT servidores_wsp.url FROM numeros_extras
       INNER JOIN servidores_wsp ON servidores_wsp.id = numeros_extras.servidor
        WHERE numeros_extras.estatus = '1' AND numeros_extras.key_wsp = '$key_wsp_numero_private' ");
    $data_numero = mysqli_fetch_array($query_consulta_numero);
    $url_server = $data_numero['url'];
+
 
     //PRIMERA API VERIFICAR LA SESION
     $ch = curl_init();

@@ -80,7 +80,19 @@ function sendData_iniciar() {
 
                     if (info.modo_tiempo == 'diferido') {
 
-                        $(".alerta_inicio_campana").html('<div class="alert alert-success" role="alert">Se ha guardado la campaña exitosamente para la fecha '+info.fecha_hora_envio+' !</div>');
+                        $(".alerta_inicio_campana").html('<div class="alert alert-success" role="alert">Se ha guardado la campaña exitosamente con '+info.cantidad_datos+' datos, para la fecha '+info.fecha_hora_envio+' !</div>');
+
+                    }
+
+                    if (info.noticia == 'error_isnertar_mensajes_masivos') {
+                      $(".alerta_inicio_campana").html('<div class="alert alert-danger" role="alert">Error al insertar  '+info.contenido_error+' !</div>');
+
+
+                    }
+
+                    if (info.noticia == 'no_procesar_no_datos') {
+                      $(".alerta_inicio_campana").html('<div class="alert alert-danger" role="alert">Agrega números para el envio!</div>');
+
 
                     }
 

@@ -2,7 +2,7 @@ $(document).ready(function() {
     // Inicialización de DataTable
     var tabla_clientes = $('#tabla_clientes').DataTable({
         "ajax": {
-            "url": "mensajeria/variables_gloables.php",
+            "url": "mensajeria/nube.php",
             "type": "POST",
             "data": {
                 "action": 'consultar_datos'
@@ -18,13 +18,12 @@ $(document).ready(function() {
               return '<button type="button" cliente="'+data+'" class="btn btn-danger sucursal_'+data+' eliminar_cliente"><i class="fas fa-trash-alt"></i></button>' +
                      '<button type="button" cliente="'+data+'" class="btn btn-warning sucursal_'+data+' editar_cliente"><i class="fas fa-edit"></i></button>';
           }},
-          {
-               "data": "id",
-               "render": function (data, type, row) {
-                   return '#' + data + '#';
-               }
-           },
-          { "data": "texto" },
+          { "data": "id" },
+          { "data": "tipo" },
+          { "data": "descripcion" },
+          { "data": "api_message" },
+          { "data": "api_size" },
+          { "data": "api_createdAt" },
 
 
         ],
@@ -50,7 +49,7 @@ $(document).ready(function() {
         var parametros = new FormData($('#add_cliente')[0]);
         $.ajax({
             data: parametros,
-            url: 'mensajeria/variables_gloables.php',
+            url: 'mensajeria/nube.php',
             type: 'POST',
             contentType: false,
             processData: false,
@@ -86,7 +85,7 @@ $(document).ready(function() {
         var cliente = $(this).attr('cliente');
         var action = 'eliminar_cliente';
         $.ajax({
-            url: 'mensajeria/variables_gloables.php',
+            url: 'mensajeria/nube.php',
             type: 'POST',
             async: true,
             data: {action: action,cliente:cliente},
@@ -110,11 +109,11 @@ $(document).ready(function() {
     });
     $('#tabla_clientes').on('click', '.editar_cliente', function(){
         $('#modal_editar_cliente').modal();
-        $(".alerta_editar_categoria").html('');
+        $(".alerta_editar_archivo").html('');
         var cliente = $(this).attr('cliente');
         var action = 'info_cliente';
         $.ajax({
-            url: 'mensajeria/variables_gloables.php',
+            url: 'mensajeria/nube.php',
             type: 'POST',
             async: true,
             data: {action: action, cliente: cliente},
@@ -122,8 +121,8 @@ $(document).ready(function() {
                 console.log(response);
                 if (response != 'error') {
                     var info = JSON.parse(response);
-                    $("#variables_edit").val(info.texto);
-                    $("#id_cliente").val(info.id);
+                    $("#descripcion_update").val(info.descripcion);
+                    $("#id_archivo").val(info.id);
                 }
             },
             error: function(error){
@@ -134,13 +133,13 @@ $(document).ready(function() {
 
     // Función para editar
     function sendData_update_cliente(){
-        $('.alerta_editar_categoria').html(' <div class="notificacion_negativa">'+
+        $('.alerta_editar_archivo').html(' <div class="notificacion_negativa">'+
             '<div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>'+
         '</div>');
         var parametros = new FormData($('#update_cliente')[0]);
         $.ajax({
             data: parametros,
-            url: 'mensajeria/variables_gloables.php',
+            url: 'mensajeria/nube.php',
             type: 'POST',
             contentType: false,
             processData: false,
@@ -153,14 +152,14 @@ $(document).ready(function() {
                 } else {
                     var info = JSON.parse(response);
                     if (info.noticia == 'insert_correct') {
-                                    $('.alerta_editar_categoria').html('<div class="alert alert-success background-success">'+
-                                        '<strong>Variables !</strong> Editado Correctamente'+
+                                    $('.alerta_editar_archivo').html('<div class="alert alert-success background-success">'+
+                                        '<strong>Archivo !</strong> Editado Correctamente'+
                                     '</div>');
                                     tabla_clientes.ajax.reload(); // Recargar los datos en la tabla
                                 }
                   if (info.noticia == 'error_insertar') {
-                      $('.alerta_editar_categoria').html('<div class="alert alert-danger background-danger">'+
-                          '<strong>Error!</strong>Error en el servidor'+
+                      $('.alerta_editar_archivo').html('<div class="alert alert-danger background-danger">'+
+                          '<strong>Error!</strong>Error en el servidor '+info.contenido_error+' '+
                       '</div>');
                   }
                 }
@@ -187,9 +186,9 @@ $(document).ready(function() {
   $(function() {
     $('#boton_agregar_cliente').on('click', function() {
       $('#modal_agregar_cliente').modal();
-      $("#nombre").val('');
-      $("#numero").val('');
-      $(".noticia_agregar_numeros").html('');
+      $("#foto_subida").val('');
+      $("#descripcion").val('');
+      $(".noticia_agregar_variables_entorno").html('');
 
     });
   });

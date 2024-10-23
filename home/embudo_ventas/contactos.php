@@ -9,7 +9,14 @@ session_start();
 
   if ($_SESSION['rol'] == 'cuenta_empresa') {
   include "../sessiones/session_cuenta_empresa.php";
+  $empresa = $_COOKIE['empresa_id'];
+  $query_empresas = mysqli_query($conection, "SELECT * FROM empresas_registradas
+    WHERE   empresas_registradas.estatus = 1
+    AND empresas_registradas.id = '$empresa' ");
+    $data_empresa = mysqli_fetch_array($query_empresas);
 
+    $numero_digitos     = $data_empresa['numero_digitos'];
+    $email_empresarial  = $data_empresa['email'];
 
   }
 
@@ -28,8 +35,14 @@ session_start();
 
       mysqli_query($conection,"SET lc_time_names = 'es_ES'");
 
-     $query_consulta = mysqli_query($conection, "SELECT contactos_embudo_ventas.id,contactos_embudo_ventas.nombres,
-      DATE_FORMAT(contactos_embudo_ventas.fecha, '%W  %d de %b %Y %h:%m:%s') as 'fecha',contactos_embudo_ventas.email,
+      $filtro = $_POST['filtro'];
+
+     $sql = ( "
+     SELECT
+       contactos_embudo_ventas.id,
+       contactos_embudo_ventas.nombres,
+      DATE_FORMAT(contactos_embudo_ventas.fecha, '%W  %d de %b %Y %h:%m:%s') as 'fecha',
+      contactos_embudo_ventas.email,
       contactos_embudo_ventas.celular,
       contactos_embudo_ventas.direccion,
       contactos_embudo_ventas.descripcion,
@@ -38,7 +51,20 @@ session_start();
       contactos_embudo_ventas.tipo
       FROM contactos_embudo_ventas
         WHERE contactos_embudo_ventas.iduser ='$iduser'  AND contactos_embudo_ventas.estatus = '1'
-     ORDER BY `contactos_embudo_ventas`.`fecha` DESC LIMIT 100");
+     ");
+
+     if ($filtro != '') {
+       $sql .= " AND (contactos_embudo_ventas.nombres like '%$filtro%' OR contactos_embudo_ventas.email like '%$filtro%' OR contactos_embudo_ventas.celular like '%$filtro%'
+       OR contactos_embudo_ventas.descripcion like '%$filtro%' OR contactos_embudo_ventas.direccion like '%$filtro%' OR contactos_embudo_ventas.tipo like '%$filtro%')";
+     }
+
+
+     if ($filtro == '') {
+        $sql .= " ORDER BY contactos_embudo_ventas.fecha DESC LIMIT 100  ";
+
+    }
+
+     $query_consulta = mysqli_query($conection, $sql);
 
      $data = array();
   while ($row = mysqli_fetch_assoc($query_consulta)) {
@@ -364,6 +390,203 @@ session_start();
             $arrayName = array('noticia' =>'error_insertar');
            echo json_encode($arrayName,JSON_UNESCAPED_UNICODE);
           }
+
+      }
+
+
+
+
+
+      if ($_POST['action'] == 'enviar_mensaje_rapido') {
+
+
+
+        $url_file_local = '';
+        if (isset($_FILES['archivo'])) {
+
+           $file = $_FILES['archivo'];
+
+           // Obtener información del archivo
+           $fileName = $file['name'];
+           $fileTmpPath = $file['tmp_name'];
+           $fileSize = $file['size'];
+           $fileError = $file['error'];
+
+           // Obtener la extensión del archivo
+           $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
+
+           // Definir la carpeta de destino
+           $uploadDir = '../img/uploads/'; // Asegúrate de crear esta carpeta
+           if (!is_dir($uploadDir)) {
+               mkdir($uploadDir, 0755, true);
+           }
+
+           // Crear un nuevo nombre para el archivo para evitar colisiones
+           $newFileName = uniqid('', true) . '.' . $fileExtension;
+
+           // Verificar si no hay errores y el archivo es válido
+           if ($fileError === UPLOAD_ERR_OK) {
+               // Mover el archivo a la carpeta de destino
+               $destination = $uploadDir . $newFileName;
+               if (move_uploaded_file($fileTmpPath, $destination)) {
+                   // Archivo subido exitosamente
+
+               $protocol = empty($_SERVER['HTTPS']) ? 'http://' : 'https://'; $domain = $_SERVER['HTTP_HOST']; $url = $protocol . $domain;
+               $url_file_local = $url.'/home/img/uploads/'.$newFileName;
+
+
+
+
+               } else {
+                  $url_file_local = '';
+                 $arrayName = array('noticia' =>'error_mover_archivo','contenido_error' => mysqli_error($conection));
+                 echo json_encode($arrayName,JSON_UNESCAPED_UNICODE);
+               }
+           } else {
+             $url_file_local = '';
+             //$arrayName = array('noticia' =>'error_subir_local','contenido_error' => mysqli_error($conection));
+             //echo json_encode($arrayName,JSON_UNESCAPED_UNICODE);
+           }
+       } else {
+         $url_file_local = '';
+       }
+
+
+
+
+       if (isset($_POST['archivos_seleccionados'])) {
+       $archivosSeleccionados = $_POST['archivos_seleccionados']; // Recuperar el valor desde POST
+       $archivosArray = explode(',', $archivosSeleccionados); // Separar por comas
+
+       // Inicializar una cadena para almacenar las URLs
+       $urlsNube = '';
+
+       // Recorrer cada archivo seleccionado
+       foreach ($archivosArray as $archivo) {
+           // Para cada archivo, volvemos a explotar para obtener el ID
+           $partes = explode('-', $archivo);
+           if (count($partes) > 0) {
+               $id = trim($partes[0]); // Este es el ID
+              // echo "ID del archivo seleccionado: " . $id . "<br>";
+
+               // Sanitizar el ID para la consulta SQL
+               $id = mysqli_real_escape_string($conection, $id);
+
+               // Realizar la consulta para obtener la URL
+               $query_nube = mysqli_query($conection, "SELECT * FROM nube_wsw WHERE nube_wsw.estatus = '1' AND nube_wsw.id = '$id' ");
+               $data_nube = mysqli_fetch_array($query_nube);
+
+               // Verificar que se haya obtenido algún resultado
+               if ($data_nube) {
+                   $url_nube = $data_nube['url_file_local'];
+
+                   // Asegurarse de que la URL esté correctamente codificada
+                   $url_nube = urlencode($url_nube);
+
+                   // Concatenar la URL a la cadena, separada por un espacio
+                   $urlsNube .= urldecode($url_nube) . ' '; // Agregar un espacio después de cada URL
+               } else {
+                  // echo "No se encontró el archivo con ID: " . $id . "<br>";
+               }
+           }
+       }
+
+       // Imprimir todas las URLs separadas por espacios
+    //   echo "URLs de archivos: " . trim($urlsNube); // Trim para quitar el último espacio
+   }else {
+     $urlsNube = '';
+   }
+
+
+   $mensaje = $_POST['mensaje'].' '.$urlsNube.' '.$url_file_local;
+
+
+   $numero_guibis = $_POST['numero_guibis'];
+
+
+     $query_numero = mysqli_query($conection, "SELECT numeros_extras.key_wsp,
+       servidores_wsp.url
+        FROM numeros_extras
+       INNER JOIN servidores_wsp ON servidores_wsp.id = numeros_extras.servidor
+     WHERE numeros_extras.estatus = '1' AND numeros_extras.id = '$numero_guibis' ");
+     $data_numero = mysqli_fetch_array($query_numero);
+
+     $key_wsp    = $data_numero['key_wsp'];
+
+     $url_server = $data_numero['url'];
+     //PRA CONTACTOS
+     $contacto = $_POST['contacto'];
+
+
+     $query_consulta_contacto = mysqli_query($conection, "SELECT * FROM contactos_embudo_ventas
+        WHERE contactos_embudo_ventas.iduser ='$iduser'  AND contactos_embudo_ventas.estatus = '1' AND contactos_embudo_ventas.id = '$contacto' ");
+     $data_contacto = mysqli_fetch_array($query_consulta_contacto);
+
+       $numero = $data_contacto['celular'];
+
+
+
+       //PRIMERA API VERIFICAR LA SESION
+       $ch = curl_init();
+       $url_sen_mensaje = ''.$url_server.'/send-message';
+
+       //echo "esta es la key $key_wsp";
+
+
+
+       $postData = array(
+           'sessionId' => $key_wsp,
+           'to' => $numero,
+           'message' => $mensaje
+
+       );
+
+      // var_dump($postData);
+
+      // echo "$url_sen_mensaje";
+
+
+
+
+       // Configurar cURL para hacer la solicitud POST
+       curl_setopt($ch, CURLOPT_URL, $url_sen_mensaje);
+       curl_setopt($ch, CURLOPT_POST, true);
+       curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+       curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+       curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));  // Convertir el array PHP a JSON
+
+       // Ejecutar la solicitud y obtener la respuesta
+       $response = curl_exec($ch);
+
+
+      // var_dump($response);
+
+       // Verificar si hubo un error en la solicitud
+       if(curl_errno($ch)) {
+          // echo 'Error en cURL: ' . curl_error($ch);
+            $arrayName = array('noticia' =>'error_insertar','mensaje' => curl_error($ch));
+          echo json_encode($arrayName,JSON_UNESCAPED_UNICODE);
+       } else {
+           // Convertir la respuesta JSON en un array de PHP
+           $data = json_decode($response, true);
+
+           // Verificar si la clave "message" contiene el texto esperado
+           if(isset($data['message']) && $data['message'] == 'Mensaje enviado correctamente.') {
+               $estatus_mensaje = 'Enviado';
+
+                 $arrayName = array('noticia'=>'enviado');
+                 echo json_encode($arrayName,JSON_UNESCAPED_UNICODE);
+           } else {
+
+             $estatus_mensaje = 'No Enviado';
+             //  echo 'Error al enviar el mensaje: ' . (isset($data['message']) ? $data['message'] : 'Respuesta inesperada.');
+             $arrayName = array('noticia' =>'error_insertar','mensaje' => $estatus_mensaje);
+            echo json_encode($arrayName,JSON_UNESCAPED_UNICODE);
+           }
+       }
+
+       // Cerrar cURL
+       curl_close($ch);
 
       }
 

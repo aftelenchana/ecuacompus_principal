@@ -2,7 +2,7 @@ $(document).ready(function() {
     // Inicialización de DataTable
     var tabla_clientes = $('#tabla_clientes').DataTable({
         "ajax": {
-            "url": "mensajeria/variables_gloables.php",
+            "url": "mensajeria/historial_campanas.php",
             "type": "POST",
             "data": {
                 "action": 'consultar_datos'
@@ -15,16 +15,20 @@ $(document).ready(function() {
         },
         "columns": [
           { "data": "id", "render": function(data, type, row) {
-              return '<button type="button" cliente="'+data+'" class="btn btn-danger sucursal_'+data+' eliminar_cliente"><i class="fas fa-trash-alt"></i></button>' +
-                     '<button type="button" cliente="'+data+'" class="btn btn-warning sucursal_'+data+' editar_cliente"><i class="fas fa-edit"></i></button>';
+              return '<button type="button" cliente="'+data+'" class="btn btn-danger sucursal_'+data+' eliminar_cliente"><i class="fas fa-trash-alt"></i></button>';
           }},
-          {
-               "data": "id",
-               "render": function (data, type, row) {
-                   return '#' + data + '#';
-               }
-           },
-          { "data": "texto" },
+
+          { "data": "id" },
+
+          { "data": "nombre_campana", "render": function(data, type, row) {
+              return '<a href="datos_campana?codigo=' + row.id + '">' + data + '</a>';
+          }},
+          { "data": "intervalo_tiempo" },
+          { "data": "estado" },
+          { "data": "fecha" },
+          { "data": "incluir_nombre" },
+          { "data": "metodo_envio" },
+          { "data": "fecha_hora_envio" },
 
 
         ],
@@ -50,7 +54,7 @@ $(document).ready(function() {
         var parametros = new FormData($('#add_cliente')[0]);
         $.ajax({
             data: parametros,
-            url: 'mensajeria/variables_gloables.php',
+            url: 'mensajeria/historial_campanas.php',
             type: 'POST',
             contentType: false,
             processData: false,
@@ -86,7 +90,7 @@ $(document).ready(function() {
         var cliente = $(this).attr('cliente');
         var action = 'eliminar_cliente';
         $.ajax({
-            url: 'mensajeria/variables_gloables.php',
+            url: 'mensajeria/historial_campanas.php',
             type: 'POST',
             async: true,
             data: {action: action,cliente:cliente},
@@ -114,7 +118,7 @@ $(document).ready(function() {
         var cliente = $(this).attr('cliente');
         var action = 'info_cliente';
         $.ajax({
-            url: 'mensajeria/variables_gloables.php',
+            url: 'mensajeria/historial_campanas.php',
             type: 'POST',
             async: true,
             data: {action: action, cliente: cliente},
@@ -140,7 +144,7 @@ $(document).ready(function() {
         var parametros = new FormData($('#update_cliente')[0]);
         $.ajax({
             data: parametros,
-            url: 'mensajeria/variables_gloables.php',
+            url: 'mensajeria/historial_campanas.php',
             type: 'POST',
             contentType: false,
             processData: false,

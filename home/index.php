@@ -32,7 +32,7 @@ if (empty($_SESSION['active'])) {
 <!doctype html>
 
 <html
-  lang="en"
+  lang="es"
   class="light-style layout-navbar-fixed layout-menu-fixed layout-compact"
   dir="ltr"
   data-theme="theme-default"

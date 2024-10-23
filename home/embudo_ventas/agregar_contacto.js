@@ -1,6 +1,6 @@
 $(function() {
   $('#boton_agregar_contacto').on('click', function() {
-    $('#modal_agregar_cliente').modal('show');
+    $('#modal_agregar_cliente').modal();
     $("#nombre_almacen").val('');
     $("#responsable").val('');
     $("#direccion_almacen").val('');
@@ -54,7 +54,7 @@ function sendData_agregar_contacto(){
 
 $(function() {
   $('#boton_agregar_contactos_masivamente_wsp').on('click', function() {
-    $('#modal_agregar_contactos_wsp').modal('show');
+    $('#modal_agregar_contactos_wsp').modal();
     $("#nombre_almacen").val('');
     $("#responsable").val('');
     $("#direccion_almacen").val('');
@@ -82,6 +82,11 @@ $(document).ready(function(){
                   var newOption = $('<option>').val(item.id).text(item.numero + ' (' + item.nombre + ')');
                  $('#numero_guibis').append(newOption);
              });
+
+             $.each(info.data, function(index, item) {
+                   var newOption = $('<option>').val(item.id).text(item.numero + ' (' + item.nombre + ')');
+                  $('#numero_guibis_enviar_mensaje_rapido').append(newOption);
+              });
 
         },
         error: function(error){

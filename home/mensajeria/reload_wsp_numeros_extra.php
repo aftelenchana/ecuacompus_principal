@@ -51,6 +51,7 @@ session_start();
 
 
             $metodo_envio          = $_POST['metodo_envio'];
+            $nombre_campana          = $_POST['nombre_campana'];
 
 
 
@@ -66,10 +67,9 @@ session_start();
 
             } else {
 
-              $fecha_hora_envio = '';
+              // Si no hay fecha o hora, usar la fecha y hora actual
+              $fecha_hora_envio = date('Y-m-d H:i:s'); // Valor por defecto con la fecha y hora actuales
             }
-
-
 
 
 
@@ -83,9 +83,9 @@ session_start();
             $incluir_nombre      = (isset($_REQUEST['incluir_nombre'])) ? $_REQUEST['incluir_nombre'] : '';
 
             $query_insert_mensajes_masivos =mysqli_query($conection,"INSERT INTO mensajes_masivos_wsp (iduser,empresa,mensaje,intervalo_tiempo,estado,incluir_nombre,key_wsp,
-            metodo_envio,modo_tiempo,fecha_hora_envio,tipo_embudo)
+            metodo_envio,modo_tiempo,fecha_hora_envio,tipo_embudo,nombre_campana)
                                 VALUES('$iduser','$empresa','$mensaje','$intervalo_tiempo','Iniciado','$incluir_nombre','$key_wsp',
-            '$metodo_envio','$modo_tiempo','$fecha_hora_envio','$tipo_embudo') ");
+            '$metodo_envio','$modo_tiempo','$fecha_hora_envio','$tipo_embudo','$nombre_campana') ");
 
           if ($query_insert_mensajes_masivos) {
 
@@ -183,7 +183,7 @@ session_start();
             $categoria      = (isset($_REQUEST['categoria'])) ? $_REQUEST['categoria'] : '';
             $datos_categoria    = 0;
 
-            if (!empty($categoria) && $categoria != 'Ninguna') { 
+            if ($categoria != 'Ninguna') {
               $query_consulta_categoria = mysqli_query($conection, "SELECT usuarios_wsp.numero,usuarios_wsp.nombres,usuarios_wsp.email,
                 categorias_wsp.nombre as 'categoria',categorias_wsp.descripcion as 'descripcion',usuarios_wsp.id FROM usuarios_wsp
                 INNER JOIN categorias_wsp ON categorias_wsp.id = usuarios_wsp.categoria

@@ -28,9 +28,14 @@ session_start();
 
  if ($_POST['action'] == 'consultar_datos') {
 
-   $query_consulta = mysqli_query($conection, "SELECT * FROM variables_globales
-      WHERE   variables_globales.estatus = '1' AND variables_globales.iduser = '$iduser'
-   ORDER BY `variables_globales`.`fecha` DESC ");
+
+     $codigo = $_POST['codigo'];
+
+   $query_consulta = mysqli_query($conection, "SELECT * FROM datos_mensajes_masivos
+      WHERE   datos_mensajes_masivos.estatus = '1'
+      AND datos_mensajes_masivos.iduser = '$iduser'
+      AND datos_mensajes_masivos.id_mensajes_masivos  = '$codigo'
+   ORDER BY `datos_mensajes_masivos`.`fecha` DESC ");
 
    $data = array();
 while ($row = mysqli_fetch_assoc($query_consulta)) {

@@ -25,6 +25,11 @@ $(document).ready(function() {
           { "data": "numero", "render": function(data, type, row) {
               return '<a href="consola_envio_numeros_extra?codigo=' + row.key_wsp + '">' + data + '</a>';
           }},
+          { "data": "nombre_servidor" },
+          { "data": "tipo_servidor" },
+
+
+
           { "data": "status" },
           { "data": "message" },
           {
@@ -125,7 +130,7 @@ $(document).ready(function() {
     });
     $('#tabla_clientes').on('click', '.editar_cliente', function(){
         $('#modal_editar_cliente').modal();
-        $(".alerta_editar_cliente").html('');
+        $(".noticia_editar_numero_wsp").html('');
         var cliente = $(this).attr('cliente');
         var action = 'info_cliente';
         $.ajax({
@@ -139,6 +144,9 @@ $(document).ready(function() {
                     var info = JSON.parse(response);
                     $("#nombre_update").val(info.nombre);
                     $("#numero_update").val(info.numero);
+                    $("#estado_inteligencia_ertificial_update").val(info.estado_inteligencia_ertificial);
+                    $("#contecto_system_update").val(info.contecto_system);
+                    $("#servidor_update").val(info.servidor);
                     $("#id_cliente").val(info.id);
                 }
             },
@@ -150,7 +158,7 @@ $(document).ready(function() {
 
     // Función para editar
     function sendData_update_cliente(){
-        $('.alerta_editar_almacen').html(' <div class="notificacion_negativa">'+
+        $('.noticia_editar_numero_wsp').html(' <div class="notificacion_negativa">'+
             '<div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>'+
         '</div>');
         var parametros = new FormData($('#update_cliente')[0]);
@@ -165,17 +173,17 @@ $(document).ready(function() {
             success: function(response){
                 console.log(response);
                 if (response =='error') {
-                    $('.notificacion_agregar_sucursal').html('<p class="alerta_negativa">Error al Editar el Contraseña</p>')
+                    $('.noticia_editar_numero_wsp').html('<p class="alerta_negativa">Error al Editar el Contraseña</p>')
                 } else {
                     var info = JSON.parse(response);
                     if (info.noticia == 'insert_correct') {
-                                    $('.noticia_editar_clientes').html('<div class="alert alert-success background-success">'+
+                                    $('.noticia_editar_numero_wsp').html('<div class="alert alert-success background-success">'+
                                         '<strong>Número !</strong> Editado Correctamente'+
                                     '</div>');
                                     tabla_clientes.ajax.reload(); // Recargar los datos en la tabla
                                 }
                   if (info.noticia == 'error_insertar') {
-                      $('.noticia_editar_clientes').html('<div class="alert alert-danger background-danger">'+
+                      $('.noticia_editar_numero_wsp').html('<div class="alert alert-danger background-danger">'+
                           '<strong>Error!</strong>Error en el servidor'+
                       '</div>');
                   }
@@ -205,7 +213,41 @@ $(document).ready(function() {
       $('#modal_agregar_cliente').modal();
       $("#nombre").val('');
       $("#numero").val('');
+      $("#contecto_system").val('');
+      $("#estado_inteligencia_artificial").val('');
       $(".noticia_agregar_numeros").html('');
 
     });
+  });
+
+
+  //CODIGO PARA QUE COLOQUEN EL NUMERO DE CELULAR
+  $(document).ready(function(){
+      $.ajax({
+          url: 'mensajeria/numeros_extras.php',
+          type: 'POST',
+          async: true,
+          data: {
+              action: 'buscar_servidores'
+          },
+          success: function(response){
+              console.log(response);
+              var info = JSON.parse(response);
+
+              $.each(info.data, function(index, item) {
+                    var newOption = $('<option>').val(item.id).text(item.nombre + ' (' + item.tipo + ')');
+                   $('#servidor').append(newOption);
+               });
+
+               $.each(info.data, function(index, item) {
+                     var newOption = $('<option>').val(item.id).text(item.nombre + ' (' + item.tipo + ')');
+                    $('#servidor_update').append(newOption);
+                });
+
+          },
+          error: function(error){
+              console.log(error);
+          }
+      });
+
   });
